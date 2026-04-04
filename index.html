@@ -40,10 +40,10 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #cc0000; }
 
-        /* Fallback dark gradient in case the background image is slow to load */
+        /* The Hero Background Image */
         .hero-bg {
-            background-color: #050505;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('1000026313.jpg');
+            background-color: #0a0a0a;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('20260330_050857.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -110,7 +110,6 @@
             display: none;
             animation: fadeIn 0.4s ease-in-out;
         }
-        /* The .active class guarantees the section is visible */
         .page-view.active {
             display: block;
         }
@@ -124,33 +123,35 @@
 
     <!-- Global Navigation -->
     <header class="fixed w-full z-40 top-0 transition-all duration-300 bg-trs-dark shadow-lg border-b border-white/10" id="navbar">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center relative z-50">
-            <a href="#" onclick="navigateTo('page-home')" class="flex items-center gap-3 group cursor-pointer">
-                <!-- Updated Logo: 9066.png -->
-                <img src="9066.png" alt="Beachside Studios Logo" class="w-12 h-12 rounded-full border-2 border-trs-red group-hover:border-white transition-colors object-contain bg-black/40">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center relative z-[60]">
+            <a onclick="navigateTo('page-home')" class="flex items-center gap-3 group cursor-pointer">
+                <!-- Updated PNG Logo -->
+                <img src="1000049066.png" alt="Beachside Studios Logo" class="w-12 h-12 rounded-full border border-trs-red/50 group-hover:border-white transition-colors object-contain bg-black">
                 <span class="font-display font-bold text-2xl tracking-widest text-white uppercase hidden sm:block mt-1">Beachside</span>
             </a>
             
+            <!-- Desktop Links -->
             <div class="hidden lg:flex items-center space-x-8">
-                <button onclick="navigateTo('page-home')" class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-trs-red transition-colors cursor-pointer">Home</button>
-                <button onclick="navigateTo('page-ai')" class="text-xs font-bold uppercase tracking-[0.2em] text-trs-red hover:text-white transition-colors cursor-pointer">AI Suite</button>
-                <button onclick="navigateTo('page-rates')" class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-trs-red transition-colors cursor-pointer">Rates & Booking</button>
-                <button onclick="scrollToSection('location-anchor')" class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-trs-red transition-colors cursor-pointer">Location</button>
+                <button type="button" onclick="navigateTo('page-home')" class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-trs-red transition-colors cursor-pointer">Home</button>
+                <button type="button" onclick="navigateTo('page-ai')" class="text-xs font-bold uppercase tracking-[0.2em] text-trs-red hover:text-white transition-colors cursor-pointer">AI Suite</button>
+                <button type="button" onclick="navigateTo('page-rates')" class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-trs-red transition-colors cursor-pointer">Rates & Booking</button>
+                <button type="button" onclick="scrollToSection('location-anchor')" class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-trs-red transition-colors cursor-pointer">Location</button>
                 <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-trs-dark transition-colors">Book Now</a>
             </div>
 
-            <button id="mobile-menu-btn" class="lg:hidden text-white hover:text-trs-red transition-colors z-50 cursor-pointer p-2 -mr-2">
+            <!-- Hamburger Button -->
+            <button id="mobile-menu-btn" class="lg:hidden text-white hover:text-trs-red transition-colors z-[60] cursor-pointer p-2 -mr-2">
                 <i data-lucide="menu" class="w-8 h-8"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="fixed inset-0 bg-trs-dark z-[45] flex flex-col justify-center items-center space-y-4 opacity-0 pointer-events-none transition-opacity duration-300">
-            <button onclick="navigateTo('page-home')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full">Home</button>
-            <button onclick="navigateTo('page-ai')" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white cursor-pointer p-4 w-full">AI Suite</button>
-            <button onclick="navigateTo('page-rates')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full">Rates & Booking</button>
-            <button onclick="scrollToSection('location-anchor')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full">Location</button>
-            <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" onclick="closeMobileMenu()" class="bg-trs-red text-white px-10 py-4 mt-6 font-display text-xl uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors inline-block">Book Now</a>
+        <!-- Mobile Menu (Bulletproof hide/show implementation) -->
+        <div id="mobile-menu" class="fixed inset-0 bg-trs-dark z-[55] hidden flex-col justify-center items-center space-y-4 pt-16">
+            <button type="button" onclick="navigateTo('page-home')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full text-center block">Home</button>
+            <button type="button" onclick="navigateTo('page-ai')" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white cursor-pointer p-4 w-full text-center block">AI Suite</button>
+            <button type="button" onclick="navigateTo('page-rates')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full text-center block">Rates & Booking</button>
+            <button type="button" onclick="scrollToSection('location-anchor')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full text-center block">Location</button>
+            <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" onclick="closeMobileMenu()" class="bg-trs-red text-white px-10 py-4 mt-6 font-display text-xl uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors inline-block text-center">Book Now</a>
         </div>
     </header>
 
@@ -159,8 +160,8 @@
         <!-- Hero Section -->
         <section class="hero-bg h-screen flex flex-col items-center justify-center text-center relative pt-20">
             <div class="container mx-auto px-6 relative z-10 flex flex-col items-center">
-                <!-- Updated Logo: 9066.png -->
-                <img src="9066.png" alt="Logo" class="w-32 h-auto max-h-48 md:max-h-64 mb-6 object-contain drop-shadow-[0_0_20px_rgba(204,0,0,0.6)]">
+                <!-- Updated PNG Logo -->
+                <img src="1000049066.png" alt="Logo" class="w-32 h-auto max-h-48 md:max-h-64 mb-6 object-contain drop-shadow-[0_0_20px_rgba(204,0,0,0.6)]">
                 <h2 class="text-trs-red font-display tracking-[0.3em] uppercase text-sm md:text-base mb-4">Inglewood, CA • Open 24/7</h2>
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold uppercase tracking-tight text-white mb-6 drop-shadow-2xl leading-tight">
                     Stop Just Recording.<br><span class="text-trs-red">Start Making History.</span>
@@ -170,7 +171,7 @@
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                     <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors border border-trs-red">Book Session</a>
-                    <button onclick="scrollToSection('studios')" class="bg-transparent text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-trs-gray transition-colors border border-white cursor-pointer">Explore Studio</button>
+                    <a onclick="scrollToSection('studios')" class="bg-transparent text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-trs-gray transition-colors border border-white cursor-pointer block">Explore Studio</a>
                 </div>
             </div>
         </section>
@@ -201,8 +202,8 @@
                     </div>
                     <div class="img-zoom-container rounded-sm border border-white/5 relative">
                         <img src="20260330_050857.jpg" alt="Recording Studio Workstation" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                        <!-- Updated Logo: 9066.png -->
-                        <img src="9066.png" alt="Brand Graphic" class="absolute bottom-4 right-4 w-24 h-24 rounded-full opacity-80 drop-shadow-2xl pointer-events-none border border-trs-red bg-black/60 object-contain p-1">
+                        <!-- Updated PNG Logo -->
+                        <img src="1000049066.png" alt="Brand Graphic" class="absolute bottom-4 right-4 w-24 h-24 rounded-full opacity-90 drop-shadow-2xl pointer-events-none border border-trs-red bg-black/80 object-contain p-2">
                     </div>
                 </div>
             </div>
@@ -251,7 +252,7 @@
             </div>
         </section>
 
-        <!-- The Studio / Gallery -->
+        <!-- The Studio / Gallery (Images Linked Properly) -->
         <section id="studios" class="py-24 bg-trs-dark">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
@@ -260,27 +261,84 @@
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    <!-- Control Room -->
                     <div class="relative group img-zoom-container border border-white/5">
                         <img src="Screenshot_20260331_125554_Gallery.jpg" alt="Control Room" class="w-full h-[300px] object-cover">
                     </div>
+                    <!-- Production Suite -->
                     <div class="relative group img-zoom-container border border-white/5">
                         <img src="20260330_050857.jpg" alt="Production Suite" class="w-full h-[300px] object-cover">
                     </div>
-                    <div class="relative group img-zoom-container border border-white/5 bg-black">
-                        <!-- Updated Logo inside the gallery placeholder -->
-                        <img src="9066.png" alt="Vocal Booth Icon" class="w-full h-[300px] object-contain p-8 grayscale hover:grayscale-0 opacity-50">
+                    <!-- Vocal Booth Area (Using uploaded pic) -->
+                    <div class="relative group img-zoom-container border border-white/5">
+                        <img src="20260402_044854.jpg" alt="Studio Setup" class="w-full h-[300px] object-cover">
                     </div>
-                    <div class="relative group img-zoom-container border border-white/5 bg-black">
-                        <!-- Updated Logo inside the gallery placeholder -->
-                        <img src="9066.png" alt="Gear Icon" class="w-full h-[300px] object-contain p-8 grayscale hover:grayscale-0 opacity-50">
+                    <!-- Gear Setup (Using uploaded pic) -->
+                    <div class="relative group img-zoom-container border border-white/5">
+                        <img src="20260329_011756.jpg" alt="Studio Detail" class="w-full h-[300px] object-cover">
                     </div>
+                    <!-- Lounge vibe shot -->
                     <div class="relative group img-zoom-container border border-white/5">
                         <img src="20260330_154418_0000.jpg" alt="The Lounge" class="w-full h-[300px] object-cover grayscale hover:grayscale-0">
                     </div>
+                    <!-- Updated Specials Flyer -->
                     <div class="relative group img-zoom-container border border-white/5">
-                        <!-- Updated Featured Special: 0844.jpg -->
-                        <img src="0844.jpg" alt="Current Specials" class="w-full h-[300px] object-cover">
+                        <img src="1758005320844.jpg" alt="Current Specials" class="w-full h-[300px] object-cover">
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section id="reviews" class="py-24 bg-trs-dark border-y border-white/5">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white section-title">Accolades</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Don't just take our word for it. Hear from the community.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
+                        <div class="flex gap-1 mb-6">
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                        </div>
+                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed flex-1">"Amazing studio, the quality and professionalism here is top tier. This is definitely a hidden gem in LA. I'll be back for sure."</p>
+                        <p class="font-display uppercase tracking-widest text-white text-sm">— Carlos Perez</p>
+                    </div>
+
+                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
+                        <div class="flex gap-1 mb-6">
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                        </div>
+                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed flex-1">"The best engineering experience I’ve had! They get the job done and are very professional. The acoustic treatment is amazing, this is my new go to spot!"</p>
+                        <p class="font-display uppercase tracking-widest text-white text-sm">— K TF</p>
+                    </div>
+
+                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
+                        <div class="flex gap-1 mb-6">
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
+                        </div>
+                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed flex-1">"Great experience, the final mix is amazing. They helped us get the exact sound we were looking for. Dope spot will be back for sure."</p>
+                        <p class="font-display uppercase tracking-widest text-white text-sm">— Javier T</p>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a href="https://maps.app.goo.gl/Ffrq2YEwWdUS6ymL9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-trs-red hover:text-white font-display uppercase tracking-widest text-sm transition-colors border-b border-trs-red pb-1">
+                        Read all reviews on Google <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -304,6 +362,7 @@
                 </button>
             </div>
             <div class="lg:w-1/2 bg-trs-dark flex items-center justify-center p-12 relative overflow-hidden">
+                 <!-- Abstract Bot Graphic -->
                  <div class="relative w-64 h-64 flex items-center justify-center">
                      <div class="absolute inset-0 border-2 border-trs-red rounded-full animate-[spin_10s_linear_infinite] border-t-transparent"></div>
                      <div class="absolute inset-4 border border-white/20 rounded-full animate-[spin_15s_linear_infinite_reverse] border-b-transparent"></div>
@@ -323,13 +382,13 @@
                         <i data-lucide="cpu" class="w-12 h-12 text-trs-red mb-6"></i>
                         <h3 class="text-2xl font-display uppercase tracking-widest text-white mb-4">AI Creator Suite</h3>
                         <p class="text-gray-400 mb-8 text-sm leading-relaxed font-light">Auto-master your tracks with our smooth polish algorithm and generate custom album cover art directly in your browser.</p>
-                        <button onclick="navigateTo('page-ai')" class="mt-auto border border-trs-red bg-trs-red/10 text-white hover:bg-trs-red transition-colors px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer">Open AI Suite</button>
+                        <a onclick="navigateTo('page-ai')" class="mt-auto border border-trs-red bg-trs-red/10 text-white hover:bg-trs-red transition-colors px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer block">Open AI Suite</a>
                     </div>
                     <div class="bg-[#050505] p-10 border border-white/5 hover:border-trs-red transition-colors flex flex-col items-center shadow-xl">
                         <i data-lucide="calendar-check" class="w-12 h-12 text-trs-red mb-6"></i>
                         <h3 class="text-2xl font-display uppercase tracking-widest text-white mb-4">Rates & Booking</h3>
                         <p class="text-gray-400 mb-8 text-sm leading-relaxed font-light">View our transparent pricing, block specials, and instantly lock in your studio time.</p>
-                        <button onclick="navigateTo('page-rates')" class="mt-auto border border-trs-red bg-trs-red/10 text-white hover:bg-trs-red transition-colors px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer">View Rates</button>
+                        <a onclick="navigateTo('page-rates')" class="mt-auto border border-trs-red bg-trs-red/10 text-white hover:bg-trs-red transition-colors px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer block">View Rates</a>
                     </div>
                 </div>
             </div>
@@ -352,7 +411,7 @@
 
             <!-- Tab Content: Audio Engine -->
             <div id="content-audio" class="max-w-5xl mx-auto bg-[#080808] border border-white/10 p-8 md:p-12 shadow-2xl relative rounded-xl">
-                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">v3.0 Smooth Master API</div>
+                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">v3.0 Smooth Master API</div>
                 
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
@@ -386,7 +445,7 @@
                                 <div class="flex justify-between pt-3 border-t border-white/10"><span class="text-gray-500">DETECTED KEY:</span> <span id="det-key" class="text-trs-red font-bold text-sm"></span></div>
                             </div>
                             <a id="audio-download-btn" class="w-full block text-center bg-trs-red text-white py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors border border-trs-red cursor-pointer shadow-[0_0_15px_rgba(204,0,0,0.3)]">Download Master</a>
-                            <button onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white mt-2 text-center cursor-pointer">Process Another File</button>
+                            <button onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white mt-2 text-center cursor-pointer block mx-auto">Process Another File</button>
                         </div>
                     </div>
                     
@@ -403,7 +462,7 @@
 
             <!-- Tab Content: Cover Art -->
             <div id="content-cover" class="hidden max-w-5xl mx-auto bg-[#080808] border border-white/10 p-8 md:p-12 shadow-2xl relative rounded-xl">
-                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">Generative Engine</div>
+                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">Generative Engine</div>
                 
                  <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
@@ -493,8 +552,8 @@
 
             <div class="max-w-4xl mx-auto mb-16 border border-white/10 img-zoom-container bg-black p-2 shadow-2xl relative">
                 <div class="absolute top-4 right-4 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 z-10">ACTIVE PROMO</div>
-                <!-- Updated Flyer: 0844.jpg -->
-                <img src="0844.jpg" onerror="this.src='1000034717.jpg'" alt="Studio Special Flyer" class="w-full h-auto">
+                <!-- Updated Specials Flyer -->
+                <img src="1758005320844.jpg" alt="Studio Special Flyer" class="w-full h-auto">
             </div>
 
             <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -562,8 +621,8 @@
     <!-- Global Footer -->
     <footer class="bg-black py-16 text-center w-full mt-auto border-t border-white/5">
         <div class="container mx-auto px-6">
-            <!-- Updated Logo: 9066.png -->
-            <img src="9066.png" alt="Beachside Studios Logo" class="w-16 h-16 rounded-full mx-auto mb-6 opacity-80 object-contain bg-black hover:opacity-100 transition-opacity cursor-pointer" onclick="navigateTo('page-home')">
+            <!-- Updated PNG Logo -->
+            <img src="1000049066.png" alt="Beachside Studios Logo" class="w-16 h-16 rounded-full mx-auto mb-6 opacity-80 object-contain bg-black hover:opacity-100 transition-opacity cursor-pointer border border-white/10" onclick="navigateTo('page-home')">
             <h2 class="font-display font-bold text-2xl tracking-widest text-white uppercase mb-2">Beachside Studios</h2>
             <p class="text-gray-600 font-light mb-8 text-sm">Empowering Creators in Inglewood, CA.</p>
             <p class="text-[10px] text-gray-700 tracking-widest uppercase">© 2026 Beachside Recording Studios. All Rights Reserved.</p>
@@ -620,15 +679,18 @@
 
         function closeMobileMenu() {
             menuOpen = false;
-            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            // Use tailwind utility classes for foolproof hiding
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('flex');
             mobileMenuBtn.innerHTML = '<i data-lucide="menu" class="w-8 h-8"></i>';
             lucide.createIcons();
-            document.body.style.overflow = 'auto'; // Re-enable background scrolling
+            document.body.style.overflow = ''; // Re-enable background scrolling
         }
 
         function openMobileMenu() {
             menuOpen = true;
-            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.remove('hidden');
+            mobileMenu.classList.add('flex');
             mobileMenuBtn.innerHTML = '<i data-lucide="x" class="w-8 h-8 text-trs-red"></i>';
             lucide.createIcons();
             document.body.style.overflow = 'hidden'; // Stop background scrolling
@@ -1123,5 +1185,6 @@
     </script>
 </body>
 </html>
+
 
 
