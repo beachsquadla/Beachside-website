@@ -2,7 +2,9 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Audio Production | Beachside Studios | Inglewood</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -28,107 +30,158 @@
         }
     </script>
     <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            overflow-x: hidden;
+        /* ================= BASE & MOBILE FIXES ================= */
+        :root {
+            --bg-color: #000;
+            --text-color: #fff;
         }
-        
+        html, body {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent; /* Remove blue tap highlight on mobile */
+            touch-action: manipulation;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            /* Fix iOS bounce/scroll issues */
+            -webkit-overflow-scrolling: touch;
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #cc0000; }
 
-        /* The Hero Background Image */
+        /* Grain Overlay for Studio Texture */
+        .grain-overlay {
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+            animation: grainShift 0.5s steps(10) infinite;
+        }
+        @keyframes grainShift {
+            0%, 100% { transform: translate(0,0); }
+            10% { transform: translate(-5%,-5%); }
+            30% { transform: translate(3%,-3%); }
+            50% { transform: translate(-3%,3%); }
+            70% { transform: translate(5%,5%); }
+            90% { transform: translate(-2%,2%); }
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed; inset: 0; z-index: 10000; background: #000;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-ring {
+            width: 80px; height: 80px; border: 4px solid #1f1f1f;
+            border-top: 4px solid #cc0000; border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* ================= HERO & PARALLAX ================= */
+        /* Mobile-safe parallax: uses fixed only on desktop to prevent iOS scroll bugs */
         .hero-bg {
             background-color: #0a0a0a;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('20260330_050857.jpg');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.95)), url('20260330_050857.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: scroll; /* Default mobile safe */
+            background-repeat: no-repeat;
+        }
+        @media (min-width: 1024px) {
+            .hero-bg { background-attachment: fixed; }
         }
 
-        .section-title {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 2rem;
+        /* Audio Visualizer Bars */
+        .visualizer-bar {
+            width: 6px; background: #cc0000; margin: 0 2px;
+            animation: eq 1.2s infinite ease-in-out alternate;
+            border-radius: 4px; opacity: 0.8;
         }
-        
+        .visualizer-bar:nth-child(1) { animation-delay: 0.1s; height: 12px; }
+        .visualizer-bar:nth-child(2) { animation-delay: 0.3s; height: 20px; }
+        .visualizer-bar:nth-child(3) { animation-delay: 0.6s; height: 26px; }
+        .visualizer-bar:nth-child(4) { animation-delay: 0.4s; height: 16px; }
+        @keyframes eq { 0% { height: 8px; } 100% { height: 28px; } }
+
+        /* ================= UI COMPONENTS ================= */
+        .section-title { position: relative; display: inline-block; margin-bottom: 2rem; }
         .section-title::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 4px;
-            background-color: #cc0000;
-            bottom: -10px;
-            left: 50%;
+            content: ''; position: absolute; width: 40px; height: 4px;
+            background-color: #cc0000; bottom: -10px; left: 50%;
             transform: translateX(-50%);
         }
+        .section-title.left-align::after { left: 0; transform: none; }
 
-        .section-title.left-align::after {
-            left: 0;
-            transform: none;
-        }
-
-        /* Yachty Typing Animation */
+        /* Yachty Typing */
         .typing-dot { animation: typing 1.4s infinite ease-in-out both; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
         /* AI Scanner */
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
         .scan-line {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #cc0000;
-            box-shadow: 0 0 10px #cc0000;
-            display: none;
-            z-index: 10;
+            position: absolute; left: 0; width: 100%; height: 2px;
+            background: #cc0000; box-shadow: 0 0 10px #cc0000;
+            display: none; z-index: 10;
         }
-        .analyzing .scan-line {
-            display: block;
-            animation: scan 1.5s linear infinite alternate;
-        }
+        .analyzing .scan-line { display: block; animation: scan 1.5s linear infinite alternate; }
 
-        /* Image hover zoom */
+        /* Image Hover Zoom */
         .img-zoom-container { overflow: hidden; }
-        .img-zoom-container img { transition: transform 0.5s ease; }
+        .img-zoom-container img { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .img-zoom-container:hover img { transform: scale(1.05); }
 
-        /* Page View Logic for SPA */
-        .page-view {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        .page-view.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Page View Logic */
+        .page-view { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .page-view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Scroll Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Mobile Menu Slide */
+        #mobile-menu { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease; }
+        #mobile-menu.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+        #mobile-menu.flex { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+        /* Touch Feedback for Mobile */
+        @media (hover: none) and (pointer: coarse) {
+            button:active, a[role="button"]:active, .cursor-pointer:active { transform: scale(0.96); filter: brightness(0.85); }
+            .hover-effect:active { background-color: #1a1a1a; border-color: #cc0000; }
         }
     </style>
 </head>
 <body class="font-sans antialiased flex flex-col min-h-screen">
 
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="flex flex-col items-center gap-4">
+            <div class="loader-ring"></div>
+            <span class="font-display text-trs-red uppercase tracking-widest text-sm animate-pulse">Loading Studio...</span>
+        </div>
+    </div>
+
+    <!-- Film Grain Overlay -->
+    <div class="grain-overlay"></div>
+
     <!-- Global Navigation -->
-    <header class="fixed w-full z-40 top-0 transition-all duration-300 bg-trs-dark shadow-lg border-b border-white/10" id="navbar">
+    <header class="fixed w-full z-40 top-0 transition-all duration-300 bg-trs-dark/80 backdrop-blur-xl shadow-lg border-b border-white/10" id="navbar">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center relative z-[60]">
-            <a onclick="navigateTo('page-home')" class="flex items-center gap-3 group cursor-pointer">
-                <!-- Updated PNG Logo -->
+            <button type="button" onclick="navigateTo('page-home')" class="flex items-center gap-3 group cursor-pointer">
                 <img src="1000049066.png" alt="Beachside Studios Logo" class="w-12 h-12 rounded-full border border-trs-red/50 group-hover:border-white transition-colors object-contain bg-black">
                 <span class="font-display font-bold text-2xl tracking-widest text-white uppercase hidden sm:block mt-1">Beachside</span>
-            </a>
+            </button>
             
             <!-- Desktop Links -->
             <div class="hidden lg:flex items-center space-x-8">
@@ -136,22 +189,22 @@
                 <button type="button" onclick="navigateTo('page-ai')" class="text-xs font-bold uppercase tracking-[0.2em] text-trs-red hover:text-white transition-colors cursor-pointer">AI Suite</button>
                 <button type="button" onclick="navigateTo('page-rates')" class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-trs-red transition-colors cursor-pointer">Rates & Booking</button>
                 <button type="button" onclick="scrollToSection('location-anchor')" class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-trs-red transition-colors cursor-pointer">Location</button>
-                <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-trs-dark transition-colors">Book Now</a>
+                <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-trs-dark transition-colors" role="button">Book Now</a>
             </div>
 
             <!-- Hamburger Button -->
-            <button id="mobile-menu-btn" class="lg:hidden text-white hover:text-trs-red transition-colors z-[60] cursor-pointer p-2 -mr-2">
+            <button id="mobile-menu-btn" class="lg:hidden text-white hover:text-trs-red transition-colors z-[60] cursor-pointer p-2 -mr-2 touch-manipulation" aria-label="Toggle Menu">
                 <i data-lucide="menu" class="w-8 h-8"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu (Bulletproof hide/show implementation) -->
-        <div id="mobile-menu" class="fixed inset-0 bg-trs-dark z-[55] hidden flex-col justify-center items-center space-y-4 pt-16">
-            <button type="button" onclick="navigateTo('page-home')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full text-center block">Home</button>
-            <button type="button" onclick="navigateTo('page-ai')" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white cursor-pointer p-4 w-full text-center block">AI Suite</button>
-            <button type="button" onclick="navigateTo('page-rates')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full text-center block">Rates & Booking</button>
-            <button type="button" onclick="scrollToSection('location-anchor')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red cursor-pointer p-4 w-full text-center block">Location</button>
-            <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" onclick="closeMobileMenu()" class="bg-trs-red text-white px-10 py-4 mt-6 font-display text-xl uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors inline-block text-center">Book Now</a>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-trs-dark/98 backdrop-blur-md z-[55] hidden flex-col justify-center items-center space-y-4 pt-16">
+            <button type="button" onclick="navigateTo('page-home')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red transition-colors cursor-pointer p-4 w-full text-center block touch-manipulation">Home</button>
+            <button type="button" onclick="navigateTo('page-ai')" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white transition-colors cursor-pointer p-4 w-full text-center block touch-manipulation">AI Suite</button>
+            <button type="button" onclick="navigateTo('page-rates')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red transition-colors cursor-pointer p-4 w-full text-center block touch-manipulation">Rates & Booking</button>
+            <button type="button" onclick="scrollToSection('location-anchor')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red transition-colors cursor-pointer p-4 w-full text-center block touch-manipulation">Location</button>
+            <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" onclick="closeMobileMenu()" class="bg-trs-red text-white px-10 py-4 mt-6 font-display text-xl uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors inline-block text-center" role="button">Book Now</a>
         </div>
     </header>
 
@@ -159,8 +212,11 @@
     <main id="page-home" class="page-view active flex-1">
         <!-- Hero Section -->
         <section class="hero-bg h-screen flex flex-col items-center justify-center text-center relative pt-20">
-            <div class="container mx-auto px-6 relative z-10 flex flex-col items-center">
-                <!-- Updated PNG Logo -->
+            <!-- Visualizer Overlay -->
+            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-end gap-1 z-20 opacity-60">
+                <div class="visualizer-bar"></div><div class="visualizer-bar"></div><div class="visualizer-bar"></div><div class="visualizer-bar"></div>
+            </div>
+            <div class="container mx-auto px-6 relative z-10 flex flex-col items-center reveal">
                 <img src="1000049066.png" alt="Logo" class="w-32 h-auto max-h-48 md:max-h-64 mb-6 object-contain drop-shadow-[0_0_20px_rgba(204,0,0,0.6)]">
                 <h2 class="text-trs-red font-display tracking-[0.3em] uppercase text-sm md:text-base mb-4">Inglewood, CA • Open 24/7</h2>
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold uppercase tracking-tight text-white mb-6 drop-shadow-2xl leading-tight">
@@ -170,14 +226,14 @@
                     From raw demos to radio-ready masters, Beachside Studios provides the tools, the privacy, and the precision your music deserves.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors border border-trs-red">Book Session</a>
-                    <a onclick="scrollToSection('studios')" class="bg-transparent text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-trs-gray transition-colors border border-white cursor-pointer block">Explore Studio</a>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-all text-center border border-trs-red" role="button">Book Session</a>
+                    <button type="button" onclick="scrollToSection('studios')" class="bg-transparent text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-trs-gray transition-all border border-white cursor-pointer">Explore Studio</button>
                 </div>
             </div>
         </section>
 
         <!-- About Section -->
-        <section id="about" class="py-24 bg-trs-dark">
+        <section id="about" class="py-24 bg-trs-dark reveal">
             <div class="container mx-auto px-6">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
                     <div>
@@ -201,9 +257,8 @@
                         </div>
                     </div>
                     <div class="img-zoom-container rounded-sm border border-white/5 relative">
-                        <img src="20260330_050857.jpg" alt="Recording Studio Workstation" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                        <!-- Updated PNG Logo -->
-                        <img src="1000049066.png" alt="Brand Graphic" class="absolute bottom-4 right-4 w-24 h-24 rounded-full opacity-90 drop-shadow-2xl pointer-events-none border border-trs-red bg-black/80 object-contain p-2">
+                        <img src="20260330_050857.jpg" alt="Recording Studio Workstation" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700" loading="lazy">
+                        <img src="1000049066.png" alt="Brand Graphic" class="absolute bottom-4 right-4 w-24 h-24 rounded-full opacity-90 drop-shadow-2xl pointer-events-none border border-trs-red bg-black/80 object-contain p-2" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -221,29 +276,29 @@
         </div>
 
         <!-- Services Section -->
-        <section id="services" class="py-24 bg-[#050505]">
+        <section id="services" class="py-24 bg-[#050505] reveal">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white section-title">Our Services</h2>
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-trs-gray p-8 border border-white/5 hover:border-trs-red transition-colors group">
+                    <div class="bg-trs-gray p-8 border border-white/5 hover:border-trs-red transition-colors group cursor-pointer" onclick="navigateTo('page-home')">
                         <i data-lucide="mic" class="w-10 h-10 text-trs-red mb-6 group-hover:scale-110 transition-transform"></i>
                         <h3 class="text-xl font-display uppercase tracking-widest text-white mb-3">Vocal Recording</h3>
                         <p class="text-gray-500 text-sm leading-relaxed">Pristine vocal capture using industry-standard microphones and acoustically treated isolation booths.</p>
                     </div>
-                    <div class="bg-trs-gray p-8 border border-white/5 hover:border-trs-red transition-colors group">
+                    <div class="bg-trs-gray p-8 border border-white/5 hover:border-trs-red transition-colors group cursor-pointer" onclick="navigateTo('page-ai')">
                         <i data-lucide="sliders" class="w-10 h-10 text-trs-red mb-6 group-hover:scale-110 transition-transform"></i>
                         <h3 class="text-xl font-display uppercase tracking-widest text-white mb-3">Mixing & Mastering</h3>
                         <p class="text-gray-500 text-sm leading-relaxed">Professional balancing, EQ, and loudness optimization ensuring your track competes on the radio and DSPs.</p>
                     </div>
-                    <div class="bg-trs-gray p-8 border border-white/5 hover:border-trs-red transition-colors group">
+                    <div class="bg-trs-gray p-8 border border-white/5 hover:border-trs-red transition-colors group cursor-pointer" onclick="navigateTo('page-home')">
                         <i data-lucide="radio" class="w-10 h-10 text-trs-red mb-6 group-hover:scale-110 transition-transform"></i>
                         <h3 class="text-xl font-display uppercase tracking-widest text-white mb-3">Podcasts</h3>
                         <p class="text-gray-500 text-sm leading-relaxed">Multi-microphone setups for hosts and guests. Broadcast-quality sound without the audio fatigue.</p>
                     </div>
-                    <div class="bg-trs-gray p-8 border border-white/5 hover:border-trs-red transition-colors group">
+                    <div class="bg-trs-gray p-8 border border-white/5 hover:border-trs-red transition-colors group cursor-pointer" onclick="navigateTo('page-home')">
                         <i data-lucide="monitor-play" class="w-10 h-10 text-trs-red mb-6 group-hover:scale-110 transition-transform"></i>
                         <h3 class="text-xl font-display uppercase tracking-widest text-white mb-3">Voiceovers / ADR</h3>
                         <p class="text-gray-500 text-sm leading-relaxed">Dead-quiet booths perfect for audiobooks, commercials, and film dialogue replacement.</p>
@@ -252,8 +307,8 @@
             </div>
         </section>
 
-        <!-- The Studio / Gallery (Images Linked Properly) -->
-        <section id="studios" class="py-24 bg-trs-dark">
+        <!-- The Studio / Gallery -->
+        <section id="studios" class="py-24 bg-trs-dark reveal">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white section-title">The Studio</h2>
@@ -261,36 +316,30 @@
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                    <!-- Control Room -->
                     <div class="relative group img-zoom-container border border-white/5">
-                        <img src="Screenshot_20260331_125554_Gallery.jpg" alt="Control Room" class="w-full h-[300px] object-cover">
+                        <img src="Screenshot_20260331_125554_Gallery.jpg" alt="Control Room" class="w-full h-[300px] object-cover" loading="lazy">
                     </div>
-                    <!-- Production Suite -->
                     <div class="relative group img-zoom-container border border-white/5">
-                        <img src="20260330_050857.jpg" alt="Production Suite" class="w-full h-[300px] object-cover">
+                        <img src="20260330_050857.jpg" alt="Production Suite" class="w-full h-[300px] object-cover" loading="lazy">
                     </div>
-                    <!-- Vocal Booth Area (Using uploaded pic) -->
                     <div class="relative group img-zoom-container border border-white/5">
-                        <img src="20260402_044854.jpg" alt="Studio Setup" class="w-full h-[300px] object-cover">
+                        <img src="20260402_044854.jpg" alt="Studio Setup" class="w-full h-[300px] object-cover" loading="lazy">
                     </div>
-                    <!-- Gear Setup (Using uploaded pic) -->
                     <div class="relative group img-zoom-container border border-white/5">
-                        <img src="20260329_011756.jpg" alt="Studio Detail" class="w-full h-[300px] object-cover">
+                        <img src="20260329_011756.jpg" alt="Studio Detail" class="w-full h-[300px] object-cover" loading="lazy">
                     </div>
-                    <!-- Lounge vibe shot -->
                     <div class="relative group img-zoom-container border border-white/5">
-                        <img src="20260330_154418_0000.jpg" alt="The Lounge" class="w-full h-[300px] object-cover grayscale hover:grayscale-0">
+                        <img src="20260330_154418_0000.jpg" alt="The Lounge" class="w-full h-[300px] object-cover grayscale hover:grayscale-0" loading="lazy">
                     </div>
-                    <!-- Updated Specials Flyer -->
                     <div class="relative group img-zoom-container border border-white/5">
-                        <img src="1758005320844.jpg" alt="Current Specials" class="w-full h-[300px] object-cover">
+                        <img src="1758005320844.jpg" alt="Current Specials" class="w-full h-[300px] object-cover" loading="lazy">
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Reviews Section -->
-        <section id="reviews" class="py-24 bg-trs-dark border-y border-white/5">
+        <section id="reviews" class="py-24 bg-trs-dark border-y border-white/5 reveal">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white section-title">Accolades</h2>
@@ -298,7 +347,7 @@
                 </div>
                 
                 <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
+                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray/30 backdrop-blur-sm hover:border-l-4 transition-all hover:-translate-y-1">
                         <div class="flex gap-1 mb-6">
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
@@ -309,8 +358,7 @@
                         <p class="text-gray-400 font-light italic mb-6 leading-relaxed flex-1">"Amazing studio, the quality and professionalism here is top tier. This is definitely a hidden gem in LA. I'll be back for sure."</p>
                         <p class="font-display uppercase tracking-widest text-white text-sm">— Carlos Perez</p>
                     </div>
-
-                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
+                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray/30 backdrop-blur-sm hover:border-l-4 transition-all hover:-translate-y-1">
                         <div class="flex gap-1 mb-6">
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
@@ -318,11 +366,10 @@
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
                         </div>
-                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed flex-1">"The best engineering experience I’ve had! They get the job done and are very professional. The acoustic treatment is amazing, this is my new go to spot!"</p>
+                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed flex-1">"The best engineering experience I’ve had! They get the job done and are very professional. The acoustic treatment is amazing!"</p>
                         <p class="font-display uppercase tracking-widest text-white text-sm">— K TF</p>
                     </div>
-
-                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
+                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray/30 backdrop-blur-sm hover:border-l-4 transition-all hover:-translate-y-1">
                         <div class="flex gap-1 mb-6">
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
@@ -330,7 +377,7 @@
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
                             <i data-lucide="star" class="w-4 h-4 fill-trs-red text-trs-red"></i>
                         </div>
-                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed flex-1">"Great experience, the final mix is amazing. They helped us get the exact sound we were looking for. Dope spot will be back for sure."</p>
+                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed flex-1">"Great experience, the final mix is amazing. They helped us get the exact sound we were looking for. Dope spot will be back."</p>
                         <p class="font-display uppercase tracking-widest text-white text-sm">— Javier T</p>
                     </div>
                 </div>
@@ -344,7 +391,7 @@
         </section>
 
         <!-- Meet Yachty Highlight Section -->
-        <section id="yachty-section" class="py-0 relative z-10 flex flex-col lg:flex-row bg-[#050505] border-t border-white/5">
+        <section id="yachty-section" class="py-0 relative z-10 flex flex-col lg:flex-row bg-[#050505] border-t border-white/5 reveal">
             <div class="lg:w-1/2 p-12 lg:p-24 flex flex-col justify-center bg-trs-gray border-r border-white/5 relative overflow-hidden">
                 <div class="absolute -right-20 -bottom-20 w-64 h-64 border border-trs-red/10 rounded-full"></div>
                 <div class="absolute -right-10 -bottom-10 w-48 h-48 border border-trs-red/20 rounded-full"></div>
@@ -357,12 +404,11 @@
                 <p class="text-gray-400 leading-relaxed mb-10 text-lg relative z-10">
                     Our custom AI assistant is integrated directly into the site to help you check open slots, confirm our studio rates, get directions, and book your session instantly. 
                 </p>
-                <button onclick="document.getElementById('yachty-toggle').click();" class="self-start bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors border border-trs-red flex items-center gap-3 relative z-10 cursor-pointer">
+                <button type="button" onclick="toggleChat()" class="self-start bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors border border-trs-red flex items-center gap-3 relative z-10 cursor-pointer">
                     <i data-lucide="message-square" class="w-5 h-5"></i> Chat With Yachty Now
                 </button>
             </div>
             <div class="lg:w-1/2 bg-trs-dark flex items-center justify-center p-12 relative overflow-hidden">
-                 <!-- Abstract Bot Graphic -->
                  <div class="relative w-64 h-64 flex items-center justify-center">
                      <div class="absolute inset-0 border-2 border-trs-red rounded-full animate-[spin_10s_linear_infinite] border-t-transparent"></div>
                      <div class="absolute inset-4 border border-white/20 rounded-full animate-[spin_15s_linear_infinite_reverse] border-b-transparent"></div>
@@ -374,21 +420,21 @@
         </section>
 
         <!-- Quick Portals to Hidden Pages -->
-        <section class="py-24 bg-trs-dark border-t border-white/5">
+        <section class="py-24 bg-trs-dark border-t border-white/5 reveal">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-4xl font-display font-bold uppercase tracking-wide text-white section-title">Explore More</h2>
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-8">
-                    <div class="bg-[#050505] p-10 border border-white/5 hover:border-trs-red transition-colors flex flex-col items-center shadow-xl">
+                    <div class="bg-[#050505] p-10 border border-white/5 hover:border-trs-red transition-colors flex flex-col items-center shadow-xl hover:-translate-y-2 duration-300">
                         <i data-lucide="cpu" class="w-12 h-12 text-trs-red mb-6"></i>
                         <h3 class="text-2xl font-display uppercase tracking-widest text-white mb-4">AI Creator Suite</h3>
                         <p class="text-gray-400 mb-8 text-sm leading-relaxed font-light">Auto-master your tracks with our smooth polish algorithm and generate custom album cover art directly in your browser.</p>
-                        <a onclick="navigateTo('page-ai')" class="mt-auto border border-trs-red bg-trs-red/10 text-white hover:bg-trs-red transition-colors px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer block">Open AI Suite</a>
+                        <button type="button" onclick="navigateTo('page-ai')" class="mt-auto border border-trs-red bg-trs-red/10 text-white hover:bg-trs-red transition-colors px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer block">Open AI Suite</button>
                     </div>
-                    <div class="bg-[#050505] p-10 border border-white/5 hover:border-trs-red transition-colors flex flex-col items-center shadow-xl">
+                    <div class="bg-[#050505] p-10 border border-white/5 hover:border-trs-red transition-colors flex flex-col items-center shadow-xl hover:-translate-y-2 duration-300">
                         <i data-lucide="calendar-check" class="w-12 h-12 text-trs-red mb-6"></i>
                         <h3 class="text-2xl font-display uppercase tracking-widest text-white mb-4">Rates & Booking</h3>
                         <p class="text-gray-400 mb-8 text-sm leading-relaxed font-light">View our transparent pricing, block specials, and instantly lock in your studio time.</p>
-                        <a onclick="navigateTo('page-rates')" class="mt-auto border border-trs-red bg-trs-red/10 text-white hover:bg-trs-red transition-colors px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer block">View Rates</a>
+                        <button type="button" onclick="navigateTo('page-rates')" class="mt-auto border border-trs-red bg-trs-red/10 text-white hover:bg-trs-red transition-colors px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer block">View Rates</button>
                     </div>
                 </div>
             </div>
@@ -398,20 +444,20 @@
     <!-- ================= PAGE: AI SUITE ================= -->
     <main id="page-ai" class="page-view flex-1 pt-32 pb-24 bg-trs-dark border-y border-white/10 relative overflow-hidden">
         <div class="container mx-auto px-6 mt-8 relative z-10">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 reveal">
                 <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white section-title">AI Creator Suite</h2>
                 <p class="text-gray-400 mt-4 max-w-2xl mx-auto font-light">Advanced proprietary tools running directly in your browser architecture.</p>
             </div>
 
             <!-- Tabs -->
             <div class="flex justify-center mb-10 border-b border-white/10 max-w-3xl mx-auto">
-                <button onclick="switchAiTab('audio')" id="tab-audio" class="pb-4 px-8 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition-all cursor-pointer">Audio Engine</button>
-                <button onclick="switchAiTab('cover')" id="tab-cover" class="pb-4 px-8 font-display uppercase tracking-widest text-gray-500 hover:text-white border-b-2 border-transparent transition-all cursor-pointer">Cover Art</button>
+                <button type="button" onclick="switchAiTab('audio')" id="tab-audio" class="pb-4 px-8 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition-all cursor-pointer">Audio Engine</button>
+                <button type="button" onclick="switchAiTab('cover')" id="tab-cover" class="pb-4 px-8 font-display uppercase tracking-widest text-gray-500 hover:text-white border-b-2 border-transparent transition-all cursor-pointer">Cover Art</button>
             </div>
 
             <!-- Tab Content: Audio Engine -->
-            <div id="content-audio" class="max-w-5xl mx-auto bg-[#080808] border border-white/10 p-8 md:p-12 shadow-2xl relative rounded-xl">
-                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">v3.0 Smooth Master API</div>
+            <div id="content-audio" class="max-w-5xl mx-auto bg-[#080808] border border-white/10 p-8 md:p-12 shadow-2xl relative rounded-xl reveal">
+                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl rounded-br-xl">v3.0 Smooth Master API</div>
                 
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
@@ -419,7 +465,7 @@
                         <p class="text-gray-400 mb-6 text-sm leading-relaxed font-light">Upload your raw track. Our engine automatically applies a "smooth as butter" EQ curve (cuts mud, adds air), glues it with light compression, detects the key, and masters it to industry-standard streaming levels (Spotify/Apple Music). Processing happens 100% securely on your device.</p>
 
                         <div id="audio-upload-zone" class="border border-dashed border-gray-600 p-8 text-center hover:border-trs-red transition-colors cursor-pointer relative group bg-[#0a0a0a]">
-                            <input type="file" id="audio-file" accept="audio/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <input type="file" id="audio-file" accept="audio/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 touch-manipulation">
                             <i data-lucide="upload" class="w-8 h-8 mx-auto text-gray-500 group-hover:text-trs-red mb-3 transition-colors"></i>
                             <p class="text-white font-display uppercase tracking-widest text-sm">Select Audio File</p>
                             <p class="text-gray-500 text-xs mt-1 uppercase tracking-wider">WAV / MP3</p>
@@ -444,8 +490,8 @@
                                 <div class="flex justify-between"><span class="text-gray-500">FINAL PEAK:</span> <span id="new-peak" class="text-green-500">-1.0 dB (Industry Standard)</span></div>
                                 <div class="flex justify-between pt-3 border-t border-white/10"><span class="text-gray-500">DETECTED KEY:</span> <span id="det-key" class="text-trs-red font-bold text-sm"></span></div>
                             </div>
-                            <a id="audio-download-btn" class="w-full block text-center bg-trs-red text-white py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors border border-trs-red cursor-pointer shadow-[0_0_15px_rgba(204,0,0,0.3)]">Download Master</a>
-                            <button onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white mt-2 text-center cursor-pointer block mx-auto">Process Another File</button>
+                            <a id="audio-download-btn" class="w-full block text-center bg-trs-red text-white py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors border border-trs-red cursor-pointer shadow-[0_0_15px_rgba(204,0,0,0.3)]" download>Download Master</a>
+                            <button type="button" onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white mt-2 text-center cursor-pointer block mx-auto">Process Another File</button>
                         </div>
                     </div>
                     
@@ -461,8 +507,8 @@
             </div>
 
             <!-- Tab Content: Cover Art -->
-            <div id="content-cover" class="hidden max-w-5xl mx-auto bg-[#080808] border border-white/10 p-8 md:p-12 shadow-2xl relative rounded-xl">
-                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">Generative Engine</div>
+            <div id="content-cover" class="hidden max-w-5xl mx-auto bg-[#080808] border border-white/10 p-8 md:p-12 shadow-2xl relative rounded-xl reveal">
+                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl rounded-br-xl">Generative Engine</div>
                 
                  <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
@@ -470,7 +516,6 @@
                         <p class="text-gray-400 mb-6 text-sm leading-relaxed font-light">Generate unique, royalty-free cover art instantly and stamp it with your text.</p>
                         
                         <div class="space-y-4">
-                            <!-- Text Inputs -->
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">Artist Name</label>
@@ -482,7 +527,6 @@
                                 </div>
                             </div>
 
-                            <!-- Dropdowns -->
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">Text Font</label>
@@ -512,11 +556,11 @@
                             </div>
 
                             <div class="flex items-center gap-3 bg-trs-dark p-4 border border-white/10">
-                                <input type="checkbox" id="explicit-sticker" class="w-5 h-5 accent-trs-red cursor-pointer">
+                                <input type="checkbox" id="explicit-sticker" class="w-5 h-5 accent-trs-red cursor-pointer touch-manipulation">
                                 <label for="explicit-sticker" class="text-sm font-display uppercase tracking-widest text-gray-300 cursor-pointer">Add Parental Advisory</label>
                             </div>
                             
-                            <button id="generate-art-btn" class="w-full bg-white text-trs-dark py-4 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition-colors flex justify-center items-center gap-2 border border-white hover:border-trs-red cursor-pointer">
+                            <button type="button" id="generate-art-btn" class="w-full bg-white text-trs-dark py-4 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition-colors flex justify-center items-center gap-2 border border-white hover:border-trs-red cursor-pointer touch-manipulation">
                                 Generate Artwork <i data-lucide="image" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -545,19 +589,18 @@
     <!-- ================= PAGE: RATES ================= -->
     <main id="page-rates" class="page-view flex-1 pt-32 pb-24 bg-[#050505] relative">
         <div class="container mx-auto px-6 mt-8 relative z-10">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 reveal">
                 <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white section-title">Rates & Booking</h2>
                 <p class="text-gray-400 mt-4 font-light">Transparent pricing. Premium quality. Lock in your session.</p>
             </div>
 
-            <div class="max-w-4xl mx-auto mb-16 border border-white/10 img-zoom-container bg-black p-2 shadow-2xl relative">
+            <div class="max-w-4xl mx-auto mb-16 border border-white/10 img-zoom-container bg-black p-2 shadow-2xl relative reveal">
                 <div class="absolute top-4 right-4 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 z-10">ACTIVE PROMO</div>
-                <!-- Updated Specials Flyer -->
-                <img src="1758005320844.jpg" alt="Studio Special Flyer" class="w-full h-auto">
+                <img src="1758005320844.jpg" alt="Studio Special Flyer" class="w-full h-auto" loading="lazy">
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="bg-trs-dark border border-white/5 p-10 flex flex-col hover:border-trs-red transition-colors shadow-xl">
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto reveal">
+                <div class="bg-trs-dark border border-white/5 p-10 flex flex-col hover:border-trs-red transition-colors shadow-xl hover:-translate-y-2 duration-300">
                     <h3 class="text-xl font-display uppercase tracking-widest text-white mb-2">Standard Hourly</h3>
                     <div class="text-5xl font-display font-bold text-trs-red mb-6">$60<span class="text-lg text-gray-500 font-sans font-normal">/hr</span></div>
                     <ul class="space-y-4 mb-8 text-gray-400 text-sm flex-1 font-light">
@@ -565,10 +608,10 @@
                         <li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-trs-red mt-0.5"></i> Engineer Included</li>
                         <li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-trs-red mt-0.5"></i> Raw Stems Delivery</li>
                     </ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="block text-center border border-white text-white py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors cursor-pointer">Book Hourly</a>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="block text-center border border-white text-white py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors cursor-pointer" role="button">Book Hourly</a>
                 </div>
 
-                <div class="bg-trs-gray border-t-4 border-trs-red p-10 flex flex-col shadow-2xl relative transform md:-translate-y-4">
+                <div class="bg-trs-gray border-t-4 border-trs-red p-10 flex flex-col shadow-2xl relative transform md:-translate-y-4 hover:-translate-y-5 duration-300 transition-transform">
                     <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1">Best Value</div>
                     <h3 class="text-xl font-display uppercase tracking-widest text-white mb-2">The Foundation</h3>
                     <div class="text-5xl font-display font-bold text-white mb-6">$150<span class="text-lg text-gray-400 font-sans font-normal">/3 hrs</span></div>
@@ -577,10 +620,10 @@
                         <li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-trs-red mt-0.5"></i> Ideal for Single Tracking</li>
                         <li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-trs-red mt-0.5"></i> Rough Mix Included</li>
                     </ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="block text-center bg-trs-red border border-trs-red text-white py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors shadow-[0_0_15px_rgba(204,0,0,0.3)] cursor-pointer">Book 3 Hours</a>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="block text-center bg-trs-red border border-trs-red text-white py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors shadow-[0_0_15px_rgba(204,0,0,0.3)] cursor-pointer" role="button">Book 3 Hours</a>
                 </div>
 
-                <div class="bg-trs-dark border border-white/5 p-10 flex flex-col hover:border-trs-red transition-colors shadow-xl">
+                <div class="bg-trs-dark border border-white/5 p-10 flex flex-col hover:border-trs-red transition-colors shadow-xl hover:-translate-y-2 duration-300">
                     <h3 class="text-xl font-display uppercase tracking-widest text-white mb-2">The Hitmaker</h3>
                     <div class="text-5xl font-display font-bold text-trs-red mb-6">$200<span class="text-lg text-gray-500 font-sans font-normal">/4 hrs</span></div>
                     <ul class="space-y-4 mb-8 text-gray-400 text-sm flex-1 font-light">
@@ -588,14 +631,14 @@
                         <li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-trs-red mt-0.5"></i> EP Tracking or Podcasts</li>
                         <li class="flex items-start gap-3"><i data-lucide="check" class="w-4 h-4 text-trs-red mt-0.5"></i> Priority File Delivery</li>
                     </ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="block text-center border border-white text-white py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors cursor-pointer">Book 4 Hours</a>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="block text-center border border-white text-white py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition-colors cursor-pointer" role="button">Book 4 Hours</a>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Global Location (Anchored at bottom of all views) -->
-    <section id="location-anchor" class="py-0 relative z-10 flex flex-col md:flex-row bg-trs-dark border-t border-white/5 w-full">
+    <!-- Global Location -->
+    <section id="location-anchor" class="py-0 relative z-10 flex flex-col md:flex-row bg-trs-dark border-t border-white/5 w-full reveal">
         <div class="md:w-1/2 p-12 lg:p-24 flex flex-col justify-center">
             <h2 class="text-4xl font-display font-bold uppercase tracking-wide text-white section-title left-align">Location</h2>
             <div class="space-y-8 mt-6">
@@ -605,7 +648,7 @@
                 </div>
                 <div>
                     <h4 class="text-trs-red font-display uppercase tracking-widest text-sm mb-2">Direct Line</h4>
-                    <a href="tel:+13234002065" class="text-gray-300 font-light text-lg hover:text-white transition-colors">(323) 400-2065</a>
+                    <a href="tel:+13234002065" class="text-gray-300 font-light text-lg hover:text-white transition-colors inline-block">(323) 400-2065</a>
                 </div>
                 <div>
                     <h4 class="text-trs-red font-display uppercase tracking-widest text-sm mb-2">Hours of Operation</h4>
@@ -621,8 +664,9 @@
     <!-- Global Footer -->
     <footer class="bg-black py-16 text-center w-full mt-auto border-t border-white/5">
         <div class="container mx-auto px-6">
-            <!-- Updated PNG Logo -->
-            <img src="1000049066.png" alt="Beachside Studios Logo" class="w-16 h-16 rounded-full mx-auto mb-6 opacity-80 object-contain bg-black hover:opacity-100 transition-opacity cursor-pointer border border-white/10" onclick="navigateTo('page-home')">
+            <button type="button" onclick="navigateTo('page-home')" class="w-16 h-16 rounded-full mx-auto mb-6 opacity-80 object-contain bg-black hover:opacity-100 transition-opacity cursor-pointer border border-white/10 block overflow-hidden">
+                <img src="1000049066.png" alt="Beachside Studios Logo" class="w-full h-full">
+            </button>
             <h2 class="font-display font-bold text-2xl tracking-widest text-white uppercase mb-2">Beachside Studios</h2>
             <p class="text-gray-600 font-light mb-8 text-sm">Empowering Creators in Inglewood, CA.</p>
             <p class="text-[10px] text-gray-700 tracking-widest uppercase">© 2026 Beachside Recording Studios. All Rights Reserved.</p>
@@ -640,7 +684,7 @@
                         <p class="text-[10px] uppercase tracking-wider text-white/80 font-mono">Agent Online</p>
                     </div>
                 </div>
-                <button id="close-yachty" class="hover:bg-black/20 p-1 rounded transition-colors cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button type="button" id="close-yachty" class="hover:bg-black/20 p-1 rounded transition-colors cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <div id="yachty-messages" class="flex-1 p-4 overflow-y-auto bg-[#0a0a0a] flex flex-col gap-3 text-sm font-light">
                 <div class="flex gap-2 items-end">
@@ -648,16 +692,22 @@
                         Yo! I'm Yachty. Need to check our rates, location, read our reviews, or book some studio time?
                     </div>
                 </div>
+                <!-- Quick Replies -->
+                <div id="quick-replies" class="flex flex-wrap gap-2 mt-2">
+                    <button type="button" class="text-xs bg-trs-dark border border-trs-red/30 text-gray-300 px-3 py-1 rounded-full hover:bg-trs-red hover:text-white transition-colors cursor-pointer touch-manipulation" onclick="quickReply('Check Rates')">Rates</button>
+                    <button type="button" class="text-xs bg-trs-dark border border-trs-red/30 text-gray-300 px-3 py-1 rounded-full hover:bg-trs-red hover:text-white transition-colors cursor-pointer touch-manipulation" onclick="quickReply('Where are you located?')">Location</button>
+                    <button type="button" class="text-xs bg-trs-dark border border-trs-red/30 text-gray-300 px-3 py-1 rounded-full hover:bg-trs-red hover:text-white transition-colors cursor-pointer touch-manipulation" onclick="quickReply('I want to book')">Book Now</button>
+                </div>
             </div>
             <div class="p-3 bg-trs-gray border-t border-white/5 flex gap-2">
                 <input type="text" id="yachty-input" class="flex-1 bg-[#050505] border border-white/10 rounded px-4 py-2 text-white text-sm focus:outline-none focus:border-trs-red placeholder-gray-600 font-sans" placeholder="Type message...">
-                <button id="yachty-send" class="bg-trs-red hover:bg-white hover:text-trs-dark text-white w-10 h-10 rounded flex items-center justify-center transition-colors cursor-pointer">
+                <button type="button" id="yachty-send" class="bg-trs-red hover:bg-white hover:text-trs-dark text-white w-10 h-10 rounded flex items-center justify-center transition-colors cursor-pointer touch-manipulation">
                     <i data-lucide="send" class="w-4 h-4 ml-0.5"></i>
                 </button>
             </div>
         </div>
         
-        <button id="yachty-toggle" class="bg-trs-red text-white w-14 h-14 rounded-full shadow-[0_0_25px_rgba(204,0,0,0.6)] flex items-center justify-center hover:scale-110 transition-transform relative group border border-white/20 hover:border-white z-50 cursor-pointer">
+        <button type="button" id="yachty-toggle" class="bg-trs-red text-white w-14 h-14 rounded-full shadow-[0_0_25px_rgba(204,0,0,0.6)] flex items-center justify-center hover:scale-110 transition-transform relative group border border-white/20 hover:border-white z-50 cursor-pointer touch-manipulation">
             <span class="absolute -top-1 -right-1 flex h-4 w-4">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-4 w-4 bg-white border border-trs-red"></span>
@@ -669,22 +719,26 @@
 
     <!-- MAIN JAVASCRIPT LOGIC -->
     <script>
-        // Initialize Icons
+        // Initialize Icons & Preloader
         lucide.createIcons();
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 800);
+        });
 
-        // --- Single Page App Router Logic (Mobile Fixed) ---
+        // --- Mobile Menu & Page Routing (Bulletproof) ---
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         let menuOpen = false;
 
         function closeMobileMenu() {
             menuOpen = false;
-            // Use tailwind utility classes for foolproof hiding
             mobileMenu.classList.add('hidden');
             mobileMenu.classList.remove('flex');
             mobileMenuBtn.innerHTML = '<i data-lucide="menu" class="w-8 h-8"></i>';
             lucide.createIcons();
-            document.body.style.overflow = ''; // Re-enable background scrolling
+            document.body.style.overflow = '';
         }
 
         function openMobileMenu() {
@@ -693,45 +747,48 @@
             mobileMenu.classList.add('flex');
             mobileMenuBtn.innerHTML = '<i data-lucide="x" class="w-8 h-8 text-trs-red"></i>';
             lucide.createIcons();
-            document.body.style.overflow = 'hidden'; // Stop background scrolling
+            document.body.style.overflow = 'hidden';
         }
 
-        // Toggle mobile menu safely
-        mobileMenuBtn.addEventListener('click', () => {
-            if (menuOpen) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (menuOpen) closeMobileMenu();
+            else openMobileMenu();
+        });
+
+        // Close menu if clicking outside
+        document.addEventListener('click', (e) => {
+            if (menuOpen && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                 closeMobileMenu();
-            } else {
-                openMobileMenu();
             }
         });
 
-        // Navigate safely between virtual pages
         function navigateTo(pageId) {
-            document.querySelectorAll('.page-view').forEach(el => {
-                el.classList.remove('active');
-            });
+            document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
-                window.scrollTo(0,0);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                triggerRevealAnimations(); // Re-trigger animations for new page
             }
-            if (menuOpen) {
-                closeMobileMenu();
-            }
+            if (menuOpen) closeMobileMenu();
         }
 
-        // Scroll to sections safely
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
+                // If section is on a different page, go to home first
+                const isOnHome = document.getElementById('page-home').classList.contains('active');
+                if (!isOnHome) navigateTo('page-home');
+                
+                setTimeout(() => {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, isOnHome ? 100 : 500);
             }
-            if (menuOpen) {
-                closeMobileMenu();
-            }
+            if (menuOpen) closeMobileMenu();
         }
 
-        // AI Tools Tab Switching
+        // --- AI Tools Tab Switching ---
         function switchAiTab(tab) {
             const btnAudio = document.getElementById('tab-audio');
             const btnCover = document.getElementById('tab-cover');
@@ -739,17 +796,31 @@
             const contentCover = document.getElementById('content-cover');
 
             if(tab === 'audio') {
-                btnAudio.className = "pb-4 px-8 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition-all cursor-pointer";
+                btnAudio.className = "pb-4 px-8 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition-all cursor-pointer active-tab";
                 btnCover.className = "pb-4 px-8 font-display uppercase tracking-widest text-gray-500 hover:text-white border-b-2 border-transparent transition-all cursor-pointer";
                 contentAudio.classList.remove('hidden');
                 contentCover.classList.add('hidden');
             } else {
-                btnCover.className = "pb-4 px-8 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition-all cursor-pointer";
+                btnCover.className = "pb-4 px-8 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition-all cursor-pointer active-tab";
                 btnAudio.className = "pb-4 px-8 font-display uppercase tracking-widest text-gray-500 hover:text-white border-b-2 border-transparent transition-all cursor-pointer";
                 contentCover.classList.remove('hidden');
                 contentAudio.classList.add('hidden');
             }
         }
+
+        // --- Scroll Reveal Observer ---
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        function triggerRevealAnimations() {
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        }
+        document.addEventListener('DOMContentLoaded', triggerRevealAnimations);
 
         // --- YACHTY AI AGENT LOGIC ---
         const yachtyToggle = document.getElementById('yachty-toggle');
@@ -758,6 +829,7 @@
         const yachtyInput = document.getElementById('yachty-input');
         const yachtySend = document.getElementById('yachty-send');
         const yachtyMessages = document.getElementById('yachty-messages');
+        const quickReplies = document.getElementById('quick-replies');
 
         let chatOpen = false;
         function toggleChat() {
@@ -765,14 +837,22 @@
             if (chatOpen) {
                 yachtyWindow.classList.remove('scale-0', 'opacity-0');
                 yachtyWindow.classList.add('scale-100', 'opacity-100');
+                yachtyInput.focus();
             } else {
                 yachtyWindow.classList.add('scale-0', 'opacity-0');
                 yachtyWindow.classList.remove('scale-100', 'opacity-100');
             }
         }
 
-        yachtyToggle.addEventListener('click', toggleChat);
+        yachtyToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleChat(); });
         yachtyClose.addEventListener('click', toggleChat);
+
+        // Close chat when clicking outside
+        document.addEventListener('click', (e) => {
+            if (chatOpen && !yachtyWindow.contains(e.target) && !yachtyToggle.contains(e.target)) {
+                toggleChat();
+            }
+        });
 
         function addMessage(text, isUser = false) {
             const msgDiv = document.createElement('div');
@@ -813,7 +893,7 @@
             } else if (lowerText.includes("price") || lowerText.includes("rate") || lowerText.includes("cost") || lowerText.includes("how much")) {
                 response = 'Our standard rate is $60/hr. We also have a 3-hour block for $150 and a 4-hour block for $200. Check the Rates page from the menu!';
             } else if (lowerText.includes("where") || lowerText.includes("location") || lowerText.includes("address")) {
-                response = 'We are located at 233 S Market St, Inglewood, CA 90301. Open 24/7 for all creatives.';
+                response = 'We are located at <span class="text-white font-bold">233 S Market St, Inglewood, CA 90301</span>. Open 24/7 for all creatives.';
             } else {
                 response = 'I am Yachty, your studio agent! I can help with rates, location, and booking. Want the link to <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="text-trs-red underline font-bold">check open slots?</a>';
             }
@@ -821,7 +901,7 @@
             setTimeout(() => {
                 removeTyping();
                 addMessage(response, false);
-            }, 1000 + Math.random() * 1000);
+            }, 600 + Math.random() * 800);
         }
 
         function handleSend() {
@@ -830,14 +910,25 @@
             addMessage(text, true);
             yachtyInput.value = '';
             showTyping();
+            
+            // Hide quick replies after first manual input
+            if(quickReplies) quickReplies.style.display = 'none';
+            
             handleYachtyResponse(text);
         }
+
+        // Global quick reply handler
+        function quickReply(text) {
+            handleSend.call({ value: text });
+            yachtyInput.value = text;
+            handleSend();
+        }
+        window.quickReply = quickReply; // Expose to inline onclick
 
         yachtySend.addEventListener('click', handleSend);
         yachtyInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
 
-
-        // --- AI ALBUM COVER GENERATOR (WITH CUSTOM TEXT & EXPLICIT STICKER LOGIC) ---
+        // --- AI ALBUM COVER GENERATOR ---
         const generateArtBtn = document.getElementById('generate-art-btn');
         const artPrompt = document.getElementById('art-prompt');
         const artArtist = document.getElementById('art-artist');
@@ -855,7 +946,6 @@
             let promptStr = artPrompt.value.trim();
             if(!promptStr) { alert("Please enter a visual prompt."); return; }
 
-            // Append the selected style to the prompt
             promptStr = promptStr + ", " + artStyle.value;
 
             artPlaceholder.classList.add('hidden');
@@ -870,29 +960,25 @@
             const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1000&height=1000&nologo=true&seed=${seed}`;
 
             const img = new Image();
-            img.crossOrigin = "Anonymous"; // Crucial for canvas export
+            img.crossOrigin = "Anonymous";
             img.onload = () => {
                 const canvas = document.createElement('canvas');
                 canvas.width = 1000;
                 canvas.height = 1000;
                 const ctx = canvas.getContext('2d');
                 
-                // Draw base image
                 ctx.drawImage(img, 0, 0, 1000, 1000);
 
-                // Add Custom Text
                 const artistText = artArtist.value.trim().toUpperCase();
                 const titleText = artTitle.value.trim().toUpperCase();
                 const selectedFont = artFont.value;
 
                 ctx.fillStyle = 'white';
                 ctx.textAlign = 'center';
-                
-                // Drop shadow for text readability
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-                ctx.shadowBlur = 15;
-                ctx.shadowOffsetX = 3;
-                ctx.shadowOffsetY = 3;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+                ctx.shadowBlur = 20;
+                ctx.shadowOffsetX = 4;
+                ctx.shadowOffsetY = 4;
 
                 if(artistText) {
                     ctx.font = `bold 50px ${selectedFont}`;
@@ -903,43 +989,32 @@
                     ctx.fillText(titleText, 500, 920);
                 }
 
-                // Reset shadow for sticker
                 ctx.shadowColor = 'transparent';
                 ctx.shadowBlur = 0;
                 ctx.shadowOffsetX = 0;
                 ctx.shadowOffsetY = 0;
 
-                // Add Parental Advisory Sticker
                 if (explicitCheckbox.checked) {
                     const sW = 240; const sH = 100;
                     const x = 1000 - sW - 30; const y = 1000 - sH - 30;
-                    
                     ctx.fillStyle = 'black';
                     ctx.fillRect(x, y, sW, sH);
-                    
                     ctx.strokeStyle = 'white';
                     ctx.lineWidth = 4;
                     ctx.strokeRect(x+4, y+4, sW-8, sH-8);
-                    
                     ctx.fillStyle = 'white';
                     ctx.fillRect(x+4, y+35, sW-8, 25); 
-                    
                     ctx.fillStyle = 'white';
                     ctx.font = 'bold 22px Arial';
                     ctx.textAlign = 'center';
-                    ctx.letterSpacing = "2px";
                     ctx.fillText('PARENTAL', x + sW/2, y + 28);
-                    
                     ctx.fillStyle = 'black';
                     ctx.fillText('ADVISORY', x + sW/2, y + 54);
-                    
                     ctx.fillStyle = 'white';
                     ctx.fillText('EXPLICIT CONTENT', x + sW/2, y + 85);
                 }
 
-                // Finalize Image
                 const finalImageUrl = canvas.toDataURL('image/png');
-                
                 artLoading.classList.add('hidden');
                 artLoading.classList.remove('flex');
                 artResult.src = finalImageUrl;
@@ -957,7 +1032,7 @@
             img.src = imgUrl;
         });
 
-        // --- ADVANCED AUDIO ENGINE LOGIC (SMOOTH POLISH) ---
+        // --- ADVANCED AUDIO ENGINE LOGIC ---
         const audioUpload = document.getElementById('audio-file');
         const audioUploadZone = document.getElementById('audio-upload-zone');
         const audioProcessZone = document.getElementById('audio-process-zone');
@@ -982,6 +1057,7 @@
             audioUpload.value = '';
             audioUploadZone.classList.remove('hidden');
             audioProcessZone.classList.add('hidden');
+            audioProcessZone.classList.remove('analyzing');
             audioResultZone.classList.add('hidden');
             audioProgress.style.width = "0%";
             audioLogs.innerHTML = "<p>> Ready for input...</p>";
@@ -1010,17 +1086,13 @@
             for (let i=0; i<SIZE; i++) for (let j=0; j<SIZE-i; j++) c[i] = c[i] + buf[j]*buf[j+i];
             let d=0; while (c[d]>c[d+1]) d++;
             let maxval=-1, maxpos=-1;
-            for (let i=d; i<SIZE; i++) {
-                if (c[i] > maxval) { maxval = c[i]; maxpos = i; }
-            }
+            for (let i=d; i<SIZE; i++) { if (c[i] > maxval) { maxval = c[i]; maxpos = i; } }
             return sampleRate/maxpos;
         }
 
         audioUpload.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
-            // Hardcoded target for Industry Standard
             const targetLoudness = -1.0; 
 
             audioUploadZone.classList.add('hidden');
@@ -1031,22 +1103,20 @@
 
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                window.AudioContext.resume(); // Ensure context is active on mobile
                 
                 const arrayBuffer = await file.arrayBuffer();
                 audioProgress.style.width = "30%";
                 updateLog("Decoding bitstream...");
-                
                 const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
                 audioProgress.style.width = "40%";
                 
-                // Key Detection
                 updateLog("Isolating fundamental frequencies...");
                 const rawData = audioBuffer.getChannelData(0);
                 let sliceStart = Math.floor(rawData.length / 3); 
                 let sliceLen = 4096;
                 if (sliceStart + sliceLen > rawData.length) sliceStart = 0;
                 const pitchChunk = rawData.slice(sliceStart, sliceStart + sliceLen);
-                
                 const fundamentalFreq = autoCorrelate(pitchChunk, audioBuffer.sampleRate);
                 let detectedKey = "Undetermined";
                 if (fundamentalFreq !== -1 && !isNaN(fundamentalFreq) && isFinite(fundamentalFreq)) {
@@ -1054,24 +1124,18 @@
                      updateLog(`Key Center found: ${detectedKey}`);
                 }
 
-                // Original Peak
                 let origMaxPeak = 0;
-                for (let i = 0; i < rawData.length; i++) {
-                    if (Math.abs(rawData[i]) > origMaxPeak) origMaxPeak = Math.abs(rawData[i]);
-                }
+                for (let i = 0; i < rawData.length; i++) if (Math.abs(rawData[i]) > origMaxPeak) origMaxPeak = Math.abs(rawData[i]);
                 const currentDb = 20 * Math.log10(origMaxPeak);
 
                 audioProgress.style.width = "60%";
                 updateLog("Applying 'Smooth Polish' Algorithm...");
 
-                // OFFLINE RENDERING FOR SMOOTH EQ & GLUE COMPRESSION
                 const offlineCtx = new OfflineAudioContext(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate);
                 const source = offlineCtx.createBufferSource();
                 source.buffer = audioBuffer;
-                
                 let currentNode = source;
 
-                // 1. Warmth Filter (Slight bump at 250Hz)
                 const warmthFilter = offlineCtx.createBiquadFilter();
                 warmthFilter.type = 'peaking';
                 warmthFilter.frequency.value = 250;
@@ -1079,7 +1143,6 @@
                 currentNode.connect(warmthFilter);
                 currentNode = warmthFilter;
 
-                // 2. Mud/Harshness Cut (Slight dip at 3.5kHz to smooth)
                 const mudFilter = offlineCtx.createBiquadFilter();
                 mudFilter.type = 'peaking';
                 mudFilter.frequency.value = 3500;
@@ -1087,7 +1150,6 @@
                 currentNode.connect(mudFilter);
                 currentNode = mudFilter;
 
-                // 3. Air/Sheen (HighShelf boost above 10kHz)
                 const airFilter = offlineCtx.createBiquadFilter();
                 airFilter.type = 'highshelf';
                 airFilter.frequency.value = 10000;
@@ -1095,34 +1157,27 @@
                 currentNode.connect(airFilter);
                 currentNode = airFilter;
 
-                // 4. Smooth Glue Compressor
                 const comp = offlineCtx.createDynamicsCompressor();
-                comp.threshold.value = -15; // Lower threshold to catch more
-                comp.knee.value = 30; // Very soft knee for smoothness
-                comp.ratio.value = 2.5; // Gentle ratio
-                comp.attack.value = 0.05; // Slower attack to let transients breathe
-                comp.release.value = 0.20; // Smooth release
+                comp.threshold.value = -15;
+                comp.knee.value = 30;
+                comp.ratio.value = 2.5;
+                comp.attack.value = 0.05;
+                comp.release.value = 0.20;
                 currentNode.connect(comp);
-                
                 comp.connect(offlineCtx.destination);
                 source.start();
 
                 audioProgress.style.width = "75%";
                 const renderedBuffer = await offlineCtx.startRendering();
-
                 updateLog(`Maximizing Loudness to Industry Standard (-1.0dB)...`);
 
                 const renderedData = renderedBuffer.getChannelData(0);
                 let maxPeak = 0;
-                for (let i = 0; i < renderedData.length; i++) {
-                    if (Math.abs(renderedData[i]) > maxPeak) maxPeak = Math.abs(renderedData[i]);
-                }
-                
+                for (let i = 0; i < renderedData.length; i++) if (Math.abs(renderedData[i]) > maxPeak) maxPeak = Math.abs(renderedData[i]);
                 const gainRatio = Math.pow(10, targetLoudness / 20) / maxPeak;
                 const processedData = new Float32Array(renderedData.length);
                 for(let i=0; i < renderedData.length; i++) {
                     let val = renderedData[i] * gainRatio;
-                    // Final safety limiter to prevent any digital clipping
                     if(val > 0.99) val = 0.99;
                     if(val < -0.99) val = -0.99;
                     processedData[i] = val;
@@ -1185,6 +1240,3 @@
     </script>
 </body>
 </html>
-
-
-
