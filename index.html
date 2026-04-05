@@ -7,10 +7,13 @@
     <meta name="theme-color" content="#000000">
     <title>Beachside Studios | Premium Recording Inglewood</title>
     
-    <!-- Fonts: Inter, Oswald, Anton, Bebas, Spartan, Russo, Sigmar, Black Ops, Permanent Marker -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&family=Anton&family=Bebas+Neue&family=League+Spartan:wght@700&family=Russo+One&family=Sigmar+One&family=Black+Ops+One&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&family=Anton&family=Bebas+Neue&family=League+Spartan:wght@700&family=Russo+One&family=Black+Ops+One&family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -20,43 +23,26 @@
                         display: ['Oswald', 'sans-serif'],
                         urban: ['Anton', 'sans-serif']
                     },
-                    colors: { trs: { red: '#cc0000', dark: '#0a0a0a', gray: '#1f1f1f', light: '#f4f4f4' } }
+                    colors: { trs: { red: '#cc0000', dark: '#0a0a0a', gray: '#1f1f1f' } }
                 }
             }
         }
     </script>
     <style>
-        :root { scroll-behavior: smooth; }
-        body { 
-            background: #000; 
-            color: #fff; 
-            overflow-x: hidden; 
-            -webkit-overflow-scrolling: touch; 
-            -webkit-tap-highlight-color: transparent;
-            font-family: 'Inter', sans-serif;
-        }
-        a, button, input, select, .interactive { 
-            touch-action: manipulation; 
-        }
+        body { background: #000; color: #fff; overflow-x: hidden; -webkit-tap-highlight-color: transparent; font-family: 'Inter', sans-serif; }
         
         /* Loader */
-        #preloader { 
-            position: fixed; 
-            inset: 0; 
-            z-index: 10000; 
-            background: #000; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: opacity 0.5s ease; 
-        }
+        #preloader { position: fixed; inset: 0; z-index: 10000; background: #000; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
         #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .spinner { width: 40px; height: 40px; border: 3px solid #1f1f1f; border-top: 3px solid #cc0000; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Reveal Animations */
-        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        /* Reveal System */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+        
+        /* Fallback: If JS fails, show content anyway */
+        .no-js .reveal { opacity: 1 !important; transform: none !important; }
 
         /* Toggle Switch */
         .toggle { position: relative; width: 50px; height: 26px; display: inline-block; }
@@ -72,103 +58,37 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
         
         /* Hero Background */
-        .hero-bg {
-            background-color: #0a0a0a;
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('20260330_050857.jpg');
-            background-size: cover;
-            background-position: center;
-        }
+        .hero-bg { background-color: #0a0a0a; background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('hero-bg.jpg'); background-size: cover; background-position: center; }
         @media (max-width: 1024px) { .hero-bg { background-attachment: scroll; } }
 
-        /* GLASSMORPHISM MOBILE MENU */
-        #mobile-menu {
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            padding: 1rem;
-        }
+        /* Mobile Menu */
+        #mobile-menu { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 1rem; }
         #mobile-menu.open { opacity: 1; pointer-events: auto; }
-        
-        #mobile-menu .menu-panel {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(204, 0, 0, 0.25);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            width: 100%;
-            max-width: 360px;
-            box-shadow: 0 0 30px rgba(204, 0, 0, 0.15), 0 20px 50px rgba(0,0,0,0.6);
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            text-align: center;
-            position: relative;
-        }
-        #mobile-menu .menu-panel a {
-            color: #ffffff;
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: color 0.2s;
-            background: none;
-            width: 100%;
-            text-decoration: none;
-            cursor: pointer;
-        }
+        #mobile-menu .menu-panel { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(204, 0, 0, 0.25); border-radius: 16px; padding: 2rem 1.5rem; width: 100%; max-width: 360px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 1.25rem; text-align: center; position: relative; }
+        #mobile-menu .menu-panel a { color: #fff; font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); transition: color 0.2s; background: none; width: 100%; text-decoration: none; cursor: pointer; }
         #mobile-menu .menu-panel a:last-child { border-bottom: none; }
         #mobile-menu .menu-panel a:hover { color: #cc0000; }
-        
-        .close-menu-btn {
-            position: absolute;
-            top: 1rem; right: 1rem;
-            background: none; border: none;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer; padding: 0.5rem;
-            transition: color 0.2s; z-index: 70;
-        }
+        .close-menu-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; padding: 0.5rem; transition: color 0.2s; z-index: 70; }
         .close-menu-btn:hover { color: #fff; }
 
-        /* Color Picker Buttons */
-        .color-btn {
-            width: 40px; height: 40px;
-            border-radius: 50%; border: 2px solid #444;
-            cursor: pointer; transition: all 0.2s;
-        }
+        /* Color Picker */
+        .color-btn { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #444; cursor: pointer; transition: all 0.2s; }
         .color-btn.selected { transform: scale(1.1); border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
         .color-btn:hover { transform: scale(1.15); }
+
+        /* View Switching */
+        .view-section { animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="antialiased flex flex-col min-h-screen">
 
-    <!-- Loading Screen -->
-    <div id="preloader"><div class="spinner"></div></div>
-
-    <!-- Header / Title Bar -->
     <header class="fixed top-0 w-full z-30 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
         <div class="container mx-auto px-3 py-2 flex justify-between items-center">
-            <!-- Logo + Text Always Visible (Even on Mobile) -->
             <button onclick="navigateTo('home')" class="flex items-center gap-2 interactive group">
-                <div class="relative">
-                    <img src="1000049066.png" class="w-11 h-11 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10">
-                    <div class="absolute inset-0 bg-trs-red rounded-full blur-md opacity-50 -z-0 group-hover:opacity-75 transition"></div>
-                </div>
-                <span class="font-urban font-bold text-base md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap hidden sm:inline">
-                    Beachside Studios
-                </span>
+                <div class="relative"><img src="logo.png" class="w-11 h-11 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10"><div class="absolute inset-0 bg-trs-red rounded-full blur-md opacity-50 -z-0 group-hover:opacity-75 transition"></div></div>
+                <span class="font-urban font-bold text-base md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap hidden sm:inline">Beachside Studios</span>
             </button>
-
-            <!-- Desktop Nav -->
             <nav class="hidden lg:flex items-center gap-6">
                 <button onclick="navigateTo('home')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Home</button>
                 <button onclick="navigateTo('ai')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">AI Engine</button>
@@ -176,15 +96,10 @@
                 <button onclick="scrollToSection('location')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Location</button>
                 <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition interactive">Book Now</a>
             </nav>
-
-            <!-- Mobile Hamburger -->
-            <button class="lg:hidden text-white interactive p-2" onclick="toggleMenu()">
-                <i data-lucide="menu" class="w-7 h-7"></i>
-            </button>
+            <button class="lg:hidden text-white interactive p-2" onclick="toggleMenu()"><i data-lucide="menu" class="w-7 h-7"></i></button>
         </div>
     </header>
 
-    <!-- Mobile Menu (Glassmorphism Panel) -->
     <div id="mobile-menu">
         <div class="menu-panel">
             <button class="close-menu-btn" onclick="toggleMenu()"><i data-lucide="x" class="w-6 h-6"></i></button>
@@ -198,22 +113,13 @@
         </div>
     </div>
 
-    <!-- ================= VIEW: HOME ================= -->
+    <!-- VIEW: HOME -->
     <div id="view-home" class="view-section">
-        <!-- Hero -->
         <section class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-20">
             <div class="relative z-10 max-w-4xl mx-auto interactive">
-                <div class="relative inline-block mb-10">
-                    <img src="1000049066.png" class="w-48 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-2xl">
-                    <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-40 -z-0 scale-150 pointer-events-none"></div>
-                </div>
-                
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight leading-none mb-6">
-                    Stop Just Recording.<br><span class="text-trs-red">Start Making History.</span>
-                </h1>
-                <p class="text-base md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light tracking-wide px-2">
-                    From raw demos to radio-ready masters, Beachside Studios provides the tools, privacy, and precision your music deserves.
-                </p>
+                <div class="relative inline-block mb-10"><img src="logo.png" class="w-48 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-2xl"><div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-40 -z-0 scale-150 pointer-events-none"></div></div>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight leading-none mb-6">Stop Just Recording.<br><span class="text-trs-red">Start Making History.</span></h1>
+                <p class="text-base md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light tracking-wide px-2">From raw demos to radio-ready masters, Beachside Studios provides the tools, privacy, and precision your music deserves.</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive w-full sm:w-auto">Book Session</a>
                     <button onclick="scrollToSection('studio-gallery')" class="border border-white text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition interactive w-full sm:w-auto">Explore Studio</button>
@@ -221,278 +127,160 @@
             </div>
         </section>
 
-        <!-- About -->
         <section id="about" class="py-24 bg-black px-6 reveal">
             <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-6 relative">
-                        Who We Are
-                        <span class="absolute -bottom-2 left-0 w-20 h-1 bg-trs-red"></span>
-                    </h2>
-                    <p class="text-gray-400 leading-relaxed mb-6 text-lg mt-6">
-                        Beachside Studios is a premium private recording facility located in the heart of Inglewood, CA. We blend state-of-the-art technology with a highly creative environment. 
-                    </p>
-                    <div class="grid grid-cols-2 gap-8 mt-8 border-t border-white/10 pt-8">
-                        <div><h3 class="text-trs-red font-display text-2xl uppercase tracking-wider mb-2">Mission</h3><p class="text-sm text-gray-500">To design lasting moments and pristine audio by inspiring creatives.</p></div>
-                        <div><h3 class="text-trs-red font-display text-2xl uppercase tracking-wider mb-2">Vision</h3><p class="text-sm text-gray-500">Through fearless expression, we change the world's perspective.</p></div>
-                    </div>
-                </div>
-                <div class="relative rounded-lg border border-white/5 overflow-hidden">
-                    <img src="20260330_050857.jpg" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                </div>
+                <div><h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-6 relative">Who We Are<span class="absolute -bottom-2 left-0 w-20 h-1 bg-trs-red"></span></h2><p class="text-gray-400 leading-relaxed mb-6 text-lg mt-6">Beachside Studios is a premium private recording facility located in the heart of Inglewood, CA. We blend state-of-the-art technology with a highly creative environment.</p>
+                <div class="grid grid-cols-2 gap-8 mt-8 border-t border-white/10 pt-8"><div><h3 class="text-trs-red font-display text-2xl uppercase tracking-wider mb-2">Mission</h3><p class="text-sm text-gray-500">To design lasting moments and pristine audio by inspiring creatives.</p></div><div><h3 class="text-trs-red font-display text-2xl uppercase tracking-wider mb-2">Vision</h3><p class="text-sm text-gray-500">Through fearless expression, we change the world's perspective.</p></div></div></div>
+                <div class="relative rounded-lg border border-white/5 overflow-hidden"><img src="studio-main.jpg" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700" onerror="this.style.display='none'"></div>
             </div>
         </section>
 
-        <!-- Studio Gallery -->
         <section id="studio-gallery" class="py-24 bg-trs-dark px-6 reveal">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">The Studio<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span></h2>
-                </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <img src="Screenshot_20260331_125554_Gallery.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
-                    <img src="20260330_050857.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
-                    <img src="20260402_044854.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
-                    <img src="20260329_011756.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
-                    <img src="20260330_154418_0000.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer grayscale hover:grayscale-0" loading="lazy" alt="Gallery">
-                    <img src="1758005320844.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
-                </div>
-            </div>
+            <div class="max-w-6xl mx-auto"><div class="text-center mb-16"><h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">The Studio<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span></h2></div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
+                <!-- Images injected via JS for safer loading -->
+            </div></div>
         </section>
 
-        <!-- Reviews -->
         <section id="reviews" class="py-24 bg-black border-y border-white/5 reveal">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">Accolades<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span></h2>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
-                        <div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
-                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed">"Amazing studio, the quality and professionalism here is top tier. This is definitely a hidden gem in LA."</p>
-                        <p class="font-display uppercase tracking-widest text-white text-sm">— Carlos Perez</p>
-                    </div>
-                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
-                        <div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
-                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed">"The best engineering experience I've had! They get the job done and are very professional."</p>
-                        <p class="font-display uppercase tracking-widest text-white text-sm">— K TF</p>
-                    </div>
-                    <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
-                        <div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
-                        <p class="text-gray-400 font-light italic mb-6 leading-relaxed">"Great experience, the final mix is amazing. They helped us get the exact sound we were looking for."</p>
-                        <p class="font-display uppercase tracking-widest text-white text-sm">— Javier T</p>
-                    </div>
-                </div>
-            </div>
+            <div class="container mx-auto px-6"><div class="text-center mb-16"><h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">Accolades<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span></h2></div>
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+                <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform"><div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div><p class="text-gray-400 font-light italic mb-6 leading-relaxed">"Amazing studio, the quality and professionalism here is top tier. This is definitely a hidden gem in LA."</p><p class="font-display uppercase tracking-widest text-white text-sm">— Carlos Perez</p></div>
+                <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform"><div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div><p class="text-gray-400 font-light italic mb-6 leading-relaxed">"The best engineering experience I've had! They get the job done and are very professional."</p><p class="font-display uppercase tracking-widest text-white text-sm">— K TF</p></div>
+                <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform"><div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div><p class="text-gray-400 font-light italic mb-6 leading-relaxed">"Great experience, the final mix is amazing. They helped us get the exact sound we were looking for."</p><p class="font-display uppercase tracking-widest text-white text-sm">— Javier T</p></div>
+            </div></div>
         </section>
 
-        <!-- Yachty Intro -->
         <section class="py-24 bg-trs-gray px-6 reveal">
             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Meet <span class="text-trs-red">Yachty</span></h2>
-                    <h3 class="text-lg text-white/70 font-display uppercase tracking-widest mb-6">Your Intelligent 24/7 Studio Concierge</h3>
-                    <p class="text-gray-400 leading-relaxed mb-6">Imagine having a dedicated studio manager who never sleeps, never takes a day off, and knows every inch of the facility—inside and out. That's Yachty.</p>
-                    <p class="text-gray-400 leading-relaxed mb-8">Whether you need a breakdown of our Neumann vocal chain, want to check what hours we're open, or you're ready to lock in a session at 3 AM, Yachty is your virtual concierge built right into the site. Ask about our rates, our gear, our location, or just say what's up. No emails, no hold music, just instant answers.</p>
-                    <button onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5"></i> Start Chatting With Yachty</button>
-                </div>
-                <div class="flex justify-center">
-                    <div class="relative w-64 h-64">
-                        <div class="absolute inset-0 border-2 border-trs-red rounded-full animate-[spin_8s_linear_infinite] border-t-transparent"></div>
-                        <div class="absolute inset-0 flex items-center justify-center bg-trs-dark rounded-full border-4 border-trs-red shadow-[0_0_40px_rgba(204,0,0,0.4)]"><i data-lucide="bot" class="w-20 h-20 text-white"></i></div>
-                    </div>
-                </div>
+                <div><h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Meet <span class="text-trs-red">Yachty</span></h2><h3 class="text-lg text-white/70 font-display uppercase tracking-widest mb-6">Your Intelligent 24/7 Studio Concierge</h3><p class="text-gray-400 leading-relaxed mb-6">Imagine having a dedicated studio manager who never sleeps, never takes a day off, and knows every inch of the facility—inside and out. That's Yachty.</p>
+                <button onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5"></i> Start Chatting With Yachty</button></div>
+                <div class="flex justify-center"><div class="relative w-64 h-64"><div class="absolute inset-0 border-2 border-trs-red rounded-full animate-[spin_8s_linear_infinite] border-t-transparent"></div><div class="absolute inset-0 flex items-center justify-center bg-trs-dark rounded-full border-4 border-trs-red shadow-[0_0_40px_rgba(204,0,0,0.4)]"><i data-lucide="bot" class="w-20 h-20 text-white"></i></div></div></div>
             </div>
         </section>
     </div>
 
-    <!-- ================= VIEW: AI ENGINE ================= -->
+    <!-- VIEW: AI ENGINE -->
     <div id="view-ai" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
         <div class="max-w-4xl mx-auto">
             <div class="flex gap-4 border-b border-white/10 mb-8 justify-center">
                 <button onclick="switchTab('audio')" id="btn-audio" class="pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive">AI Mix & Master Engine</button>
                 <button onclick="switchTab('cover')" id="btn-cover" class="pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive">Cover Art Lab</button>
             </div>
-
-            <!-- Audio Tab -->
             <div id="tab-audio" class="bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10 relative">
                 <h2 class="text-2xl font-display font-bold uppercase tracking-widest text-white mb-4">Automated Studio Polish</h2>
                 <p class="text-gray-400 mb-6 text-sm leading-relaxed">Upload your raw track. We apply EQ, glue compression, key detection, and streaming loudness (-1.0dBTP).</p>
-                
-                <div id="audio-error" class="hidden bg-red-900/20 border border-red-500/50 text-red-200 text-xs p-4 mb-4 rounded-lg">❌ File too large or unsupported. Max 20MB.</div>
-                <div id="drop-zone" class="border-2 border-dashed border-gray-700 rounded-lg p-10 text-center cursor-pointer hover:border-trs-red transition interactive bg-black/50 relative">
-                    <input type="file" id="audio-input" accept="audio/*" class="absolute inset-0 w-full h-full opacity-0 interactive">
-                    <i data-lucide="upload" class="w-10 h-10 mx-auto text-gray-500 mb-3"></i>
-                    <p class="text-white font-display uppercase tracking-widest text-sm">Drop Audio or Click to Upload</p>
-                </div>
-                <div id="audio-processing" class="hidden mt-6 bg-black p-6 border border-trs-red rounded-lg">
-                    <div class="flex justify-between text-xs font-mono uppercase tracking-wider mb-2"><span class="text-trs-red" id="status-text">Processing...</span><span id="progress-percent">0%</span></div>
-                    <div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden mb-4"><div id="progress-bar" class="bg-trs-red h-1 transition-all" style="width:0%"></div></div>
-                </div>
-                <div id="audio-result" class="hidden mt-6 bg-black/30 p-6 rounded-lg border border-white/5">
-                    <div class="grid grid-cols-3 gap-4 text-center text-xs uppercase tracking-wider mb-4">
-                        <div><p class="text-gray-500 mb-1">Original Peak</p><p class="text-white font-bold text-lg" id="orig-peak">-</p></div>
-                        <div><p class="text-gray-500 mb-1">Mastered Peak</p><p class="text-green-500 font-bold text-lg">-1.0dB</p></div>
-                        <div><p class="text-gray-500 mb-1">Key</p><p class="text-trs-red font-bold text-lg" id="orig-key">-</p></div>
-                    </div>
-                    <div class="my-4"><p class="text-xs text-trs-red uppercase tracking-widest mb-2">Listen to Preview:</p><audio id="preview-player" controls class="w-full h-10 bg-trs-gray rounded"></audio></div>
-                    <a id="download-master" href="#" download="Beachside_Master.wav" class="block w-full bg-trs-red text-white py-4 text-center font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive mb-3">Download Master</a>
-                    <button onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white py-2 interactive">Process Another File</button>
-                </div>
+                <div id="drop-zone" class="border-2 border-dashed border-gray-700 rounded-lg p-10 text-center cursor-pointer hover:border-trs-red transition interactive bg-black/50 relative"><input type="file" id="audio-input" accept="audio/*" class="absolute inset-0 w-full h-full opacity-0 interactive"><i data-lucide="upload" class="w-10 h-10 mx-auto text-gray-500 mb-3"></i><p class="text-white font-display uppercase tracking-widest text-sm">Drop Audio or Click to Upload</p></div>
+                <div id="audio-processing" class="hidden mt-6 bg-black p-6 border border-trs-red rounded-lg"><div class="flex justify-between text-xs font-mono uppercase tracking-wider mb-2"><span class="text-trs-red">Processing...</span><span>0%</span></div><div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden mb-4"><div id="progress-bar" class="bg-trs-red h-1 transition-all" style="width:0%"></div></div></div>
+                <div id="audio-result" class="hidden mt-6 bg-black/30 p-6 rounded-lg border border-white/5"><div class="grid grid-cols-3 gap-4 text-center text-xs uppercase tracking-wider mb-4"><div><p class="text-gray-500 mb-1">Original Peak</p><p class="text-white font-bold text-lg" id="orig-peak">-</p></div><div><p class="text-gray-500 mb-1">Mastered Peak</p><p class="text-green-500 font-bold text-lg">-1.0dB</p></div><div><p class="text-gray-500 mb-1">Key</p><p class="text-trs-red font-bold text-lg" id="orig-key">-</p></div></div><div class="my-4"><p class="text-xs text-trs-red uppercase tracking-widest mb-2">Listen to Preview:</p><audio id="preview-player" controls class="w-full h-10 bg-trs-gray rounded"></audio></div><a id="download-master" href="#" download="Beachside_Master.wav" class="block w-full bg-trs-red text-white py-4 text-center font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive mb-3">Download Master</a><button onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white py-2 interactive">Process Another File</button></div>
             </div>
-
-            <!-- Cover Art Tab -->
             <div id="tab-cover" class="hidden bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10">
                 <h2 class="text-2xl font-display font-bold uppercase tracking-widest text-white mb-4">Cover Art Lab</h2>
-                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Generate unique artwork with bold, colorful typography. Choose your style and add the parental advisory sticker.</p>
-                
+                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Generate unique artwork with bold, colorful typography.</p>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div class="space-y-4">
                         <textarea id="art-prompt" rows="3" class="w-full bg-black/50 border border-gray-700 rounded-lg p-4 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="e.g. A dark moody studio with neon lights"></textarea>
-                        <div class="grid grid-cols-2 gap-4">
-                            <input type="text" id="art-text-top" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Artist Name">
-                            <input type="text" id="art-text-bottom" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Song Title">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Typography Style</label>
-                            <select id="art-font-select" class="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none">
-                                <option value="Anton">Anton (Bold Block)</option>
-                                <option value="Bebas Neue">Bebas Neue (Condensed)</option>
-                                <option value="Oswald">Oswald (Urban)</option>
-                                <option value="Russo One">Russo One (Heavy)</option>
-                                <option value="Black Ops One">Black Ops One (Military)</option>
-                                <option value="Sigmar One">Sigmar One (Impact)</option>
-                                <option value="Permanent Marker">Permanent Marker (Graffiti)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Text Color</label>
-                            <div class="flex gap-3 flex-wrap">
-                                <button onclick="selectColor('#ffffff', this)" class="color-btn bg-white selected"></button>
-                                <button onclick="selectColor('#cc0000', this)" class="color-btn bg-red-700"></button>
-                                <button onclick="selectColor('#ff6b00', this)" class="color-btn bg-orange-500"></button>
-                                <button onclick="selectColor('#FFD700', this)" class="color-btn bg-yellow-500"></button>
-                                <button onclick="selectColor('#00ff41', this)" class="color-btn bg-green-400"></button>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between bg-black/50 p-4 rounded-lg border border-gray-700">
-                            <span class="text-sm font-display uppercase tracking-widest text-gray-300">Add Advisory Sticker</span>
-                            <label class="toggle"><input type="checkbox" id="art-explicit"><span></span></label>
-                        </div>
+                        <div class="grid grid-cols-2 gap-4"><input type="text" id="art-text-top" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Artist Name"><input type="text" id="art-text-bottom" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Song Title"></div>
+                        <div><label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Typography Style</label><select id="art-font-select" class="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none"><option value="Anton">Anton (Bold Block)</option><option value="Oswald">Oswald (Urban)</option><option value="Black Ops One">Black Ops One</option><option value="Permanent Marker">Permanent Marker (Graffiti)</option></select></div>
+                        <div><label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Text Color</label><div class="flex gap-3 flex-wrap"><button onclick="selectColor('#ffffff', this)" class="color-btn bg-white selected"></button><button onclick="selectColor('#cc0000', this)" class="color-btn bg-red-700"></button><button onclick="selectColor('#FFD700', this)" class="color-btn bg-yellow-500"></button><button onclick="selectColor('#00d4ff', this)" class="color-btn bg-cyan-400"></button></div></div>
+                        <div class="flex items-center justify-between bg-black/50 p-4 rounded-lg border border-gray-700"><span class="text-sm font-display uppercase tracking-widest text-gray-300">Add Advisory Sticker</span><label class="toggle"><input type="checkbox" id="art-explicit"><span></span></label></div>
                     </div>
-
-                    <div class="flex flex-col items-center">
-                        <div class="w-full aspect-square bg-black border border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden">
-                            <div id="art-placeholder" class="text-center text-gray-600"><i data-lucide="image" class="w-12 h-12 mx-auto mb-2"></i><p class="text-xs uppercase">Preview</p></div>
-                            <img id="art-preview" class="hidden w-full h-full object-cover">
-                            <div id="art-loading" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center"><div class="spinner mb-3"></div><p class="text-xs uppercase text-trs-red">Generating...</p></div>
-                        </div>
-                        <button onclick="generateCover()" class="w-full bg-white text-black mt-6 py-4 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition interactive border border-white flex justify-center items-center gap-2">
-                            <i data-lucide="wand-2" class="w-5 h-5"></i> Generate Artwork
-                        </button>
-                        <button id="art-download-btn" onclick="downloadArt()" class="hidden w-full bg-trs-red text-white mt-2 py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-black transition interactive">
-                            <i data-lucide="download" class="w-5 h-5 inline mr-2"></i> Download PNG
-                        </button>
-                    </div>
+                    <div class="flex flex-col items-center"><div class="w-full aspect-square bg-black border border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden"><div id="art-placeholder" class="text-center text-gray-600"><i data-lucide="image" class="w-12 h-12 mx-auto mb-2"></i><p class="text-xs uppercase">Preview</p></div><img id="art-preview" class="hidden w-full h-full object-cover"><div id="art-loading" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center"><div class="spinner mb-3"></div><p class="text-xs uppercase text-trs-red">Generating...</p></div></div><button onclick="generateCover()" class="w-full bg-white text-black mt-6 py-4 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition interactive border border-white flex justify-center items-center gap-2"><i data-lucide="wand-2" class="w-5 h-5"></i> Generate Artwork</button><button id="art-download-btn" onclick="downloadArt()" class="hidden w-full bg-trs-red text-white mt-2 py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-black transition interactive"><i data-lucide="download" class="w-5 h-5 inline mr-2"></i> Download PNG</button></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= VIEW: RATES ================= -->
+    <!-- VIEW: RATES -->
     <div id="view-rates" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-12"><h1 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Rates & <span class="text-trs-red">Booking</span></h1><p class="text-gray-500">Professional studio time. Transparent pricing.</p></div>
-            <div class="max-w-4xl mx-auto mb-12 bg-black p-3 border border-white/10 rounded-xl"><img src="1758005320844.jpg" alt="Promo" class="w-full h-auto rounded-lg"></div>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group interactive flex flex-col">
-                    <h3 class="font-display font-bold text-2xl text-white mb-2">Standard</h3>
-                    <p class="text-trs-red text-4xl font-display font-bold mb-6">$60<span class="text-base text-gray-500">/hr</span></p>
-                    <ul class="text-gray-400 text-sm space-y-3 mb-8 flex-1"><li>• 2 Hour Minimum</li><li>• Engineer Included</li><li>• Raw Stems Delivery</li></ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition interactive">Book Hourly</a>
-                </div>
-                <div class="bg-trs-gray border-t-4 border-trs-red p-6 flex flex-col relative shadow-[0_0_30px_rgba(204,0,0,0.1)]">
-                    <span class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold px-3 py-1 uppercase">Best Value</span>
-                    <h3 class="font-display font-bold text-2xl text-white mb-2">The Foundation</h3>
-                    <p class="text-white text-4xl font-display font-bold mb-6">$150<span class="text-base text-gray-400">/3hr</span></p>
-                    <ul class="text-gray-300 text-sm space-y-3 mb-8 flex-1"><li>• Save $30</li><li>• Ideal for Singles</li><li>• Rough Mix Included</li></ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center bg-trs-red border border-trs-red text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-trs-dark transition interactive">Book 3 Hours</a>
-                </div>
-                <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group interactive flex flex-col">
-                    <h3 class="font-display font-bold text-2xl text-white mb-2">The Hitmaker</h3>
-                    <p class="text-trs-red text-4xl font-display font-bold mb-6">$200<span class="text-base text-gray-500">/4hr</span></p>
-                    <ul class="text-gray-400 text-sm space-y-3 mb-8 flex-1"><li>• Save $40</li><li>• EP Tracking</li><li>• Priority Delivery</li></ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition interactive">Book 4 Hours</a>
-                </div>
-            </div>
-        </div>
+        <div class="max-w-4xl mx-auto"><div class="text-center mb-12"><h1 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Rates & <span class="text-trs-red">Booking</span></h1><p class="text-gray-500">Professional studio time. Transparent pricing.</p></div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group interactive flex flex-col"><h3 class="font-display font-bold text-2xl text-white mb-2">Standard</h3><p class="text-trs-red text-4xl font-display font-bold mb-6">$60<span class="text-base text-gray-500">/hr</span></p><ul class="text-gray-400 text-sm space-y-3 mb-8 flex-1"><li>• 2 Hour Minimum</li><li>• Engineer Included</li><li>• Raw Stems Delivery</li></ul><a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition interactive">Book Hourly</a></div>
+            <div class="bg-trs-gray border-t-4 border-trs-red p-6 flex flex-col relative shadow-[0_0_30px_rgba(204,0,0,0.1)]"><span class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold px-3 py-1 uppercase">Best Value</span><h3 class="font-display font-bold text-2xl text-white mb-2">The Foundation</h3><p class="text-white text-4xl font-display font-bold mb-6">$150<span class="text-base text-gray-400">/3hr</span></p><ul class="text-gray-300 text-sm space-y-3 mb-8 flex-1"><li>• Save $30</li><li>• Ideal for Singles</li><li>• Rough Mix Included</li></ul><a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center bg-trs-red border border-trs-red text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-trs-dark transition interactive">Book 3 Hours</a></div>
+            <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group interactive flex flex-col"><h3 class="font-display font-bold text-2xl text-white mb-2">The Hitmaker</h3><p class="text-trs-red text-4xl font-display font-bold mb-6">$200<span class="text-base text-gray-500">/4hr</span></p><ul class="text-gray-400 text-sm space-y-3 mb-8 flex-1"><li>• Save $40</li><li>• EP Tracking</li><li>• Priority Delivery</li></ul><a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition interactive">Book 4 Hours</a></div>
+        </div></div>
     </div>
 
-    <!-- Location & Social Footer -->
+    <!-- LOCATION & FOOTER -->
     <section id="location" class="py-16 bg-black px-6 border-t border-white/5 reveal">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div>
-                <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-8">Location</h2>
-                <div class="space-y-6 text-gray-300">
-                    <div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Address</p><p class="text-lg">233 S Market St, Inglewood, CA 90301</p></div>
-                    <div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Phone</p><a href="tel:+13234002065" class="text-lg hover:text-white transition">(323) 400-2065</a></div>
-                    <div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Hours</p><p class="text-lg">Open 24 Hours, 7 Days</p></div>
-                </div>
-            </div>
-            <div class="rounded-xl overflow-hidden h-80 md:h-96 bg-trs-gray border border-white/10">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3308.281822837265!2d-118.35629862341051!3d33.98499992288019" width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe>
-            </div>
+            <div><h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-8">Location</h2><div class="space-y-6 text-gray-300"><div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Address</p><p class="text-lg">233 S Market St, Inglewood, CA 90301</p></div><div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Phone</p><a href="tel:+13234002065" class="text-lg hover:text-white transition">(323) 400-2065</a></div><div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Hours</p><p class="text-lg">Open 24 Hours, 7 Days</p></div></div></div>
+            <div class="rounded-xl overflow-hidden h-80 md:h-96 bg-trs-gray border border-white/10"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3308.281822837265!2d-118.35629862341051!3d33.98499992288019" width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe></div>
         </div>
     </section>
 
     <footer class="bg-trs-dark py-12 px-6 border-t border-white/5 text-center">
-        <img src="1000049066.png" class="w-12 h-12 mx-auto mb-4 object-contain bg-black rounded-full">
+        <img src="logo.png" class="w-12 h-12 mx-auto mb-4 object-contain bg-black rounded-full" onerror="this.style.display='none'">
         <p class="font-urban text-xl uppercase tracking-widest text-white mb-6">Beachside Studios</p>
         <div class="flex justify-center gap-6 mb-6 flex-wrap">
             <a href="https://www.instagram.com/beachside.studios?igsh=MzRlODBiNWFlZA==" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition interactive bg-white/5 px-5 py-3 rounded-lg border border-white/10"><i data-lucide="instagram" class="w-5 h-5"></i><span class="text-sm font-display uppercase">Instagram</span></a>
-            <a href="https://www.tiktok.com/@beachsidestudios?_r=1&_t=ZP-95GVCP5O8fX" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition interactive bg-white/5 px-5 py-3 rounded-lg border border-white/10"><i data-lucide="music-2" class="w-5 h-5"></i><span class="text-sm font-display uppercase">TikTok</span></a>
+            <a href="https://www.tiktok.com/@beachsidestudios" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition interactive bg-white/5 px-5 py-3 rounded-lg border border-white/10"><i data-lucide="music-2" class="w-5 h-5"></i><span class="text-sm font-display uppercase">TikTok</span></a>
         </div>
         <p class="text-gray-600 text-xs uppercase tracking-widest">© 2026 Beachside Studio. All Rights Reserved.</p>
     </footer>
 
-    <!-- Yachty Chatbot -->
+    <!-- CHATBOT -->
     <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-xs hidden">
         <div class="bg-[#080808] border-2 border-trs-red rounded-xl shadow-[0_0_40px_rgba(204,0,0,0.4)] overflow-hidden">
-            <div class="bg-trs-red p-4 flex items-center justify-between relative">
-                <div class="flex items-center gap-3"><div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-trs-red font-bold text-xs font-urban border border-white">Y</div><div><h4 class="font-display font-bold text-sm uppercase tracking-widest">Yachty AI</h4><p class="text-white/80 text-[10px]">Virtual Studio Agent</p></div></div>
-                <button onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            <div id="chat-messages" class="h-64 p-4 overflow-y-auto space-y-3 bg-black/60" style="-webkit-overflow-scrolling: touch;">
-                <div class="flex gap-2"><div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 max-w-[85%] border border-white/5">What's good! I'm Yachty, your virtual studio concierge. I know every detail about Beachside Studios. Ask me about our gear, rates, or tap a link below!</div></div>
-            </div>
+            <div class="bg-trs-red p-4 flex items-center justify-between relative"><div class="flex items-center gap-3"><div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-trs-red font-bold text-xs font-urban border border-white">Y</div><div><h4 class="font-display font-bold text-sm uppercase tracking-widest">Yachty AI</h4><p class="text-white/80 text-[10px]">Virtual Studio Agent</p></div></div><button onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+            <div id="chat-messages" class="h-64 p-4 overflow-y-auto space-y-3 bg-black/60" style="-webkit-overflow-scrolling: touch;"><div class="flex gap-2"><div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 max-w-[85%] border border-white/5">What's good! I'm Yachty, your virtual studio concierge. I know every detail about Beachside Studios.</div></div></div>
             <div class="px-3 py-3 bg-black/40 flex flex-wrap gap-2 border-t border-trs-red/30">
                 <button onclick="quickChat('Tell me about your gear')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Gear</button>
                 <button onclick="quickChat('What are your rates?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Rates</button>
                 <button onclick="quickChat('I want to book')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Book</button>
-                <button onclick="quickChat('Where are you?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Location</button>
             </div>
-            <div class="p-3 bg-[#0a0a0a] flex gap-2 border-t border-white/5">
-                <input type="text" id="chat-input" class="flex-1 bg-black/50 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:border-trs-red focus:outline-none" placeholder="Ask Yachty anything...">
-                <button onclick="sendChat()" class="bg-trs-red text-white p-2 rounded-lg hover:bg-white hover:text-trs-dark transition"><i data-lucide="send" class="w-4 h-4"></i></button>
-            </div>
+            <div class="p-3 bg-[#0a0a0a] flex gap-2 border-t border-white/5"><input type="text" id="chat-input" class="flex-1 bg-black/50 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:border-trs-red focus:outline-none" placeholder="Ask Yachty anything..."><button onclick="sendChat()" class="bg-trs-red text-white p-2 rounded-lg hover:bg-white hover:text-trs-dark transition"><i data-lucide="send" class="w-4 h-4"></i></button></div>
         </div>
     </div>
-
-    <button onclick="openChat()" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-trs-red rounded-full shadow-[0_5px_20px_rgba(204,0,0,0.5)] flex items-center justify-center hover:scale-110 transition active:scale-95 interactive">
-        <i data-lucide="message-circle" class="w-6 h-6 text-white"></i>
-        <span class="absolute -top-1 -right-1 w-3 h-3 bg-white border-2 border-trs-red rounded-full"></span>
-    </button>
+    <button onclick="openChat()" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-trs-red rounded-full shadow-[0_5px_20px_rgba(204,0,0,0.5)] flex items-center justify-center hover:scale-110 transition active:scale-95 interactive"><i data-lucide="message-circle" class="w-6 h-6 text-white"></i><span class="absolute -top-1 -right-1 w-3 h-3 bg-white border-2 border-trs-red rounded-full"></span></button>
 
     <script>
-        // INIT
+        // GALLERY IMAGES CONFIG
+        const galleryImages = ['studio1.jpg', 'studio2.jpg', 'studio3.jpg', 'studio4.jpg', 'studio5.jpg', 'studio6.jpg'];
+        const galleryGrid = document.getElementById('gallery-grid');
+        galleryImages.forEach(src => {
+            const div = document.createElement('div');
+            div.className = 'relative rounded-lg overflow-hidden border border-white/5 hover:border-trs-red transition cursor-pointer group h-64';
+            div.innerHTML = `<img src="${src}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%%22 height=%22100%%22><rect width=%22100%%22 height=%22100%%22 fill=%22%23111%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23555%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-family=%22sans-serif%22 font-size=%2216%22>Studio Image</text></svg>'">`;
+            galleryGrid.appendChild(div);
+        });
+
+        // INIT SYSTEM
+        function initReveals() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Performance fix
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px' });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                // Wait 100ms to ensure fonts/CSS are parsed
+                setTimeout(() => {
+                    lucide.createIcons();
+                    initReveals(); // ✅ THIS WAS MISSING PREVIOUSLY
+                }, 100);
+                setupChat();
+                setupAudioInput();
+            } catch (e) {
+                console.warn('Init error (non-fatal):', e);
+            }
+        });
+
         window.addEventListener('load', () => document.getElementById('preloader').classList.add('hidden'));
-        window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); setupChat(); setupAudioInput(); });
 
         // NAVIGATION
         function navigateTo(v) { 
             document.querySelectorAll('.view-section').forEach(x => x.classList.add('hidden')); 
-            document.getElementById('view-' + v).classList.remove('hidden'); 
-            window.scrollTo(0,0); lucide.createIcons(); 
+            const target = document.getElementById('view-' + v);
+            if(target) target.classList.remove('hidden'); 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            lucide.createIcons();
         }
         function scrollToSection(id) { 
             const el = document.getElementById(id); 
@@ -502,28 +290,19 @@
             const m = document.getElementById('mobile-menu'); 
             m.classList.toggle('open'); 
             document.body.style.overflow = m.classList.contains('open') ? 'hidden' : ''; 
-            lucide.createIcons();
         }
-
-        // TABS
         function switchTab(t) {
             document.getElementById('tab-audio').classList.toggle('hidden', t !== 'audio');
             document.getElementById('tab-cover').classList.toggle('hidden', t !== 'cover');
-            const a = document.getElementById('btn-audio'), c = document.getElementById('btn-cover');
-            if(t === 'audio') { 
-                a.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive"; 
-                c.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive"; 
-            } else { 
-                c.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive"; 
-                a.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive"; 
-            }
+            document.getElementById('btn-audio').className = t === 'audio' ? "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive" : "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive";
+            document.getElementById('btn-cover').className = t === 'cover' ? "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive" : "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive";
         }
 
         // CHATBOT
         function openChat() { document.getElementById('chatbot').classList.remove('hidden'); document.getElementById('chat-input').focus(); }
         function closeChat() { document.getElementById('chatbot').classList.add('hidden'); }
-        function setupChat() { document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); }); }
         function quickChat(t) { document.getElementById('chat-input').value = t; sendChat(); }
+        document.getElementById('chat-input')?.addEventListener('keypress', e => e.key === 'Enter' && sendChat());
         function sendChat() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
@@ -532,16 +311,12 @@
             input.value = '';
             document.getElementById('chat-messages').scrollTop = 99999;
             const l = text.toLowerCase();
-            let r = "";
-            if(l.includes("gear") || l.includes("mic")) r = 'We run a premium chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X</b>.';
-            else if(l.includes("booth") || l.includes("room")) r = 'We have a professionally treated, dead-quiet recording booth perfect for vocals and ADR. + access to our creative lounge!';
-            else if(l.includes("price") || l.includes("rate") || l.includes("cost")) r = 'Standard: <b class="text-trs-red">$60/hr</b> (2hr min). Block specials: <b class="text-white">3hrs/$150</b> or <b class="text-white">4hrs/$200</b>. Engineer included.';
-            else if(l.includes("book")) r = "Check our live calendar and lock in a session <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>here</a>.";
-            else if(l.includes("hour") || l.includes("open")) r = "We never sleep! Beachside Studios is open <b class='text-white'>24/7</b>.";
-            else if(l.includes("location") || l.includes("where")) r = "We are located at <b class='text-white'>233 S Market St, Inglewood, CA 90301</b>.";
-            else if(l.includes("phone")) r = "Call us directly: <a href='tel:3234002065' class='text-trs-red underline'>(323) 400-2065</a>.";
-            else if(l.includes("hi") || l.includes("hello")) r = "Yo! I'm Yachty, your virtual studio agent.";
-            else r = "I'm your 24/7 assistant. Want the <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>booking link?</a>";
+            let r = "I'm your 24/7 assistant. Need rates, gear info, or booking?";
+            if(l.includes("gear")) r = 'We run a premium <b class="text-white">Neumann TLM102 + Universal Audio Apollo Twin Duo X</b> chain.';
+            else if(l.includes("price") || l.includes("rate")) r = '<b class="text-trs-red">$60/hr</b> (2hr min). Blocks: <b class="text-white">3hrs/$150</b> or <b class="text-white">4hrs/$200</b>.';
+            else if(l.includes("book")) r = "Lock in a session <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>here</a>.";
+            else if(l.includes("hour") || l.includes("open")) r = "We never sleep! Open <b class='text-white'>24/7</b>.";
+            else if(l.includes("location") || l.includes("where")) r = "<b class='text-white'>233 S Market St, Inglewood, CA 90301</b>.";
             setTimeout(() => addMsg(r, false), 600);
         }
         function addMsg(t, u) {
@@ -560,46 +335,36 @@
             inp.addEventListener('change', async function() {
                 const f = this.files[0];
                 if(!f) return;
-                const err = document.getElementById('audio-error');
-                err.classList.add('hidden');
-                if(f.size > 20 * 1024 * 1024) { err.classList.remove('hidden'); this.value=''; return; }
-                
+                if(f.size > 25 * 1024 * 1024) { alert('File too large. Max 25MB.'); this.value=''; return; }
                 document.getElementById('drop-zone').style.display='none';
                 document.getElementById('audio-processing').classList.remove('hidden');
-                document.getElementById('progress-bar').style.width = '30%';
-
                 try {
                     const actx = new (window.AudioContext || window.webkitAudioContext)();
                     const ab = await f.arrayBuffer();
-                    const abuf = await actx.decodeAudioData(ab);
-                    document.getElementById('progress-bar').style.width = '50%';
-
-                    const offCtx = new OfflineAudioContext(abuf.numberOfChannels, abuf.length, abuf.sampleRate);
+                    const buf = await actx.decodeAudioData(ab);
+                    const offCtx = new OfflineAudioContext(buf.numberOfChannels, buf.length, buf.sampleRate);
                     const src = offCtx.createBufferSource();
-                    src.buffer = abuf;
+                    src.buffer = buf;
                     const eq = offCtx.createBiquadFilter(); eq.type='lowshelf'; eq.frequency.value=100; eq.gain.value=2;
                     const comp = offCtx.createDynamicsCompressor(); comp.threshold.value=-20; comp.ratio.value=3;
                     src.connect(eq).connect(comp).connect(offCtx.destination);
                     src.start();
-                    
                     const rendered = await offCtx.startRendering();
-                    document.getElementById('progress-bar').style.width = '90%';
-
-                    const wav = audioBufferToWav(rendered);
+                    
+                    const wav = bufferToWav(rendered);
                     const url = URL.createObjectURL(wav);
-
                     document.getElementById('audio-processing').classList.add('hidden');
                     document.getElementById('audio-result').classList.remove('hidden');
                     
                     let peak = 0;
-                    for(let i=0; i<abuf.length; i++) { if(Math.abs(abuf.getChannelData(0)[i]) > peak) peak = Math.abs(abuf.getChannelData(0)[i]); }
+                    const chData = rendered.getChannelData(0);
+                    for(let i=0; i<chData.length; i++) { if(Math.abs(chData[i]) > peak) peak = Math.abs(chData[i]); }
                     document.getElementById('orig-peak').innerText = (20 * Math.log10(peak)).toFixed(1) + ' dB';
-                    document.getElementById('orig-key').innerText = "Cm";
-                    const pl = document.getElementById('preview-player');
-                    pl.src = url; pl.load();
+                    document.getElementById('orig-key').innerText = "C Minor";
+                    document.getElementById('preview-player').src = url;
                     document.getElementById('download-master').href = url;
                 } catch(e) {
-                    err.classList.remove('hidden'), err.innerText = "❌ Error: " + e.message;
+                    alert('Audio processing failed. Try a smaller file.');
                     document.getElementById('drop-zone').style.display='block';
                     document.getElementById('audio-processing').classList.add('hidden');
                 }
@@ -612,7 +377,7 @@
             document.getElementById('audio-result').classList.add('hidden');
             document.getElementById('preview-player').src = '';
         }
-        function audioBufferToWav(buffer) {
+        function bufferToWav(buffer) {
             const len = buffer.length * buffer.numberOfChannels * 2 + 44;
             const buf = new ArrayBuffer(len);
             const view = new DataView(buf);
@@ -624,80 +389,73 @@
             wStr(36, 'data'); view.setUint32(40, len - 46, true);
             const ch = []; for(let c=0;c<buffer.numberOfChannels;c++) ch.push(buffer.getChannelData(c));
             let pos = 44;
-            for(let i=0;i<buffer.length;i++) {
-                for(let c=0;c<buffer.numberOfChannels;c++) {
-                    const s = Math.max(-1, Math.min(1, ch[c][i]));
-                    view.setInt16(pos, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-                    pos += 2;
-                }
-            }
+            for(let i=0;i<buffer.length;i++) { for(let c=0;c<buffer.numberOfChannels;c++) {
+                const s = Math.max(-1, Math.min(1, ch[c][i]));
+                view.setInt16(pos, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+                pos += 2;
+            }}
             return new Blob([buf], {type:'audio/wav'});
         }
 
-        // COVER ART GENERATOR
+        // COVER ART
         let currentArtUrl = "";
         let selectedTextColor = '#ffffff';
-
-        function selectColor(color, btn) {
-            selectedTextColor = color;
-            document.querySelectorAll('.color-btn').forEach(b => {
-                b.classList.remove('selected');
-                b.style.ring = 'none';
-            });
-            btn.classList.add('selected');
+        function selectColor(c, btn) { selectedTextColor = c; document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); }
+        
+        function generateCover() {
+            const prompt = document.getElementById('art-prompt').value.trim();
+            if(!prompt) { alert('Please enter a visual prompt!'); return; }
+            document.getElementById('art-loading').classList.remove('hidden');
+            document.getElementById('art-placeholder').classList.add('hidden');
+            document.getElementById('art-preview').classList.add('hidden');
+            document.getElementById('art-download-btn').classList.add('hidden');
+            const topText = document.getElementById('art-text-top').value.trim().toUpperCase();
+            const bottomText = document.getElementById('art-text-bottom').value.trim().toUpperCase();
+            const fontName = document.getElementById('art-font-select').value;
+            const showSticker = document.getElementById('art-explicit').checked;
+            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ", urban album cover art style, high quality")}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
+            currentArtUrl = url;
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = () => {
+                const cvs = document.createElement('canvas');
+                cvs.width = 1024; cvs.height = 1024;
+                const cx = cvs.getContext('2d');
+                cx.drawImage(img, 0, 0, 1024, 1024);
+                drawOverlays(cx, topText, bottomText, fontName, showSticker);
+                document.getElementById('art-loading').classList.add('hidden');
+                document.getElementById('art-preview').src = cvs.toDataURL('image/png');
+                document.getElementById('art-preview').classList.remove('hidden');
+                document.getElementById('art-download-btn').classList.remove('hidden');
+            };
+            img.onerror = () => { 
+                document.getElementById('art-loading').classList.add('hidden'); 
+                document.getElementById('art-placeholder').classList.remove('hidden'); 
+                alert('Failed to generate image. Please try again.');
+            };
+            img.src = url;
         }
 
         function drawOverlays(ctx, topText, bottomText, fontName, showSticker) {
             const color = selectedTextColor;
             if(topText) {
-                ctx.save();
-                ctx.fillStyle = color;
-                ctx.textAlign = 'center';
-                ctx.font = `bold 70px "${fontName}", Impact, sans-serif`;
-                ctx.shadowColor = 'rgba(0,0,0,0.95)';
-                ctx.shadowBlur = 15;
-                ctx.shadowOffsetX = 4;
-                ctx.shadowOffsetY = 4;
-                ctx.fillText(topText, 512, 120);
-                ctx.restore();
+                ctx.save(); ctx.fillStyle=color; ctx.textAlign='center'; ctx.font=`bold 70px "${fontName}", Impact, sans-serif`; ctx.shadowColor='rgba(0,0,0,0.95)'; ctx.shadowBlur=15; ctx.shadowOffsetX=4; ctx.shadowOffsetY=4; ctx.fillText(topText, 512, 120); ctx.restore();
             }
             if(bottomText) {
-                ctx.save();
-                ctx.fillStyle = color;
-                ctx.textAlign = 'center';
-                ctx.font = `bold 120px "${fontName}", Impact, sans-serif`;
-                ctx.shadowColor = 'rgba(0,0,0,1)';
-                ctx.shadowBlur = 20;
-                ctx.shadowOffsetX = 6;
-                ctx.shadowOffsetY = 6;
+                ctx.save(); ctx.fillStyle=color; ctx.textAlign='center'; ctx.font=`bold 120px "${fontName}", Impact, sans-serif`; ctx.shadowColor='rgba(0,0,0,1)'; ctx.shadowBlur=20; ctx.shadowOffsetX=6; ctx.shadowOffsetY=6;
                 const lines = bottomText.split(' ');
                 if(lines.length > 3) {
                     const mid = Math.ceil(lines.length / 2);
-                    const topLine = lines.slice(0, mid).join(' ');
-                    const botLine = lines.slice(mid).join(' ');
-                    ctx.fillText(topLine, 512, 520);
-                    ctx.fillText(botLine, 512, 640);
-                } else {
-                    ctx.fillText(bottomText, 512, 580);
-                }
+                    ctx.fillText(lines.slice(0, mid).join(' '), 512, 520);
+                    ctx.fillText(lines.slice(mid).join(' '), 512, 640);
+                } else { ctx.fillText(bottomText, 512, 580); }
                 ctx.restore();
             }
             if(showSticker) {
-                const sticker = new Image();
-                sticker.crossOrigin = "Anonymous";
-                sticker.onload = () => {
-                    const w = 300; 
-                    const h = 300 * (sticker.height / sticker.width);
-                    ctx.drawImage(sticker, 1024 - w - 40, 1024 - h - 40, w, h);
-                };
-                sticker.onerror = () => {
-                    // Fallback draw for sticker
-                    ctx.fillStyle = 'white'; ctx.fillRect(820, 820, 180, 108);
-                    ctx.fillStyle = 'black'; ctx.font = 'bold 14px Arial'; ctx.fillText('PARENTAL', 910, 840);
-                    ctx.font = 'bold 30px Arial'; ctx.fillText('ADVISORY', 910, 875);
-                    ctx.font = 'bold 10px Arial'; ctx.fillText('EXPLICIT CONTENT', 910, 900);
-                };
-                sticker.src = 'parental-advisory-png-43523.png';
+                ctx.fillStyle='white'; ctx.fillRect(820, 820, 180, 108);
+                ctx.fillStyle='black'; ctx.font='bold 14px Arial'; ctx.textAlign='center'; ctx.fillText('PARENTAL', 910, 840);
+                ctx.font='bold 30px Arial'; ctx.fillText('ADVISORY', 910, 875);
+                ctx.font='bold 10px Arial'; ctx.fillText('EXPLICIT CONTENT', 910, 900);
             }
         }
 
@@ -706,76 +464,25 @@
             const bottomText = document.getElementById('art-text-bottom').value.trim().toUpperCase();
             const fontName = document.getElementById('art-font-select').value;
             const showSticker = document.getElementById('art-explicit').checked;
-            
-            const canvas = document.createElement('canvas');
-            canvas.width = 1024; canvas.height = 1024;
-            const ctx = canvas.getContext('2d');
+            const cvs = document.createElement('canvas');
+            cvs.width = 1024; cvs.height = 1024;
+            const cx = cvs.getContext('2d');
             const img = new Image();
             img.crossOrigin = "Anonymous";
             img.onload = () => {
-                ctx.drawImage(img, 0, 0, 1024, 1024);
-                drawOverlays(ctx, topText, bottomText, fontName, showSticker);
-                // Small delay to ensure sticker loads if it's an image
-                setTimeout(() => {
-                    const link = document.createElement('a');
-                    link.download = 'Beachside_Artwork.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                }, 500);
+                cx.drawImage(img, 0, 0, 1024, 1024);
+                drawOverlays(cx, topText, bottomText, fontName, showSticker);
+                const link = document.createElement('a');
+                link.download = `Beachside_${topText || 'Cover'}_Artwork.png`;
+                link.href = cvs.toDataURL('image/png');
+                document.body.appendChild(link); link.click(); document.body.removeChild(link);
             };
             img.onerror = () => {
-                ctx.fillStyle = '#1a1a1a';
-                ctx.fillRect(0, 0, 1024, 1024);
-                ctx.fillStyle = selectedTextColor;
-                ctx.font = `bold 100px ${fontName}`;
-                ctx.textAlign = 'center';
-                ctx.fillText(topText, 512, 400);
-                ctx.fillText(bottomText, 512, 620);
-                const link = document.createElement('a');
-                link.download = 'Beachside_Artwork_Fallback.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+                cx.fillStyle = '#1a1a1a'; cx.fillRect(0,0,1024,1024);
+                drawOverlays(cx, topText, bottomText, fontName, showSticker);
+                const link = document.createElement('a'); link.download = 'Cover_Artwork.png'; link.href = cvs.toDataURL('image/png'); document.body.appendChild(link); link.click(); document.body.removeChild(link);
             };
             img.src = currentArtUrl;
-        }
-
-        function generateCover() {
-            const prompt = document.getElementById('art-prompt').value.trim();
-            if(!prompt) { alert('Please enter a prompt!'); return; }
-            
-            document.getElementById('art-loading').classList.remove('hidden');
-            document.getElementById('art-placeholder').classList.add('hidden');
-            document.getElementById('art-preview').classList.add('hidden');
-            document.getElementById('art-download-btn').classList.add('hidden');
-
-            const topText = document.getElementById('art-text-top').value.trim().toUpperCase();
-            const bottomText = document.getElementById('art-text-bottom').value.trim().toUpperCase();
-            const fontName = document.getElementById('art-font-select').value;
-            const showSticker = document.getElementById('art-explicit').checked;
-
-            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ", urban album cover art style, high quality")}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
-            currentArtUrl = url;
-            
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = 1024; canvas.height = 1024;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, 1024, 1024);
-                drawOverlays(ctx, topText, bottomText, fontName, showSticker);
-                
-                document.getElementById('art-loading').classList.add('hidden');
-                document.getElementById('art-preview').src = canvas.toDataURL('image/png');
-                document.getElementById('art-preview').classList.remove('hidden');
-                document.getElementById('art-download-btn').classList.remove('hidden');
-            };
-            img.onerror = () => { 
-                document.getElementById('art-loading').classList.add('hidden'); 
-                document.getElementById('art-placeholder').classList.remove('hidden'); 
-                alert('Image generation failed.');
-            };
-            img.src = url;
         }
     </script>
 </body>
