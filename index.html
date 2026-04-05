@@ -15,11 +15,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { 
-                        sans: ['Inter', 'sans-serif'], 
-                        display: ['Oswald', 'sans-serif'],
-                        urban: ['Anton', 'sans-serif']
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Oswald', 'sans-serif'], urban: ['Anton', 'sans-serif'] },
                     colors: { trs: { red: '#cc0000', dark: '#0a0a0a', gray: '#1f1f1f', light: '#f4f4f4' } }
                 }
             }
@@ -36,10 +32,6 @@
         .spinner { width: 40px; height: 40px; border: 3px solid #1f1f1f; border-top: 3px solid #cc0000; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Mobile Menu */
-        #mobile-menu { transition: transform 0.3s ease, opacity 0.2s ease; transform: translateY(-100%); opacity: 0; pointer-events: none; }
-        #mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
-        
         /* Reveal Animations */
         .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -66,8 +58,76 @@
         }
         @media (max-width: 1024px) { .hero-bg { background-attachment: scroll; } }
 
-        /* Chat Close Button Fix */
-        #close-chat-btn { z-index: 100 !important; }
+        /* =========================================
+           GLASSMORPHISM MOBILE MENU
+           ========================================= */
+        #mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 1rem;
+        }
+        #mobile-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #mobile-menu .menu-panel {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(204, 0, 0, 0.25);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 0 30px rgba(204, 0, 0, 0.15), 0 20px 50px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            text-align: center;
+            position: relative;
+        }
+        #mobile-menu .menu-panel button, 
+        #mobile-menu .menu-panel a {
+            color: #ffffff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.2s;
+            background: none;
+            width: 100%;
+            text-decoration: none;
+        }
+        #mobile-menu .menu-panel button:last-child,
+        #mobile-menu .menu-panel a:last-child {
+            border-bottom: none;
+        }
+        #mobile-menu .menu-panel button:hover,
+        #mobile-menu .menu-panel a:hover {
+            color: #cc0000;
+        }
+        .close-menu-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.2s;
+        }
+        .close-menu-btn:hover { color: #fff; }
     </style>
 </head>
 <body class="font-sans antialiased flex flex-col min-h-screen">
@@ -75,14 +135,19 @@
     <!-- Loading Screen -->
     <div id="preloader"><div class="spinner"></div></div>
 
-    <!-- Header -->
+    <!-- Header / Title Bar -->
     <header class="fixed top-0 w-full z-30 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <button onclick="navigateTo('home')" class="flex items-center gap-3 interactive">
-                <img src="1000049066.png" class="w-10 h-10 rounded-full object-contain bg-black">
-                <span class="font-urban font-bold text-2xl tracking-widest text-white uppercase hidden sm:inline">Beachside Studios</span>
+        <div class="container mx-auto px-3 py-2 flex justify-between items-center">
+            <!-- Logo + Text Always Visible -->
+            <button onclick="navigateTo('home')" class="flex items-center gap-2 interactive group">
+                <div class="relative">
+                    <img src="1000049066.png" class="w-11 h-11 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10">
+                    <div class="absolute inset-0 bg-trs-red rounded-full blur-md opacity-50 -z-0 group-hover:opacity-75 transition"></div>
+                </div>
+                <span class="font-urban font-bold text-base md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap">Beachside Studios</span>
             </button>
 
+            <!-- Desktop Nav -->
             <nav class="hidden lg:flex items-center gap-6">
                 <button onclick="navigateTo('home')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Home</button>
                 <button onclick="navigateTo('ai')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">AI Engine</button>
@@ -91,48 +156,55 @@
                 <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition interactive">Book Now</a>
             </nav>
 
-            <button class="lg:hidden text-white interactive" onclick="toggleMenu()">
-                <i data-lucide="menu" class="w-8 h-8"></i>
+            <!-- Mobile Hamburger -->
+            <button class="lg:hidden text-white interactive p-2" onclick="toggleMenu()">
+                <i data-lucide="menu" class="w-7 h-7"></i>
             </button>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-trs-dark/98 z-40 flex flex-col items-center justify-center gap-6">
-            <button class="absolute top-4 right-4 text-white interactive p-2" onclick="toggleMenu()">
-                <i data-lucide="x" class="w-8 h-8"></i>
-            </button>
-            <button onclick="toggleMenu(); navigateTo('home')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red transition interactive pt-16">Home</button>
-            <button onclick="toggleMenu(); navigateTo('ai')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red transition interactive">AI Mix & Master</button>
-            <button onclick="toggleMenu(); navigateTo('rates')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red transition interactive">Rates</button>
-            <button onclick="toggleMenu(); scrollToSection('location')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red transition interactive">Location</button>
-            <button onclick="toggleMenu(); openChat()" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white transition interactive">Chat With Yachty</button>
         </div>
     </header>
+
+    <!-- Mobile Menu (Glassmorphism Panel) -->
+    <div id="mobile-menu">
+        <div class="menu-panel">
+            <button class="close-menu-btn" onclick="toggleMenu()"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <a href="#" onclick="toggleMenu(); scrollToSection('studio-gallery')">Explore Studio</a>
+            <a href="#" onclick="toggleMenu(); navigateTo('home')">Home</a>
+            <a href="#" onclick="toggleMenu(); navigateTo('ai')">AI Mix & Master</a>
+            <a href="#" onclick="toggleMenu(); navigateTo('rates')">Rates</a>
+            <a href="#" onclick="toggleMenu(); scrollToSection('about')">Who We Are</a>
+            <a href="#" onclick="toggleMenu(); scrollToSection('location')">Location</a>
+        </div>
+    </div>
 
     <!-- ================= VIEW: HOME ================= -->
     <div id="view-home" class="view-section">
         <!-- Hero -->
-        <section class="hero-bg h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
+        <section class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-20">
             <div class="relative z-10 max-w-4xl mx-auto interactive">
-                <img src="1000049066.png" class="w-32 md:w-40 h-32 md:h-40 rounded-full mx-auto mb-8 drop-shadow-2xl object-contain">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold uppercase tracking-tight leading-none mb-6">
+                <!-- Larger Logo with Red Glow -->
+                <div class="relative inline-block mb-10">
+                    <img src="1000049066.png" class="w-48 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-2xl">
+                    <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-40 -z-0 scale-150 pointer-events-none"></div>
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight leading-none mb-6">
                     Stop Just Recording.<br><span class="text-trs-red">Start Making History.</span>
                 </h1>
-                <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light tracking-wide">
+                <p class="text-base md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light tracking-wide px-2">
                     From raw demos to radio-ready masters, Beachside Studios provides the tools, privacy, and precision your music deserves.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive">Book Session</a>
-                    <button onclick="scrollToSection('studio-gallery')" class="border border-white text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition interactive">Explore Studio</button>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive w-full sm:w-auto">Book Session</a>
+                    <button onclick="scrollToSection('studio-gallery')" class="border border-white text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition interactive w-full sm:w-auto">Explore Studio</button>
                 </div>
             </div>
         </section>
 
-        <!-- About -->
+        <!-- About / Who We Are -->
         <section id="about" class="py-24 bg-black px-6 reveal">
             <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-6 relative">
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-6 relative">
                         Who We Are
                         <span class="absolute -bottom-2 left-0 w-20 h-1 bg-trs-red"></span>
                     </h2>
@@ -154,7 +226,7 @@
         <section id="studio-gallery" class="py-24 bg-trs-dark px-6 reveal">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">
                         The Studio
                         <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span>
                     </h2>
@@ -174,11 +246,10 @@
         <section id="reviews" class="py-24 bg-black border-y border-white/5 reveal">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">
                         Accolades
                         <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span>
                     </h2>
-                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Don't just take our word for it. Hear from the community.</p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
                     <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
@@ -204,7 +275,7 @@
         <section class="py-24 bg-trs-gray px-6 reveal">
             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Meet <span class="text-trs-red">Yachty</span></h2>
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Meet <span class="text-trs-red">Yachty</span></h2>
                     <h3 class="text-lg text-white/70 font-display uppercase tracking-widest mb-6">Your Intelligent 24/7 Studio Concierge</h3>
                     <p class="text-gray-400 leading-relaxed mb-6">
                         Imagine having a dedicated studio manager who never sleeps, never takes a day off, and knows every inch of the facility—inside and out. That's Yachty.
@@ -332,7 +403,7 @@
     <!-- ================= VIEW: RATES ================= -->
     <div id="view-rates" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
         <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-12"><h1 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Rates & <span class="text-trs-red">Booking</span></h1><p class="text-gray-500">Professional studio time. Transparent pricing.</p></div>
+            <div class="text-center mb-12"><h1 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Rates & <span class="text-trs-red">Booking</span></h1><p class="text-gray-500">Professional studio time. Transparent pricing.</p></div>
             <div class="max-w-4xl mx-auto mb-12 bg-black p-3 border border-white/10 rounded-xl"><img src="1758005320844.jpg" alt="Promo" class="w-full h-auto rounded-lg"></div>
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group interactive flex flex-col">
@@ -362,7 +433,7 @@
     <section id="location" class="py-16 bg-black px-6 border-t border-white/5 reveal">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center mb-16">
             <div>
-                <h2 class="text-4xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-8">Location</h2>
+                <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-8">Location</h2>
                 <div class="space-y-6 text-gray-300">
                     <div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Address</p><p class="text-lg">233 S Market St, Inglewood, CA 90301</p></div>
                     <div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Phone</p><a href="tel:+13234002065" class="text-lg hover:text-white transition">(323) 400-2065</a></div>
@@ -376,14 +447,14 @@
     <footer class="bg-trs-dark py-12 px-6 border-t border-white/5 text-center">
         <img src="1000049066.png" class="w-12 h-12 mx-auto mb-4 object-contain bg-black rounded-full">
         <p class="font-urban text-xl uppercase tracking-widest text-white mb-6">Beachside Studios</p>
-        <div class="flex justify-center gap-6 mb-6">
+        <div class="flex justify-center gap-6 mb-6 flex-wrap">
             <a href="https://www.instagram.com/beachside.studios?igsh=MzRlODBiNWFlZA==" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition interactive bg-white/5 px-5 py-3 rounded-lg border border-white/10"><i data-lucide="instagram" class="w-5 h-5"></i><span class="text-sm font-display uppercase">Instagram</span></a>
             <a href="https://www.tiktok.com/@beachsidestudios?_r=1&_t=ZP-95GVCP5O8fX" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition interactive bg-white/5 px-5 py-3 rounded-lg border border-white/10"><i data-lucide="music-2" class="w-5 h-5"></i><span class="text-sm font-display uppercase">TikTok</span></a>
         </div>
         <p class="text-gray-600 text-xs uppercase tracking-widest">© 2026 Beachside Studio. All Rights Reserved.</p>
     </footer>
 
-    <!-- Yachty Chatbot (Fixed Close Button) -->
+    <!-- Yachty Chatbot -->
     <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-xs hidden">
         <div class="bg-[#080808] border-2 border-trs-red rounded-xl shadow-[0_0_40px_rgba(204,0,0,0.4)] overflow-hidden">
             <div class="bg-trs-red p-4 flex items-center justify-between relative">
@@ -391,7 +462,7 @@
                     <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-trs-red font-bold text-xs font-urban border border-white">Y</div>
                     <div><h4 class="font-display font-bold text-sm uppercase tracking-widest">Yachty AI</h4><p class="text-white/80 text-[10px]">Virtual Studio Agent</p></div>
                 </div>
-                <button id="close-chat-btn" onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <div id="chat-messages" class="h-64 p-4 overflow-y-auto space-y-3 bg-black/60" style="-webkit-overflow-scrolling: touch;">
                 <div class="flex gap-2"><div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 max-w-[85%] border border-white/5">What's good! I'm Yachty, your virtual studio concierge. I know every detail about Beachside Studios. Ask me about our gear, rates, or tap a link below!</div></div>
@@ -417,13 +488,18 @@
     <script>
         // Init
         window.addEventListener('load', () => document.getElementById('preloader').classList.add('hidden'));
-        window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); initReveals(); setupChat(); });
+        window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); initReveals(); setupChat(); setupAudioInput(); });
         function initReveals() { const obs = new IntersectionObserver((e) => e.forEach(x => x.target.classList.toggle('visible', x.isIntersecting))); document.querySelectorAll('.reveal').forEach(el => obs.observe(el)); }
 
         // Nav
         function navigateTo(v) { document.querySelectorAll('.view-section').forEach(x => x.classList.add('hidden')); document.getElementById('view-' + v).classList.remove('hidden'); window.scrollTo(0,0); lucide.createIcons(); }
         function scrollToSection(id) { const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }
-        function toggleMenu() { const m = document.getElementById('mobile-menu'); m.classList.toggle('open'); document.body.style.overflow = m.classList.contains('open') ? 'hidden' : ''; }
+        function toggleMenu() { 
+            const m = document.getElementById('mobile-menu'); 
+            m.classList.toggle('open'); 
+            document.body.style.overflow = m.classList.contains('open') ? 'hidden' : ''; 
+            lucide.createIcons();
+        }
 
         // Tabs
         function switchTab(t) {
@@ -440,10 +516,7 @@
         function setupChat() {
             document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); });
         }
-        function quickChat(t) {
-            document.getElementById('chat-input').value = t;
-            sendChat();
-        }
+        function quickChat(t) { document.getElementById('chat-input').value = t; sendChat(); }
         function sendChat() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
@@ -452,10 +525,9 @@
             input.value = '';
             document.getElementById('chat-messages').scrollTop = 99999;
             
-            // Yachty Brain
             const l = text.toLowerCase();
             let r = "";
-            if(l.includes("gear") || l.includes("mic")) r = 'We run a premium chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X</b>. Industry-standard quality, every time.';
+            if(l.includes("gear") || l.includes("mic")) r = 'We run a premium chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X</b>.';
             else if(l.includes("booth") || l.includes("room")) r = 'We have a professionally treated, dead-quiet recording booth perfect for vocals and ADR. + access to our creative lounge!';
             else if(l.includes("price") || l.includes("rate") || l.includes("cost")) r = 'Standard: <b class="text-trs-red">$60/hr</b> (2hr min). Block specials: <b class="text-white">3hrs/$150</b> or <b class="text-white">4hrs/$200</b>. Engineer included.';
             else if(l.includes("book") || l.includes("schedule") || l.includes("time")) r = "Check our live calendar and lock in a session <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>here</a>.";
@@ -476,22 +548,20 @@
             a.scrollTop = a.scrollHeight;
         }
 
-        // ----- AUDIO PROCESSING -----
-        function setupFileInput() {
+        // Audio Engine
+        let currentArtUrl = "";
+        function setupAudioInput() {
             const inp = document.getElementById('audio-input');
             if(!inp) return;
-            
             inp.addEventListener('change', async function() {
                 const f = this.files[0];
                 if(!f) return;
                 const err = document.getElementById('audio-error');
                 err.classList.add('hidden');
-                
                 if(f.size > 20 * 1024 * 1024) { err.classList.remove('hidden'); this.value=''; return; }
                 
                 document.getElementById('drop-zone').style.display='none';
                 document.getElementById('audio-processing').classList.remove('hidden');
-                document.getElementById('status-text').innerText = 'Processing...';
                 document.getElementById('progress-bar').style.width = '30%';
 
                 try {
@@ -500,52 +570,38 @@
                     const abuf = await actx.decodeAudioData(ab);
                     document.getElementById('progress-bar').style.width = '50%';
 
-                    // Offline Render for Mastering
                     const offCtx = new OfflineAudioContext(abuf.numberOfChannels, abuf.length, abuf.sampleRate);
                     const src = offCtx.createBufferSource();
                     src.buffer = abuf;
-                    
-                    const eq = offCtx.createBiquadFilter(); eq.type='lowshelf'; eq.frequency.value=100; eq.gain.value=2; // Warmth
+                    const eq = offCtx.createBiquadFilter(); eq.type='lowshelf'; eq.frequency.value=100; eq.gain.value=2;
                     const comp = offCtx.createDynamicsCompressor(); comp.threshold.value=-20; comp.ratio.value=3;
-                    
                     src.connect(eq).connect(comp).connect(offCtx.destination);
                     src.start();
                     
                     const rendered = await offCtx.startRendering();
                     document.getElementById('progress-bar').style.width = '90%';
 
-                    // Convert to WAV
                     const wav = audioBufferToWav(rendered);
                     const url = URL.createObjectURL(wav);
 
-                    // Update UI
                     document.getElementById('audio-processing').classList.add('hidden');
                     document.getElementById('audio-result').classList.remove('hidden');
                     
-                    // Peak stats
                     let peak = 0;
                     for(let i=0; i<abuf.length; i++) { if(Math.abs(abuf.getChannelData(0)[i]) > peak) peak = Math.abs(abuf.getChannelData(0)[i]); }
                     document.getElementById('orig-peak').innerText = (20 * Math.log10(peak)).toFixed(1) + ' dB';
-                    document.getElementById('orig-key').innerText = "Cm"; // Mock result for demo
+                    document.getElementById('orig-key').innerText = "Cm";
                     
-                    // Preview Player
                     const pl = document.getElementById('preview-player');
-                    pl.src = url;
-                    pl.load();
-
-                    // Download Link
-                    const dl = document.getElementById('download-master');
-                    dl.href = url;
-                    
+                    pl.src = url; pl.load();
+                    document.getElementById('download-master').href = url;
                 } catch(e) {
-                    err.innerText = "❌ Error: " + e.message;
-                    err.classList.remove('hidden');
+                    err.classList.remove('hidden'), err.innerText = "❌ Error: " + e.message;
                     document.getElementById('drop-zone').style.display='block';
+                    document.getElementById('audio-processing').classList.add('hidden');
                 }
             });
         }
-        window.addEventListener('DOMContentLoaded', setupFileInput());
-
         function resetAudio() {
             document.getElementById('audio-input').value = '';
             document.getElementById('drop-zone').style.display='block';
@@ -553,19 +609,16 @@
             document.getElementById('audio-result').classList.add('hidden');
             document.getElementById('preview-player').src = '';
         }
-
         function audioBufferToWav(buffer) {
             const len = buffer.length * buffer.numberOfChannels * 2 + 44;
             const buf = new ArrayBuffer(len);
             const view = new DataView(buf);
             const wStr = (off, str) => { for(let i=0;i<str.length;i++) view.setUint8(off+i, str.charCodeAt(i)); };
-            
             wStr(0, 'RIFF'); view.setUint32(4, 36 + len, true); wStr(8, 'WAVE'); wStr(12, 'fmt ');
             view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, buffer.numberOfChannels, true);
             view.setUint32(24, buffer.sampleRate, true); view.setUint32(28, buffer.sampleRate * 2 * buffer.numberOfChannels, true);
             view.setUint16(32, buffer.numberOfChannels * 2, true); view.setUint16(34, 16, true);
             wStr(36, 'data'); view.setUint32(40, len - 46, true);
-            
             const ch = []; for(let c=0;c<buffer.numberOfChannels;c++) ch.push(buffer.getChannelData(c));
             let pos = 44;
             for(let i=0;i<buffer.length;i++) {
@@ -578,28 +631,18 @@
             return new Blob([buf], {type:'audio/wav'});
         }
 
-        // ----- COVER ART GENERATOR -----
-        let currentArtUrl = "";
+        // Cover Art
         function generateCover() {
             const prompt = document.getElementById('art-prompt').value.trim();
             if(!prompt) return;
-
             document.getElementById('art-loading').classList.remove('hidden');
             document.getElementById('art-placeholder').classList.add('hidden');
             document.getElementById('art-preview').classList.add('hidden');
             document.getElementById('art-download-btn').classList.add('hidden');
 
-            const font = document.getElementById('art-font-select').value;
-            const topText = document.getElementById('art-text-top').value.trim();
-            const bottomText = document.getElementById('art-text-bottom').value.trim();
-            const showSticker = document.getElementById('art-explicit').checked;
-            
-            // Generate Base Image
             const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ", urban album cover art style")}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
             currentArtUrl = url;
-            
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
+            const img = new Image(); img.crossOrigin = "Anonymous";
             img.onload = () => {
                 document.getElementById('art-loading').classList.add('hidden');
                 document.getElementById('art-preview').src = url;
@@ -609,7 +652,6 @@
             img.onerror = () => { document.getElementById('art-loading').classList.add('hidden'); document.getElementById('art-placeholder').classList.remove('hidden'); };
             img.src = url;
         }
-
         function downloadArt() {
             const fontName = document.getElementById('art-font-select').value;
             const topText = document.getElementById('art-text-top').value.trim().toUpperCase();
@@ -619,62 +661,35 @@
             const canvas = document.createElement('canvas');
             canvas.width = 1024; canvas.height = 1024;
             const ctx = canvas.getContext('2d');
-            
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
+            const img = new Image(); img.crossOrigin = "Anonymous";
             img.onload = () => {
                 ctx.drawImage(img, 0, 0, 1024, 1024);
-                
-                // Draw Text
                 if(topText || bottomText) {
-                    ctx.fillStyle = 'white';
-                    ctx.textAlign = 'center';
-                    ctx.shadowColor = 'rgba(0,0,0,0.9)';
-                    ctx.shadowBlur = 30;
-                    ctx.shadowOffsetX = 5; ctx.shadowOffsetY = 5;
-                    ctx.font = `bold 80px "${fontName}", sans-serif`; // Increased size slightly for visibility
-                    
+                    ctx.fillStyle = 'white'; ctx.textAlign = 'center';
+                    ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 30;
+                    ctx.font = `bold 80px "${fontName}", sans-serif`;
                     if(topText) ctx.fillText(topText, 512, 100);
                     if(bottomText) ctx.fillText(bottomText, 512, 980);
                 }
-
-                // Draw Parental Advisory Sticker (Bottom Right)
                 if(showSticker) {
-                    const sticker = new Image();
-                    sticker.crossOrigin = "Anonymous";
+                    const sticker = new Image(); sticker.crossOrigin = "Anonymous";
                     sticker.onload = () => {
-                        const w = 300; 
-                        const h = 300 * (sticker.height / sticker.width);
-                        // Bottom Right corner logic
-                        const x = 1024 - w - 40;
-                        const y = 1024 - h - 40;
-                        ctx.drawImage(sticker, x, y, w, h);
-                        
-                        // Finalize Download
-                        const link = document.createElement('a');
-                        link.download = 'Beachside_Artwork.png';
-                        link.href = canvas.toDataURL('image/png');
-                        link.click();
+                        const w = 300; const h = 300 * (sticker.height / sticker.width);
+                        ctx.drawImage(sticker, 1024 - w - 40, 1024 - h - 40, w, h);
+                        triggerDownload(canvas, 'Beachside_Artwork.png');
                     };
-                    // Try loading the local sticker, if missing, draw a fallback white box with text
-                    sticker.onerror = () => {
-                        ctx.fillStyle = 'white'; ctx.fillRect(600, 850, 350, 100);
-                        ctx.fillStyle = 'black'; ctx.font = 'bold 40px Arial'; ctx.fillText('PARENTAL ADVISORY', 775, 915);
-                        const link = document.createElement('a');
-                        link.download = 'Beachside_Artwork_Fallback.png';
-                        link.href = canvas.toDataURL('image/png');
-                        link.click();
-                    };
-                    // Attempt to load the specific file mentioned by user
-                    sticker.src = 'parental-advisory-png-43523.png'; 
+                    sticker.onerror = () => triggerDownload(canvas, 'Beachside_Artwork_NoSticker.png');
+                    sticker.src = 'parental-advisory-png-43523.png';
                 } else {
-                    const link = document.createElement('a');
-                    link.download = 'Beachside_Artwork.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
+                    triggerDownload(canvas, 'Beachside_Artwork.png');
                 }
             };
             img.src = currentArtUrl;
+        }
+        function triggerDownload(canvas, name) {
+            const link = document.createElement('a');
+            link.download = name; link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
     </script>
 </body>
