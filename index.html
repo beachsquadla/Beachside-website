@@ -7,15 +7,19 @@
     <meta name="theme-color" content="#000000">
     <title>Beachside Studios | Premium Recording Inglewood</title>
     
-    <!-- Fonts: Inter, Oswald, Anton, Bebas, Spartan, Russo, Sigmar -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&family=Anton&family=Bebas+Neue&family=League+Spartan:wght@700&family=Russo+One&family=Sigmar+One&display=swap" rel="stylesheet">
+    <!-- Fonts: Inter, Oswald, Anton, Bebas, Spartan, Russo, Sigmar, Black Ops, Permanent Marker -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&family=Anton&family=Bebas+Neue&family=League+Spartan:wght@700&family=Russo+One&family=Sigmar+One&family=Black+Ops+One&family=Permanent+Marker&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Oswald', 'sans-serif'], urban: ['Anton', 'sans-serif'] },
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'], 
+                        display: ['Oswald', 'sans-serif'],
+                        urban: ['Anton', 'sans-serif']
+                    },
                     colors: { trs: { red: '#cc0000', dark: '#0a0a0a', gray: '#1f1f1f', light: '#f4f4f4' } }
                 }
             }
@@ -23,11 +27,29 @@
     </script>
     <style>
         :root { scroll-behavior: smooth; }
-        body { background: #000; color: #fff; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
-        a, button, input, select, .interactive { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background: #000; 
+            color: #fff; 
+            overflow-x: hidden; 
+            -webkit-overflow-scrolling: touch; 
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', sans-serif;
+        }
+        a, button, input, select, .interactive { 
+            touch-action: manipulation; 
+        }
         
         /* Loader */
-        #preloader { position: fixed; inset: 0; z-index: 10000; background: #000; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
+        #preloader { 
+            position: fixed; 
+            inset: 0; 
+            z-index: 10000; 
+            background: #000; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: opacity 0.5s ease; 
+        }
         #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .spinner { width: 40px; height: 40px; border: 3px solid #1f1f1f; border-top: 3px solid #cc0000; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -58,9 +80,7 @@
         }
         @media (max-width: 1024px) { .hero-bg { background-attachment: scroll; } }
 
-        /* =========================================
-           GLASSMORPHISM MOBILE MENU
-           ========================================= */
+        /* GLASSMORPHISM MOBILE MENU */
         #mobile-menu {
             position: fixed;
             inset: 0;
@@ -73,10 +93,8 @@
             transition: opacity 0.3s ease;
             padding: 1rem;
         }
-        #mobile-menu.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        #mobile-menu.open { opacity: 1; pointer-events: auto; }
+        
         #mobile-menu .menu-panel {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(12px);
@@ -93,11 +111,10 @@
             text-align: center;
             position: relative;
         }
-        #mobile-menu .menu-panel button, 
         #mobile-menu .menu-panel a {
             color: #ffffff;
             font-family: 'Oswald', sans-serif;
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -107,30 +124,32 @@
             background: none;
             width: 100%;
             text-decoration: none;
+            cursor: pointer;
         }
-        #mobile-menu .menu-panel button:last-child,
-        #mobile-menu .menu-panel a:last-child {
-            border-bottom: none;
-        }
-        #mobile-menu .menu-panel button:hover,
-        #mobile-menu .menu-panel a:hover {
-            color: #cc0000;
-        }
+        #mobile-menu .menu-panel a:last-child { border-bottom: none; }
+        #mobile-menu .menu-panel a:hover { color: #cc0000; }
+        
         .close-menu-btn {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
+            top: 1rem; right: 1rem;
+            background: none; border: none;
             color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            padding: 0.5rem;
-            transition: color 0.2s;
+            cursor: pointer; padding: 0.5rem;
+            transition: color 0.2s; z-index: 70;
         }
         .close-menu-btn:hover { color: #fff; }
+
+        /* Color Picker Buttons */
+        .color-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%; border: 2px solid #444;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .color-btn.selected { transform: scale(1.1); border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .color-btn:hover { transform: scale(1.15); }
     </style>
 </head>
-<body class="font-sans antialiased flex flex-col min-h-screen">
+<body class="antialiased flex flex-col min-h-screen">
 
     <!-- Loading Screen -->
     <div id="preloader"><div class="spinner"></div></div>
@@ -138,13 +157,15 @@
     <!-- Header / Title Bar -->
     <header class="fixed top-0 w-full z-30 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
         <div class="container mx-auto px-3 py-2 flex justify-between items-center">
-            <!-- Logo + Text Always Visible -->
+            <!-- Logo + Text Always Visible (Even on Mobile) -->
             <button onclick="navigateTo('home')" class="flex items-center gap-2 interactive group">
                 <div class="relative">
                     <img src="1000049066.png" class="w-11 h-11 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10">
                     <div class="absolute inset-0 bg-trs-red rounded-full blur-md opacity-50 -z-0 group-hover:opacity-75 transition"></div>
                 </div>
-                <span class="font-urban font-bold text-base md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap">Beachside Studios</span>
+                <span class="font-urban font-bold text-base md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap hidden sm:inline">
+                    Beachside Studios
+                </span>
             </button>
 
             <!-- Desktop Nav -->
@@ -173,6 +194,7 @@
             <a href="#" onclick="toggleMenu(); navigateTo('rates')">Rates</a>
             <a href="#" onclick="toggleMenu(); scrollToSection('about')">Who We Are</a>
             <a href="#" onclick="toggleMenu(); scrollToSection('location')">Location</a>
+            <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red font-bold mt-4">Book Session</a>
         </div>
     </div>
 
@@ -181,7 +203,6 @@
         <!-- Hero -->
         <section class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-20">
             <div class="relative z-10 max-w-4xl mx-auto interactive">
-                <!-- Larger Logo with Red Glow -->
                 <div class="relative inline-block mb-10">
                     <img src="1000049066.png" class="w-48 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-2xl">
                     <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-40 -z-0 scale-150 pointer-events-none"></div>
@@ -200,7 +221,7 @@
             </div>
         </section>
 
-        <!-- About / Who We Are -->
+        <!-- About -->
         <section id="about" class="py-24 bg-black px-6 reveal">
             <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
                 <div>
@@ -226,30 +247,24 @@
         <section id="studio-gallery" class="py-24 bg-trs-dark px-6 reveal">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">
-                        The Studio
-                        <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span>
-                    </h2>
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">The Studio<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span></h2>
                 </div>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <img src="Screenshot_20260331_125554_Gallery.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy">
-                    <img src="20260330_050857.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy">
-                    <img src="20260402_044854.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy">
-                    <img src="20260329_011756.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy">
-                    <img src="20260330_154418_0000.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer grayscale hover:grayscale-0" loading="lazy">
-                    <img src="1758005320844.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy">
+                    <img src="Screenshot_20260331_125554_Gallery.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
+                    <img src="20260330_050857.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
+                    <img src="20260402_044854.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
+                    <img src="20260329_011756.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
+                    <img src="20260330_154418_0000.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer grayscale hover:grayscale-0" loading="lazy" alt="Gallery">
+                    <img src="1758005320844.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
                 </div>
             </div>
         </section>
 
-        <!-- Client Reviews -->
+        <!-- Reviews -->
         <section id="reviews" class="py-24 bg-black border-y border-white/5 reveal">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">
-                        Accolades
-                        <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span>
-                    </h2>
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">Accolades<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span></h2>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
                     <div class="p-8 border-l-2 border-trs-red bg-trs-gray shadow-xl hover:translate-x-1 transition-transform">
@@ -277,22 +292,14 @@
                 <div>
                     <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Meet <span class="text-trs-red">Yachty</span></h2>
                     <h3 class="text-lg text-white/70 font-display uppercase tracking-widest mb-6">Your Intelligent 24/7 Studio Concierge</h3>
-                    <p class="text-gray-400 leading-relaxed mb-6">
-                        Imagine having a dedicated studio manager who never sleeps, never takes a day off, and knows every inch of the facility—inside and out. That's Yachty.
-                    </p>
-                    <p class="text-gray-400 leading-relaxed mb-8">
-                        Whether you need a breakdown of our Neumann vocal chain, want to check what hours we're open, or you're ready to lock in a session at 3 AM, Yachty is your virtual concierge built right into the site. Ask about our rates, our gear, our location, or just say what's up. No emails, no hold music, just instant answers.
-                    </p>
-                    <button onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive flex items-center gap-3">
-                        <i data-lucide="message-circle" class="w-5 h-5"></i> Start Chatting With Yachty
-                    </button>
+                    <p class="text-gray-400 leading-relaxed mb-6">Imagine having a dedicated studio manager who never sleeps, never takes a day off, and knows every inch of the facility—inside and out. That's Yachty.</p>
+                    <p class="text-gray-400 leading-relaxed mb-8">Whether you need a breakdown of our Neumann vocal chain, want to check what hours we're open, or you're ready to lock in a session at 3 AM, Yachty is your virtual concierge built right into the site. Ask about our rates, our gear, our location, or just say what's up. No emails, no hold music, just instant answers.</p>
+                    <button onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5"></i> Start Chatting With Yachty</button>
                 </div>
                 <div class="flex justify-center">
                     <div class="relative w-64 h-64">
                         <div class="absolute inset-0 border-2 border-trs-red rounded-full animate-[spin_8s_linear_infinite] border-t-transparent"></div>
-                        <div class="absolute inset-0 flex items-center justify-center bg-trs-dark rounded-full border-4 border-trs-red shadow-[0_0_40px_rgba(204,0,0,0.4)]">
-                            <i data-lucide="bot" class="w-20 h-20 text-white"></i>
-                        </div>
+                        <div class="absolute inset-0 flex items-center justify-center bg-trs-dark rounded-full border-4 border-trs-red shadow-[0_0_40px_rgba(204,0,0,0.4)]"><i data-lucide="bot" class="w-20 h-20 text-white"></i></div>
                     </div>
                 </div>
             </div>
@@ -302,7 +309,6 @@
     <!-- ================= VIEW: AI ENGINE ================= -->
     <div id="view-ai" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
         <div class="max-w-4xl mx-auto">
-            <!-- Tabs -->
             <div class="flex gap-4 border-b border-white/10 mb-8 justify-center">
                 <button onclick="switchTab('audio')" id="btn-audio" class="pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive">AI Mix & Master Engine</button>
                 <button onclick="switchTab('cover')" id="btn-cover" class="pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive">Cover Art Lab</button>
@@ -311,41 +317,25 @@
             <!-- Audio Tab -->
             <div id="tab-audio" class="bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10 relative">
                 <h2 class="text-2xl font-display font-bold uppercase tracking-widest text-white mb-4">Automated Studio Polish</h2>
-                <p class="text-gray-400 mb-6 text-sm leading-relaxed">
-                    Upload your raw track. We apply EQ, glue compression, key detection, and streaming loudness (-1.0dBTP). Runs locally for privacy.
-                </p>
+                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Upload your raw track. We apply EQ, glue compression, key detection, and streaming loudness (-1.0dBTP).</p>
                 
                 <div id="audio-error" class="hidden bg-red-900/20 border border-red-500/50 text-red-200 text-xs p-4 mb-4 rounded-lg">❌ File too large or unsupported. Max 20MB.</div>
-
                 <div id="drop-zone" class="border-2 border-dashed border-gray-700 rounded-lg p-10 text-center cursor-pointer hover:border-trs-red transition interactive bg-black/50 relative">
                     <input type="file" id="audio-input" accept="audio/*" class="absolute inset-0 w-full h-full opacity-0 interactive">
                     <i data-lucide="upload" class="w-10 h-10 mx-auto text-gray-500 mb-3"></i>
                     <p class="text-white font-display uppercase tracking-widest text-sm">Drop Audio or Click to Upload</p>
                 </div>
-
                 <div id="audio-processing" class="hidden mt-6 bg-black p-6 border border-trs-red rounded-lg">
-                    <div class="flex justify-between text-xs font-mono uppercase tracking-wider mb-2">
-                        <span class="text-trs-red" id="status-text">Processing...</span>
-                        <span id="progress-percent">0%</span>
-                    </div>
-                    <div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden mb-4">
-                        <div id="progress-bar" class="bg-trs-red h-1 transition-all" style="width:0%"></div>
-                    </div>
+                    <div class="flex justify-between text-xs font-mono uppercase tracking-wider mb-2"><span class="text-trs-red" id="status-text">Processing...</span><span id="progress-percent">0%</span></div>
+                    <div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden mb-4"><div id="progress-bar" class="bg-trs-red h-1 transition-all" style="width:0%"></div></div>
                 </div>
-
                 <div id="audio-result" class="hidden mt-6 bg-black/30 p-6 rounded-lg border border-white/5">
                     <div class="grid grid-cols-3 gap-4 text-center text-xs uppercase tracking-wider mb-4">
                         <div><p class="text-gray-500 mb-1">Original Peak</p><p class="text-white font-bold text-lg" id="orig-peak">-</p></div>
                         <div><p class="text-gray-500 mb-1">Mastered Peak</p><p class="text-green-500 font-bold text-lg">-1.0dB</p></div>
                         <div><p class="text-gray-500 mb-1">Key</p><p class="text-trs-red font-bold text-lg" id="orig-key">-</p></div>
                     </div>
-                    
-                    <!-- Audio Preview Player -->
-                    <div class="my-4">
-                        <p class="text-xs text-trs-red uppercase tracking-widest mb-2">Listen to Preview:</p>
-                        <audio id="preview-player" controls class="w-full h-10 bg-trs-gray rounded"></audio>
-                    </div>
-
+                    <div class="my-4"><p class="text-xs text-trs-red uppercase tracking-widest mb-2">Listen to Preview:</p><audio id="preview-player" controls class="w-full h-10 bg-trs-gray rounded"></audio></div>
                     <a id="download-master" href="#" download="Beachside_Master.wav" class="block w-full bg-trs-red text-white py-4 text-center font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive mb-3">Download Master</a>
                     <button onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white py-2 interactive">Process Another File</button>
                 </div>
@@ -354,34 +344,43 @@
             <!-- Cover Art Tab -->
             <div id="tab-cover" class="hidden bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10">
                 <h2 class="text-2xl font-display font-bold uppercase tracking-widest text-white mb-4">Cover Art Lab</h2>
-                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Generate unique artwork. Choose your urban font and add the parental advisory sticker.</p>
+                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Generate unique artwork with bold, colorful typography. Choose your style and add the parental advisory sticker.</p>
                 
                 <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Controls -->
                     <div class="space-y-4">
                         <textarea id="art-prompt" rows="3" class="w-full bg-black/50 border border-gray-700 rounded-lg p-4 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="e.g. A dark moody studio with neon lights"></textarea>
                         <div class="grid grid-cols-2 gap-4">
                             <input type="text" id="art-text-top" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Artist Name">
                             <input type="text" id="art-text-bottom" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Song Title">
                         </div>
-                        
-                        <!-- Font Dropdown -->
-                        <select id="art-font-select" class="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none">
-                            <option value="Anton">Anton (Bold Urban)</option>
-                            <option value="Bebas Neue">Bebas Neue (Condensed)</option>
-                            <option value="League Spartan">League Spartan (Modern)</option>
-                            <option value="Russo One">Russo One (Block)</option>
-                            <option value="Oswald">Oswald (Classic)</option>
-                            <option value="Sigmar One">Sigmar One (Impact)</option>
-                        </select>
-
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Typography Style</label>
+                            <select id="art-font-select" class="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none">
+                                <option value="Anton">Anton (Bold Block)</option>
+                                <option value="Bebas Neue">Bebas Neue (Condensed)</option>
+                                <option value="Oswald">Oswald (Urban)</option>
+                                <option value="Russo One">Russo One (Heavy)</option>
+                                <option value="Black Ops One">Black Ops One (Military)</option>
+                                <option value="Sigmar One">Sigmar One (Impact)</option>
+                                <option value="Permanent Marker">Permanent Marker (Graffiti)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Text Color</label>
+                            <div class="flex gap-3 flex-wrap">
+                                <button onclick="selectColor('#ffffff', this)" class="color-btn bg-white selected"></button>
+                                <button onclick="selectColor('#cc0000', this)" class="color-btn bg-red-700"></button>
+                                <button onclick="selectColor('#ff6b00', this)" class="color-btn bg-orange-500"></button>
+                                <button onclick="selectColor('#FFD700', this)" class="color-btn bg-yellow-500"></button>
+                                <button onclick="selectColor('#00ff41', this)" class="color-btn bg-green-400"></button>
+                            </div>
+                        </div>
                         <div class="flex items-center justify-between bg-black/50 p-4 rounded-lg border border-gray-700">
-                            <span class="text-sm font-display uppercase tracking-widest text-gray-300">Add Advisory</span>
+                            <span class="text-sm font-display uppercase tracking-widest text-gray-300">Add Advisory Sticker</span>
                             <label class="toggle"><input type="checkbox" id="art-explicit"><span></span></label>
                         </div>
                     </div>
 
-                    <!-- Preview -->
                     <div class="flex flex-col items-center">
                         <div class="w-full aspect-square bg-black border border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden">
                             <div id="art-placeholder" class="text-center text-gray-600"><i data-lucide="image" class="w-12 h-12 mx-auto mb-2"></i><p class="text-xs uppercase">Preview</p></div>
@@ -440,7 +439,9 @@
                     <div><p class="text-trs-red text-sm uppercase tracking-widest font-bold mb-1">Hours</p><p class="text-lg">Open 24 Hours, 7 Days</p></div>
                 </div>
             </div>
-            <div class="rounded-xl overflow-hidden h-80 md:h-96 bg-trs-gray border border-white/10"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3308.281822837265!2d-118.35629862341051!3d33.98499992288019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2b65155555555%3A0x1d4a0b80f1d5137a!2s233%20S%20Market%20St%2C%20Inglewood%2C%20CA%2090301!5e0!3m2!1sen!2sus!4v1727315352358!5m2!1sen!2sus" width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe></div>
+            <div class="rounded-xl overflow-hidden h-80 md:h-96 bg-trs-gray border border-white/10">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3308.281822837265!2d-118.35629862341051!3d33.98499992288019" width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe>
+            </div>
         </div>
     </section>
 
@@ -458,10 +459,7 @@
     <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-xs hidden">
         <div class="bg-[#080808] border-2 border-trs-red rounded-xl shadow-[0_0_40px_rgba(204,0,0,0.4)] overflow-hidden">
             <div class="bg-trs-red p-4 flex items-center justify-between relative">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-trs-red font-bold text-xs font-urban border border-white">Y</div>
-                    <div><h4 class="font-display font-bold text-sm uppercase tracking-widest">Yachty AI</h4><p class="text-white/80 text-[10px]">Virtual Studio Agent</p></div>
-                </div>
+                <div class="flex items-center gap-3"><div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-trs-red font-bold text-xs font-urban border border-white">Y</div><div><h4 class="font-display font-bold text-sm uppercase tracking-widest">Yachty AI</h4><p class="text-white/80 text-[10px]">Virtual Studio Agent</p></div></div>
                 <button onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <div id="chat-messages" class="h-64 p-4 overflow-y-auto space-y-3 bg-black/60" style="-webkit-overflow-scrolling: touch;">
@@ -486,14 +484,20 @@
     </button>
 
     <script>
-        // Init
+        // INIT
         window.addEventListener('load', () => document.getElementById('preloader').classList.add('hidden'));
-        window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); initReveals(); setupChat(); setupAudioInput(); });
-        function initReveals() { const obs = new IntersectionObserver((e) => e.forEach(x => x.target.classList.toggle('visible', x.isIntersecting))); document.querySelectorAll('.reveal').forEach(el => obs.observe(el)); }
+        window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); setupChat(); setupAudioInput(); });
 
-        // Nav
-        function navigateTo(v) { document.querySelectorAll('.view-section').forEach(x => x.classList.add('hidden')); document.getElementById('view-' + v).classList.remove('hidden'); window.scrollTo(0,0); lucide.createIcons(); }
-        function scrollToSection(id) { const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }
+        // NAVIGATION
+        function navigateTo(v) { 
+            document.querySelectorAll('.view-section').forEach(x => x.classList.add('hidden')); 
+            document.getElementById('view-' + v).classList.remove('hidden'); 
+            window.scrollTo(0,0); lucide.createIcons(); 
+        }
+        function scrollToSection(id) { 
+            const el = document.getElementById(id); 
+            if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); 
+        }
         function toggleMenu() { 
             const m = document.getElementById('mobile-menu'); 
             m.classList.toggle('open'); 
@@ -501,21 +505,24 @@
             lucide.createIcons();
         }
 
-        // Tabs
+        // TABS
         function switchTab(t) {
             document.getElementById('tab-audio').classList.toggle('hidden', t !== 'audio');
             document.getElementById('tab-cover').classList.toggle('hidden', t !== 'cover');
             const a = document.getElementById('btn-audio'), c = document.getElementById('btn-cover');
-            if(t === 'audio') { a.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive"; c.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive"; }
-            else { c.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive"; a.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive"; }
+            if(t === 'audio') { 
+                a.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive"; 
+                c.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive"; 
+            } else { 
+                c.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive"; 
+                a.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive"; 
+            }
         }
 
-        // Chat
+        // CHATBOT
         function openChat() { document.getElementById('chatbot').classList.remove('hidden'); document.getElementById('chat-input').focus(); }
         function closeChat() { document.getElementById('chatbot').classList.add('hidden'); }
-        function setupChat() {
-            document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); });
-        }
+        function setupChat() { document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); }); }
         function quickChat(t) { document.getElementById('chat-input').value = t; sendChat(); }
         function sendChat() {
             const input = document.getElementById('chat-input');
@@ -524,19 +531,17 @@
             addMsg(text, true);
             input.value = '';
             document.getElementById('chat-messages').scrollTop = 99999;
-            
             const l = text.toLowerCase();
             let r = "";
             if(l.includes("gear") || l.includes("mic")) r = 'We run a premium chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X</b>.';
             else if(l.includes("booth") || l.includes("room")) r = 'We have a professionally treated, dead-quiet recording booth perfect for vocals and ADR. + access to our creative lounge!';
             else if(l.includes("price") || l.includes("rate") || l.includes("cost")) r = 'Standard: <b class="text-trs-red">$60/hr</b> (2hr min). Block specials: <b class="text-white">3hrs/$150</b> or <b class="text-white">4hrs/$200</b>. Engineer included.';
-            else if(l.includes("book") || l.includes("schedule") || l.includes("time")) r = "Check our live calendar and lock in a session <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>here</a>.";
+            else if(l.includes("book")) r = "Check our live calendar and lock in a session <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>here</a>.";
             else if(l.includes("hour") || l.includes("open")) r = "We never sleep! Beachside Studios is open <b class='text-white'>24/7</b>.";
-            else if(l.includes("location") || l.includes("where") || l.includes("address")) r = "We are located at <b class='text-white'>233 S Market St, Inglewood, CA 90301</b>.";
-            else if(l.includes("phone") || l.includes("contact")) r = "Call us directly: <a href='tel:3234002065' class='text-trs-red underline'>(323) 400-2065</a>.";
-            else if(l.includes("hi") || l.includes("hello")) r = "Yo! I'm Yachty, your virtual studio agent. Ask me about gear, rates, or book a slot!";
-            else r = "I'm your 24/7 virtual assistant! I can give details on our Neumann setup, rates, or location. Want the <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>booking link?</a>";
-            
+            else if(l.includes("location") || l.includes("where")) r = "We are located at <b class='text-white'>233 S Market St, Inglewood, CA 90301</b>.";
+            else if(l.includes("phone")) r = "Call us directly: <a href='tel:3234002065' class='text-trs-red underline'>(323) 400-2065</a>.";
+            else if(l.includes("hi") || l.includes("hello")) r = "Yo! I'm Yachty, your virtual studio agent.";
+            else r = "I'm your 24/7 assistant. Want the <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>booking link?</a>";
             setTimeout(() => addMsg(r, false), 600);
         }
         function addMsg(t, u) {
@@ -548,8 +553,7 @@
             a.scrollTop = a.scrollHeight;
         }
 
-        // Audio Engine
-        let currentArtUrl = "";
+        // AUDIO ENGINE
         function setupAudioInput() {
             const inp = document.getElementById('audio-input');
             if(!inp) return;
@@ -591,7 +595,6 @@
                     for(let i=0; i<abuf.length; i++) { if(Math.abs(abuf.getChannelData(0)[i]) > peak) peak = Math.abs(abuf.getChannelData(0)[i]); }
                     document.getElementById('orig-peak').innerText = (20 * Math.log10(peak)).toFixed(1) + ' dB';
                     document.getElementById('orig-key').innerText = "Cm";
-                    
                     const pl = document.getElementById('preview-player');
                     pl.src = url; pl.load();
                     document.getElementById('download-master').href = url;
@@ -631,65 +634,148 @@
             return new Blob([buf], {type:'audio/wav'});
         }
 
-        // Cover Art
-        function generateCover() {
-            const prompt = document.getElementById('art-prompt').value.trim();
-            if(!prompt) return;
-            document.getElementById('art-loading').classList.remove('hidden');
-            document.getElementById('art-placeholder').classList.add('hidden');
-            document.getElementById('art-preview').classList.add('hidden');
-            document.getElementById('art-download-btn').classList.add('hidden');
+        // COVER ART GENERATOR
+        let currentArtUrl = "";
+        let selectedTextColor = '#ffffff';
 
-            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ", urban album cover art style")}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
-            currentArtUrl = url;
-            const img = new Image(); img.crossOrigin = "Anonymous";
-            img.onload = () => {
-                document.getElementById('art-loading').classList.add('hidden');
-                document.getElementById('art-preview').src = url;
-                document.getElementById('art-preview').classList.remove('hidden');
-                document.getElementById('art-download-btn').classList.remove('hidden');
-            };
-            img.onerror = () => { document.getElementById('art-loading').classList.add('hidden'); document.getElementById('art-placeholder').classList.remove('hidden'); };
-            img.src = url;
+        function selectColor(color, btn) {
+            selectedTextColor = color;
+            document.querySelectorAll('.color-btn').forEach(b => {
+                b.classList.remove('selected');
+                b.style.ring = 'none';
+            });
+            btn.classList.add('selected');
         }
+
+        function drawOverlays(ctx, topText, bottomText, fontName, showSticker) {
+            const color = selectedTextColor;
+            if(topText) {
+                ctx.save();
+                ctx.fillStyle = color;
+                ctx.textAlign = 'center';
+                ctx.font = `bold 70px "${fontName}", Impact, sans-serif`;
+                ctx.shadowColor = 'rgba(0,0,0,0.95)';
+                ctx.shadowBlur = 15;
+                ctx.shadowOffsetX = 4;
+                ctx.shadowOffsetY = 4;
+                ctx.fillText(topText, 512, 120);
+                ctx.restore();
+            }
+            if(bottomText) {
+                ctx.save();
+                ctx.fillStyle = color;
+                ctx.textAlign = 'center';
+                ctx.font = `bold 120px "${fontName}", Impact, sans-serif`;
+                ctx.shadowColor = 'rgba(0,0,0,1)';
+                ctx.shadowBlur = 20;
+                ctx.shadowOffsetX = 6;
+                ctx.shadowOffsetY = 6;
+                const lines = bottomText.split(' ');
+                if(lines.length > 3) {
+                    const mid = Math.ceil(lines.length / 2);
+                    const topLine = lines.slice(0, mid).join(' ');
+                    const botLine = lines.slice(mid).join(' ');
+                    ctx.fillText(topLine, 512, 520);
+                    ctx.fillText(botLine, 512, 640);
+                } else {
+                    ctx.fillText(bottomText, 512, 580);
+                }
+                ctx.restore();
+            }
+            if(showSticker) {
+                const sticker = new Image();
+                sticker.crossOrigin = "Anonymous";
+                sticker.onload = () => {
+                    const w = 300; 
+                    const h = 300 * (sticker.height / sticker.width);
+                    ctx.drawImage(sticker, 1024 - w - 40, 1024 - h - 40, w, h);
+                };
+                sticker.onerror = () => {
+                    // Fallback draw for sticker
+                    ctx.fillStyle = 'white'; ctx.fillRect(820, 820, 180, 108);
+                    ctx.fillStyle = 'black'; ctx.font = 'bold 14px Arial'; ctx.fillText('PARENTAL', 910, 840);
+                    ctx.font = 'bold 30px Arial'; ctx.fillText('ADVISORY', 910, 875);
+                    ctx.font = 'bold 10px Arial'; ctx.fillText('EXPLICIT CONTENT', 910, 900);
+                };
+                sticker.src = 'parental-advisory-png-43523.png';
+            }
+        }
+
         function downloadArt() {
-            const fontName = document.getElementById('art-font-select').value;
             const topText = document.getElementById('art-text-top').value.trim().toUpperCase();
             const bottomText = document.getElementById('art-text-bottom').value.trim().toUpperCase();
+            const fontName = document.getElementById('art-font-select').value;
             const showSticker = document.getElementById('art-explicit').checked;
             
             const canvas = document.createElement('canvas');
             canvas.width = 1024; canvas.height = 1024;
             const ctx = canvas.getContext('2d');
-            const img = new Image(); img.crossOrigin = "Anonymous";
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
             img.onload = () => {
                 ctx.drawImage(img, 0, 0, 1024, 1024);
-                if(topText || bottomText) {
-                    ctx.fillStyle = 'white'; ctx.textAlign = 'center';
-                    ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 30;
-                    ctx.font = `bold 80px "${fontName}", sans-serif`;
-                    if(topText) ctx.fillText(topText, 512, 100);
-                    if(bottomText) ctx.fillText(bottomText, 512, 980);
-                }
-                if(showSticker) {
-                    const sticker = new Image(); sticker.crossOrigin = "Anonymous";
-                    sticker.onload = () => {
-                        const w = 300; const h = 300 * (sticker.height / sticker.width);
-                        ctx.drawImage(sticker, 1024 - w - 40, 1024 - h - 40, w, h);
-                        triggerDownload(canvas, 'Beachside_Artwork.png');
-                    };
-                    sticker.onerror = () => triggerDownload(canvas, 'Beachside_Artwork_NoSticker.png');
-                    sticker.src = 'parental-advisory-png-43523.png';
-                } else {
-                    triggerDownload(canvas, 'Beachside_Artwork.png');
-                }
+                drawOverlays(ctx, topText, bottomText, fontName, showSticker);
+                // Small delay to ensure sticker loads if it's an image
+                setTimeout(() => {
+                    const link = document.createElement('a');
+                    link.download = 'Beachside_Artwork.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }, 500);
+            };
+            img.onerror = () => {
+                ctx.fillStyle = '#1a1a1a';
+                ctx.fillRect(0, 0, 1024, 1024);
+                ctx.fillStyle = selectedTextColor;
+                ctx.font = `bold 100px ${fontName}`;
+                ctx.textAlign = 'center';
+                ctx.fillText(topText, 512, 400);
+                ctx.fillText(bottomText, 512, 620);
+                const link = document.createElement('a');
+                link.download = 'Beachside_Artwork_Fallback.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
             };
             img.src = currentArtUrl;
         }
-        function triggerDownload(canvas, name) {
-            const link = document.createElement('a');
-            link.download = name; link.href = canvas.toDataURL('image/png');
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+
+        function generateCover() {
+            const prompt = document.getElementById('art-prompt').value.trim();
+            if(!prompt) { alert('Please enter a prompt!'); return; }
+            
+            document.getElementById('art-loading').classList.remove('hidden');
+            document.getElementById('art-placeholder').classList.add('hidden');
+            document.getElementById('art-preview').classList.add('hidden');
+            document.getElementById('art-download-btn').classList.add('hidden');
+
+            const topText = document.getElementById('art-text-top').value.trim().toUpperCase();
+            const bottomText = document.getElementById('art-text-bottom').value.trim().toUpperCase();
+            const fontName = document.getElementById('art-font-select').value;
+            const showSticker = document.getElementById('art-explicit').checked;
+
+            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ", urban album cover art style, high quality")}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
+            currentArtUrl = url;
+            
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 1024; canvas.height = 1024;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 1024, 1024);
+                drawOverlays(ctx, topText, bottomText, fontName, showSticker);
+                
+                document.getElementById('art-loading').classList.add('hidden');
+                document.getElementById('art-preview').src = canvas.toDataURL('image/png');
+                document.getElementById('art-preview').classList.remove('hidden');
+                document.getElementById('art-download-btn').classList.remove('hidden');
+            };
+            img.onerror = () => { 
+                document.getElementById('art-loading').classList.add('hidden'); 
+                document.getElementById('art-placeholder').classList.remove('hidden'); 
+                alert('Image generation failed.');
+            };
+            img.src = url;
         }
     </script>
 </body>
