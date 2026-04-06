@@ -725,11 +725,11 @@
             // Force browser to fully load Google fonts before drawing text to canvas
             await document.fonts.ready;
             
-            // 75% Opacity applied to Text and Sticker
-            ctx.globalAlpha = 0.75; 
+            // 90% Opacity applied to Text and Sticker
+            ctx.globalAlpha = 0.90; 
 
             // Text Styling Function (3D Chrome / Blockbuster effect)
-            const draw3DText = (text, yPos, size) => {
+            const draw3DText = (text, yPos, size, maxWidth) => {
                 ctx.font = `bold ${size}px "${fontName}", Impact, sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
@@ -743,7 +743,7 @@
                 // Thick White Border Stroke
                 ctx.lineWidth = size * 0.05;
                 ctx.strokeStyle = 'white';
-                ctx.strokeText(text, 512, yPos);
+                ctx.strokeText(text, 512, yPos, maxWidth);
 
                 // Metallic Gradient Fill using selected base color
                 const gradient = ctx.createLinearGradient(0, yPos - size/2, 0, yPos + size/2);
@@ -755,20 +755,22 @@
                 
                 ctx.shadowColor = 'transparent'; // Turn off shadow so fill is clean
                 ctx.fillStyle = gradient;
-                ctx.fillText(text, 512, yPos);
+                ctx.fillText(text, 512, yPos, maxWidth);
             };
 
-            if(topText) { draw3DText(topText, 150, 90); }
+            // Artist Name (Top Center) - Max width added for padding
+            if(topText) { draw3DText(topText, 150, 90, 900); }
             
+            // Song Title (Centered in middle) - Max width added for padding
             if(bottomText) {
-                // Handle long titles by breaking into 2 lines
                 const lines = bottomText.split(' ');
                 if(lines.length > 3) {
                     const mid = Math.ceil(lines.length / 2);
-                    draw3DText(lines.slice(0, mid).join(' '), 750, 130);
-                    draw3DText(lines.slice(mid).join(' '), 880, 130);
+                    // Centered vertically around 512
+                    draw3DText(lines.slice(0, mid).join(' '), 460, 130, 900);
+                    draw3DText(lines.slice(mid).join(' '), 580, 130, 900);
                 } else {
-                    draw3DText(bottomText, 850, 150);
+                    draw3DText(bottomText, 512, 150, 900);
                 }
             }
 
