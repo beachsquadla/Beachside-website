@@ -324,7 +324,7 @@
             <div id="tab-cover" class="hidden bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10 shadow-2xl relative">
                 <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">Generative Engine</div>
                 <h2 class="text-3xl font-display font-bold uppercase tracking-widest text-white mb-4">Cover Art Lab</h2>
-                <p class="text-gray-400 mb-6 text-sm leading-relaxed font-light">Generate unique artwork with bold, metallic 3D typography perfectly blended into your image. Choose your style and officially stamp it with the Parental Advisory logo.</p>
+                <p class="text-gray-400 mb-6 text-sm leading-relaxed font-light">Generate unique artwork with bold, modern typography perfectly blended into your image. Choose your style and officially stamp it with the Parental Advisory logo.</p>
                 
                 <div class="grid md:grid-cols-2 gap-10">
                     <div class="space-y-5">
@@ -720,57 +720,58 @@
             btn.classList.add('selected');
         }
 
+        // Helper function to lighten a color for the gradient
+        function adjustColorBrightness(color, amount) {
+            return '#' + color.replace(/^#/, '').replace(/../g, color => ('0'+Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
+        }
+
         // Asynchronous drawing ensures fonts & stickers load BEFORE saving image
         async function drawOverlays(ctx, topText, bottomText, fontName, showSticker) {
             // Force browser to fully load Google fonts before drawing text to canvas
             await document.fonts.ready;
             
-            // 90% Opacity applied to Text and Sticker
-            ctx.globalAlpha = 0.90; 
+            // 85% Opacity applied to Text and Sticker
+            ctx.globalAlpha = 0.85; 
 
-            // Text Styling Function (3D Chrome / Blockbuster effect)
-            const draw3DText = (text, yPos, size, maxWidth) => {
+            // Text Styling Function (Cleaner, Modern Look)
+            const drawStyledText = (text, yPos, size, maxWidth) => {
                 ctx.font = `bold ${size}px "${fontName}", Impact, sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
 
-                // Heavy Black Drop Shadow
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
-                ctx.shadowBlur = 20;
-                ctx.shadowOffsetX = 8;
-                ctx.shadowOffsetY = 8;
+                // Softer, more diffused drop shadow
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+                ctx.shadowBlur = 15;
+                ctx.shadowOffsetX = 5;
+                ctx.shadowOffsetY = 5;
 
-                // Thick White Border Stroke
-                ctx.lineWidth = size * 0.05;
+                // Thinner, cleaner white border stroke
+                ctx.lineWidth = size * 0.03;
                 ctx.strokeStyle = 'white';
                 ctx.strokeText(text, 512, yPos, maxWidth);
 
-                // Metallic Gradient Fill using selected base color
+                // Modern subtle gradient fill
                 const gradient = ctx.createLinearGradient(0, yPos - size/2, 0, yPos + size/2);
-                gradient.addColorStop(0, 'white');
-                gradient.addColorStop(0.4, selectedTextColor);
-                gradient.addColorStop(0.5, '#555555'); // Chrome reflection cut
-                gradient.addColorStop(0.55, 'white');
-                gradient.addColorStop(1, selectedTextColor);
+                gradient.addColorStop(0, adjustColorBrightness(selectedTextColor, 20)); // Slightly lighter top
+                gradient.addColorStop(1, selectedTextColor); // Base color bottom
                 
-                ctx.shadowColor = 'transparent'; // Turn off shadow so fill is clean
+                ctx.shadowColor = 'transparent'; // Turn off shadow for clean fill
                 ctx.fillStyle = gradient;
                 ctx.fillText(text, 512, yPos, maxWidth);
             };
 
-            // Artist Name (Top Center) - Max width added for padding
-            if(topText) { draw3DText(topText, 150, 90, 900); }
+            // Artist Name (Top Center)
+            if(topText) { drawStyledText(topText, 150, 90, 900); }
             
-            // Song Title (Centered in middle) - Max width added for padding
+            // Song Title (Lowered to bottom third)
             if(bottomText) {
                 const lines = bottomText.split(' ');
                 if(lines.length > 3) {
                     const mid = Math.ceil(lines.length / 2);
-                    // Centered vertically around 512
-                    draw3DText(lines.slice(0, mid).join(' '), 460, 130, 900);
-                    draw3DText(lines.slice(mid).join(' '), 580, 130, 900);
+                    drawStyledText(lines.slice(0, mid).join(' '), 750, 130, 900);
+                    drawStyledText(lines.slice(mid).join(' '), 850, 130, 900);
                 } else {
-                    draw3DText(bottomText, 512, 150, 900);
+                    drawStyledText(bottomText, 800, 150, 900);
                 }
             }
 
