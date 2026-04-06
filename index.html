@@ -7,7 +7,6 @@
     <meta name="theme-color" content="#000000">
     <title>Beachside Studios | Premium Recording Inglewood</title>
     
-    <!-- Fonts: Inter, Oswald, Anton, Bebas, Spartan, Russo, Sigmar, Black Ops, Permanent Marker -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&family=Anton&family=Bebas+Neue&family=League+Spartan:wght@700&family=Russo+One&family=Sigmar+One&family=Black+Ops+One&family=Permanent+Marker&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -93,13 +92,10 @@
 </head>
 <body class="antialiased flex flex-col min-h-screen">
 
-    <!-- Loading Screen -->
     <div id="preloader"><div class="spinner"></div></div>
 
-    <!-- Header / Title Bar -->
     <header class="fixed top-0 w-full z-40 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
         <div class="container mx-auto px-4 py-2 flex justify-between items-center relative z-50">
-            <!-- Logo + Text Always Visible -->
             <button onclick="navigateTo('view-home')" class="flex items-center gap-3 group cursor-pointer">
                 <div class="relative">
                     <img src="1000049066.png" class="w-10 h-10 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10 border border-white/20">
@@ -110,7 +106,6 @@
                 </span>
             </button>
 
-            <!-- Desktop Nav -->
             <nav class="hidden lg:flex items-center gap-6">
                 <button type="button" onclick="navigateTo('view-home')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Home</button>
                 <button type="button" onclick="navigateToAI('audio')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">AI Master</button>
@@ -120,13 +115,11 @@
                 <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition">Book Now</a>
             </nav>
 
-            <!-- Mobile Hamburger -->
             <button class="lg:hidden text-white p-2 -mr-2 cursor-pointer z-50" onclick="toggleMenu()">
                 <i data-lucide="menu" id="menu-icon" class="w-8 h-8"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden fixed inset-0 bg-black/95 backdrop-blur-xl z-40 flex-col justify-center items-center space-y-6 pt-12">
             <button type="button" onclick="navigateTo('view-home')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red w-full py-4 text-center cursor-pointer">Home</button>
             <button type="button" onclick="scrollToSection('studio-gallery')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red w-full py-4 text-center cursor-pointer">Explore Studio</button>
@@ -138,9 +131,7 @@
         </div>
     </header>
 
-    <!-- ================= VIEW: HOME ================= -->
     <div id="view-home" class="view-section active">
-        <!-- Hero -->
         <section class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-20">
             <div class="relative z-10 max-w-4xl mx-auto">
                 <div class="relative inline-block mb-10">
@@ -161,7 +152,6 @@
             </div>
         </section>
 
-        <!-- About -->
         <section id="about" class="py-24 bg-black px-6">
             <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
                 <div>
@@ -183,7 +173,6 @@
             </div>
         </section>
 
-        <!-- Studio Gallery -->
         <section id="studio-gallery" class="py-24 bg-trs-dark px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-16">
@@ -200,7 +189,6 @@
             </div>
         </section>
 
-        <!-- Reviews -->
         <section id="reviews" class="py-24 bg-black border-y border-white/5">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
@@ -226,7 +214,6 @@
             </div>
         </section>
 
-        <!-- Yachty Intro -->
         <section class="py-24 bg-trs-gray px-6 border-b border-white/5">
             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div>
@@ -245,20 +232,17 @@
             </div>
         </section>
 
-        <!-- NEW: Dedicated AI Highlights Section -->
         <section class="py-24 bg-black border-b border-white/5">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl md:text-4xl font-display font-bold uppercase tracking-wide text-white mb-4">The AI Creator Suite</h2>
                 <p class="text-gray-500 max-w-2xl mx-auto mb-10">Accelerate your workflow with our advanced browser-based tools. Polish your tracks and generate unique album artwork instantly.</p>
                 <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    <!-- Audio Card -->
                     <div class="bg-trs-dark p-10 border border-white/10 hover:border-trs-red transition flex flex-col items-center shadow-xl rounded-xl">
                         <i data-lucide="audio-lines" class="w-14 h-14 text-trs-red mb-6"></i>
                         <h3 class="text-2xl font-display uppercase tracking-widest text-white mb-4">AI Mix & Master Engine</h3>
                         <p class="text-gray-400 mb-8 text-sm leading-relaxed font-light text-center">Upload your raw track. Our engine automatically applies a "smooth as butter" EQ curve, glues it with light compression, and masters it to industry-standard streaming levels securely on your device.</p>
                         <button type="button" onclick="navigateToAI('audio')" class="mt-auto border border-trs-red bg-trs-red text-white hover:bg-white hover:text-black transition px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer shadow-[0_0_15px_rgba(204,0,0,0.3)]">Open Audio Engine</button>
                     </div>
-                    <!-- Cover Art Card -->
                     <div class="bg-trs-dark p-10 border border-white/10 hover:border-trs-red transition flex flex-col items-center shadow-xl rounded-xl">
                         <i data-lucide="image" class="w-14 h-14 text-trs-red mb-6"></i>
                         <h3 class="text-2xl font-display uppercase tracking-widest text-white mb-4">Cover Artwork Generator</h3>
@@ -270,16 +254,13 @@
         </section>
     </div>
 
-    <!-- ================= VIEW: AI ENGINE ================= -->
     <div id="view-ai" class="view-section pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
         <div class="max-w-5xl mx-auto">
-            <!-- Tabs -->
             <div class="flex gap-4 border-b border-white/10 mb-8 justify-center">
                 <button type="button" onclick="switchTab('audio')" id="btn-audio" class="pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition cursor-pointer">AI Mix & Master</button>
                 <button type="button" onclick="switchTab('cover')" id="btn-cover" class="pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition cursor-pointer">Cover Art Lab</button>
             </div>
 
-            <!-- Audio Tab -->
             <div id="tab-audio" class="bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10 relative shadow-2xl">
                 <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">v3.0 Smooth Master API</div>
                 
@@ -320,7 +301,6 @@
                 </div>
             </div>
 
-            <!-- Cover Art Tab -->
             <div id="tab-cover" class="hidden bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10 shadow-2xl relative">
                 <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">Generative Engine</div>
                 <h2 class="text-3xl font-display font-bold uppercase tracking-widest text-white mb-4">Cover Art Lab</h2>
@@ -328,7 +308,6 @@
                 
                 <div class="grid md:grid-cols-2 gap-10">
                     <div class="space-y-5">
-                        <!-- Art Style Selection -->
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Art Style</label>
                             <select id="art-style-select" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none">
@@ -402,7 +381,6 @@
         </div>
     </div>
 
-    <!-- ================= VIEW: RATES ================= -->
     <div id="view-rates" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12"><h1 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Rates & <span class="text-trs-red">Booking</span></h1><p class="text-gray-500">Professional studio time. Transparent pricing.</p></div>
@@ -434,7 +412,6 @@
         </div>
     </div>
 
-    <!-- Location & Social Footer -->
     <section id="location" class="py-16 bg-black px-6 border-t border-white/5">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center mb-16">
             <div>
@@ -446,7 +423,6 @@
                 </div>
             </div>
             <div class="rounded-xl overflow-hidden h-80 md:h-96 bg-trs-gray border border-white/10">
-                <!-- Using foolproof Q parameter for Google Maps to avoid rejection errors -->
                 <iframe src="https://maps.google.com/maps?q=233%20S%20Market%20St,%20Inglewood,%20CA%2090301&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
@@ -462,7 +438,6 @@
         <p class="text-gray-600 text-xs uppercase tracking-widest">© 2026 Beachside Studio. All Rights Reserved.</p>
     </footer>
 
-    <!-- Yachty Chatbot -->
     <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-[320px] w-full hidden mx-4 sm:mx-0">
         <div class="bg-[#080808] border-2 border-trs-red rounded-xl shadow-[0_0_40px_rgba(204,0,0,0.4)] overflow-hidden">
             <div class="bg-trs-red p-4 flex items-center justify-between relative">
@@ -768,10 +743,12 @@
                 const lines = bottomText.split(' ');
                 if(lines.length > 3) {
                     const mid = Math.ceil(lines.length / 2);
-                    drawStyledText(lines.slice(0, mid).join(' '), 750, 130, 900);
-                    drawStyledText(lines.slice(mid).join(' '), 850, 130, 900);
+                    // Raised Y values by 50 pixels from original 750/850 to 700/800
+                    drawStyledText(lines.slice(0, mid).join(' '), 700, 130, 900);
+                    drawStyledText(lines.slice(mid).join(' '), 800, 130, 900);
                 } else {
-                    drawStyledText(bottomText, 800, 150, 900);
+                    // Raised Y value by 50 pixels from original 800 to 750
+                    drawStyledText(bottomText, 750, 150, 900);
                 }
             }
 
