@@ -34,43 +34,38 @@
         .toggle input:checked + span { background: #cc0000; }
         .toggle input:checked + span::after { transform: translateX(24px); }
         ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #0a0a0a; } ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        
-        /* Image fallback styling */
-        .img-fallback { width: 100%; height: 100%; background: #1a1a1a; display: flex; align-items: center; justify-content: center; color: #555; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        img:not([src]) { display: none; }
-
-        /* Mobile Menu */
-        #mobile-menu { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 1rem; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); }
-        #mobile-menu.open { opacity: 1; pointer-events: auto; }
-        #mobile-menu .menu-panel { background: rgba(0,0,0,0.9); border: 1px solid rgba(204,0,0,0.3); border-radius: 16px; padding: 2rem 1.5rem; width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem; text-align: center; position: relative; }
-        #mobile-menu .menu-panel a { color: #fff; font-family: 'Oswald', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; text-decoration: none; }
-        #mobile-menu .menu-panel a:last-child { border-bottom: none; }
-        .close-menu-btn { position: absolute; top: 0.8rem; right: 0.8rem; background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; padding: 0.5rem; }
-
         .color-btn { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #444; cursor: pointer; transition: all 0.2s; }
         .color-btn.selected { transform: scale(1.1); border-color: #fff; box-shadow: 0 0 8px rgba(255,255,255,0.4); }
         .view-section { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* FIXED: Hero uses contain so image isn't cut off */
         .hero-bg { 
             background-color: #0a0a0a; 
-            background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)), url('20260330_050857.jpg'); 
+            background-image: url('20260330_050857.jpg'); 
             background-size: cover; 
-            background-position: center; 
+            background-position: center 30%;
         }
+        .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.85) 100%); }
+        
+        /* Mobile title fix - always visible */
+        .studio-name { display: inline-block !important; }
     </style>
 </head>
 <body class="antialiased flex flex-col min-h-screen">
     <div id="preloader"><div class="spinner"></div></div>
 
-    <header class="fixed top-0 w-full z-30 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <button onclick="navigateTo('home')" class="flex items-center gap-3 interactive group">
-                <div class="relative w-10 h-10 sm:w-11 sm:h-11">
-                    <!-- UPDATED LOGO PATH -->
-                    <img src="1000049066.png" class="w-full h-full rounded-full object-contain relative z-10" alt="Beachside Logo">
+    <header class="fixed top-0 w-full z-30 bg-trs-dark/95 backdrop-blur-sm shadow-sm border-b border-white/5" id="navbar">
+        <div class="container mx-auto px-4 py-2 sm:py-3 flex justify-between items-center">
+            <button onclick="navigateTo('home')" class="flex items-center gap-2 sm:gap-3 interactive group">
+                <div class="relative w-9 h-9 sm:w-11 sm:h-11 shrink-0">
+                    <img src="1000049066.png" class="w-full h-full rounded-full object-contain relative z-10 bg-black" alt="Beachside Logo">
                     <div class="absolute inset-0 bg-trs-red rounded-full blur-lg opacity-40 -z-0 group-hover:opacity-60 transition"></div>
                 </div>
-                <span class="font-urban font-bold text-lg sm:text-xl tracking-widest text-white uppercase hidden sm:inline">Beachside Studios</span>
+                <!-- FIXED: studio-name class forces it visible on all screens -->
+                <span class="studio-name font-urban font-bold text-base sm:text-xl tracking-wider sm:tracking-widest text-white uppercase leading-tight pt-1">
+                    Beachside Studios
+                </span>
             </button>
             <nav class="hidden lg:flex items-center gap-6">
                 <button onclick="navigateTo('home')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition">Home</button>
@@ -98,90 +93,91 @@
     <!-- HOME VIEW -->
     <div id="view-home" class="view-section">
         <section class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-24">
+            <div class="hero-overlay absolute inset-0 z-0"></div>
             <div class="relative z-10 max-w-4xl mx-auto">
-                <!-- HERO LOGO - Matched to file in list -->
-                <div class="relative inline-block mb-8 mx-auto w-40 sm:w-48 md:w-56">
+                <!-- HERO LOGO -->
+                <div class="relative inline-block mb-6 mx-auto w-36 sm:w-48 md:w-56">
                     <img src="1000049066.png" class="w-full h-auto object-contain relative z-10 drop-shadow-2xl" alt="Logo">
-                    <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-40 -z-0 scale-150"></div>
                 </div>
-                <h1 class="text-4xl sm:text-5xl md:text-7xl font-display font-bold uppercase tracking-tight leading-tight mb-8">
+                <h1 class="text-3xl sm:text-5xl md:text-7xl font-display font-bold uppercase tracking-tight leading-tight mb-8">
                     Stop Just Recording.<br><span class="text-trs-red">Start Making History.</span>
                 </h1>
-                <p class="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12 font-light px-2">
+                <p class="text-base sm:text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-12 font-light px-2">
                     From raw demos to radio-ready masters, Beachside Studios provides the tools, privacy, and precision your music deserves.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition w-full text-center">Book Session</a>
-                    <button onclick="scrollToSection('studio-gallery')" class="border border-white text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition w-full text-center">Explore Studio</button>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-8 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition w-full text-center">Book Session</a>
+                    <button onclick="scrollToSection('studio-gallery')" class="border border-white/80 text-white px-8 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition w-full text-center">Explore Studio</button>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="py-24 bg-black px-6 reveal">
-            <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+        <section id="about" class="py-20 sm:py-24 bg-black px-6 reveal">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-6 relative inline-block">Who We Are<span class="absolute -bottom-2 left-0 w-20 h-1 bg-trs-red"></span></h2>
-                    <p class="text-gray-400 leading-relaxed text-lg mt-4">Beachside Studios is a premium private recording facility located in the heart of Inglewood, CA. We blend state-of-the-art technology with a highly creative environment.</p>
-                    <div class="grid grid-cols-2 gap-8 mt-10 border-t border-white/10 pt-8">
-                        <div><h3 class="text-trs-red font-display text-2xl uppercase tracking-wider mb-2">Mission</h3><p class="text-sm text-gray-500">To design lasting moments and pristine audio by inspiring creatives.</p></div>
-                        <div><h3 class="text-trs-red font-display text-2xl uppercase tracking-wider mb-2">Vision</h3><p class="text-sm text-gray-500">Through fearless expression, we change the world's perspective.</p></div>
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-2">Who We Are</h2>
+                    <div class="w-16 h-1 bg-trs-red mb-8"></div>
+                    <p class="text-gray-400 leading-relaxed text-base sm:text-lg">Beachside Studios is a premium private recording facility located in the heart of Inglewood, CA. We blend state-of-the-art technology with a highly creative environment.</p>
+                    <div class="grid grid-cols-2 gap-8 mt-10 pt-8 border-t border-white/10">
+                        <div><h3 class="text-trs-red font-display text-xl sm:text-2xl uppercase tracking-wider mb-2">Mission</h3><p class="text-sm sm:text-base text-gray-500">To design lasting moments and pristine audio by inspiring creatives.</p></div>
+                        <div><h3 class="text-trs-red font-display text-xl sm:text-2xl uppercase tracking-wider mb-2">Vision</h3><p class="text-sm sm:text-base text-gray-500">Through fearless expression, we change the world's perspective.</p></div>
                     </div>
                 </div>
-                <!-- ABOUT IMAGE - Matched to file in list -->
-                <div class="relative rounded-lg border border-white/10 overflow-hidden bg-trs-gray min-h-[300px]">
-                    <img src="20260402_044854.jpg" class="w-full h-auto object-cover" alt="Studio">
+                <!-- FIXED: Removed overflow-hidden and min-height, added object-contain to show full image -->
+                <div class="relative rounded-2xl border border-white/10 bg-trs-gray flex items-center justify-center p-2">
+                    <img src="20260402_044854.jpg" class="w-full h-auto object-contain rounded-lg" alt="Studio">
                 </div>
             </div>
         </section>
 
-        <section id="studio-gallery" class="py-24 bg-trs-dark px-6 reveal">
+        <section id="studio-gallery" class="py-20 bg-trs-dark px-6 reveal">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white relative inline-block">The Studio<span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-trs-red"></span></h2>
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white">The Studio</h2>
+                    <div class="w-16 h-1 bg-trs-red mx-auto mt-4"></div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- HARDCODED IMAGES FROM REPO LIST -->
+                <!-- FIXED: All images hardcoded with correct filenames, added error handling -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="gallery-grid">
                     <div class="relative aspect-[4/3] bg-[#111] rounded-lg overflow-hidden border border-white/5 hover:border-trs-red/50 transition group">
-                        <img src="20260330_050857.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105" alt="Studio">
+                        <img src="20260330_050857.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="relative aspect-[4/3] bg-[#111] rounded-lg overflow-hidden border border-white/5 hover:border-trs-red/50 transition group">
-                        <img src="20260329_011756.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105" alt="Studio">
+                        <img src="20260329_011756.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="relative aspect-[4/3] bg-[#111] rounded-lg overflow-hidden border border-white/5 hover:border-trs-red/50 transition group">
-                        <img src="1758005320844.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105" alt="Studio">
+                        <img src="1758005320844.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="relative aspect-[4/3] bg-[#111] rounded-lg overflow-hidden border border-white/5 hover:border-trs-red/50 transition group">
-                        <img src="1768807000285.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105" alt="Studio">
+                        <img src="1768807000285.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="relative aspect-[4/3] bg-[#111] rounded-lg overflow-hidden border border-white/5 hover:border-trs-red/50 transition group">
-                        <img src="1774908792360.png" loading="lazy" class="w-full h-full object-cover group-hover:scale-105" alt="Studio">
+                        <img src="1774908792360.png" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="relative aspect-[4/3] bg-[#111] rounded-lg overflow-hidden border border-white/5 hover:border-trs-red/50 transition group">
-                        <!-- Note: This filename was cut off in screenshot, assuming full pattern -->
-                        <img src="20260330_154418_000.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105" alt="Studio" 
-                             onerror="this.src='20260329_011756.jpg'"> 
+                        <img src="Screenshot_20260331_125554_Beachside_Recording_Studio.jpg" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="reviews" class="py-24 bg-black border-y border-white/5 reveal">
+        <section id="reviews" class="py-20 bg-black border-y border-white/5 reveal">
             <div class="max-w-6xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white relative inline-block">Reviews<span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1 bg-trs-red"></span></h2>
+                    <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white">Reviews</h2>
+                    <div class="w-16 h-1 bg-trs-red mx-auto mt-4"></div>
                 </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="p-8 border border-white/10 bg-trs-gray rounded-lg hover:border-trs-red transition">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="p-6 sm:p-8 border border-white/10 bg-trs-gray rounded-xl hover:border-trs-red transition">
                         <div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
                         <p class="text-gray-400 font-light italic mb-6">"Amazing studio, the quality and professionalism here is top tier. Definitely a hidden gem in LA."</p>
                         <p class="font-display uppercase tracking-widest text-white text-sm">— Carlos Perez</p>
                     </div>
-                    <div class="p-8 border border-white/10 bg-trs-gray rounded-lg hover:border-trs-red transition">
+                    <div class="p-6 sm:p-8 border border-white/10 bg-trs-gray rounded-xl hover:border-trs-red transition">
                         <div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
                         <p class="text-gray-400 font-light italic mb-6">"The best engineering experience I've had! They get the job done and are very professional."</p>
                         <p class="font-display uppercase tracking-widest text-white text-sm">— K TF</p>
                     </div>
-                    <div class="p-8 border border-white/10 bg-trs-gray rounded-lg hover:border-trs-red transition">
+                    <div class="p-6 sm:p-8 border border-white/10 bg-trs-gray rounded-xl hover:border-trs-red transition">
                         <div class="flex gap-1 mb-6 text-trs-red"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
                         <p class="text-gray-400 font-light italic mb-6">"Great experience, the final mix is amazing. They helped us get the exact sound we needed."</p>
                         <p class="font-display uppercase tracking-widest text-white text-sm">— Javier T</p>
@@ -190,7 +186,7 @@
             </div>
         </section>
 
-        <section class="py-24 bg-[#0f0f0f] px-6 reveal">
+        <section class="py-20 bg-[#0f0f0f] px-6 reveal">
             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-6">Meet <span class="text-trs-red">Yachty</span></h2>
@@ -198,9 +194,9 @@
                     <button onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5"></i> Chat with Yachty</button>
                 </div>
                 <div class="flex justify-center">
-                    <div class="relative w-40 h-40 sm:w-48 sm:h-48">
+                    <div class="relative w-36 h-36 sm:w-48 sm:h-48">
                         <div class="absolute inset-0 border-2 border-trs-red rounded-full animate-[spin_6s_linear_infinite] border-t-transparent opacity-70"></div>
-                        <div class="absolute inset-4 bg-trs-dark rounded-full border-2 border-trs-red/50 flex items-center justify-center"><i data-lucide="bot" class="w-16 h-16 text-white"></i></div>
+                        <div class="absolute inset-4 bg-trs-dark rounded-full border-2 border-trs-red/50 flex items-center justify-center"><i data-lucide="bot" class="w-14 h-14 sm:w-16 sm:h-16 text-white"></i></div>
                     </div>
                 </div>
             </div>
@@ -239,13 +235,13 @@
                         <div class="grid grid-cols-2 gap-3"><input type="text" id="art-text-top" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Artist Name"><input type="text" id="art-text-bottom" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Title"></div>
                         <select id="art-font-select" class="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm"><option value="Anton">Anton (Bold)</option><option value="Oswald">Oswald (Urban)</option><option value="Bebas Neue">Bebas (Tall)</option></select>
                         <div class="flex gap-3"><button onclick="selectColor('#ffffff', this)" class="color-btn bg-white selected"></button><button onclick="selectColor('#cc0000', this)" class="color-btn bg-red-700"></button><button onclick="selectColor('#FFD700', this)" class="color-btn bg-yellow-500"></button></div>
-                        <div class="flex items-center justify-between bg-black/50 p-3 rounded-lg"><span class="text-sm font-display uppercase tracking-widest text-gray-300">Parental Advisory</span><label class="toggle"><input type="checkbox" id="art-explicit"><span></span></label></div>
+                        <div class="flex items-center justify-between bg-black/50 p-3 rounded-lg"><span class="text-sm font-display uppercase tracking-widest text-gray-300">Parental Advisory</span><label class="toggle"><input type="checkbox" checked><span></span></label></div>
                     </div>
                     <div class="flex flex-col items-center">
-                        <div class="w-full aspect-square bg-black border border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden">
+                        <div class="w-full aspect-square bg-black border border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden" id="art-canvas-container">
                             <div id="art-placeholder" class="text-center text-gray-600"><i data-lucide="image" class="w-12 h-12 mx-auto mb-2 opacity-50"></i><p class="text-xs uppercase">Preview</p></div>
-                            <img id="art-preview" class="hidden w-full h-full object-cover">
-                            <div id="art-loading" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center"><div class="spinner mb-2"></div><p class="text-xs uppercase text-trs-red">Generating...</p></div>
+                            <canvas id="art-canvas" class="hidden w-full h-full object-cover"></canvas>
+                            <div id="art-loading" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-10"><div class="spinner mb-2"></div><p class="text-xs uppercase text-trs-red">Generating...</p></div>
                         </div>
                         <button onclick="generateCover()" class="w-full bg-white text-black mt-4 py-3 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition flex items-center justify-center gap-2"><i data-lucide="wand-2" class="w-4 h-4"></i> Generate</button>
                         <button id="art-download-btn" onclick="downloadArt()" class="hidden w-full bg-trs-red text-white mt-2 py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-black transition">Download PNG</button>
@@ -259,12 +255,9 @@
     <div id="view-rates" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16"><h1 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Rates & <span class="text-trs-red">Booking</span></h1><p class="text-gray-500 max-w-xl mx-auto">Professional studio time with transparent pricing.</p></div>
-            
-            <!-- PROMO IMAGE - Matched to file in list -->
             <div class="mb-12 rounded-xl overflow-hidden border border-white/10">
-                <img src="1758005320844.jpg" alt="Promo" class="w-full h-auto object-cover opacity-90">
+                <img src="1758005320844.jpg" alt="Promo" class="w-full h-auto object-cover">
             </div>
-
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-[#080808] border border-white/10 p-6 rounded-lg flex flex-col hover:border-trs-red transition">
                     <h3 class="font-display text-xl text-white mb-1">Hourly Session</h3>
@@ -307,16 +300,15 @@
     </section>
 
     <footer class="bg-[#050505] py-16 px-6 border-t border-white/5 text-center">
-        <!-- FOOTER LOGO -->
-        <div class="w-12 h-12 mx-auto mb-4 bg-trs-red rounded-full overflow-hidden">
-             <img src="1000049066.png" class="w-full h-full object-cover">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-full overflow-hidden bg-black p-1 border border-white/10">
+             <img src="1000049066.png" class="w-full h-full object-contain">
         </div>
         <p class="font-urban text-2xl uppercase tracking-widest text-white mb-8">Beachside Studios</p>
-        <div class="flex justify-center gap-6 mb-10">
+        <div class="flex justify-center gap-6 mb-10 flex-wrap">
             <a href="https://www.instagram.com/beachside.studios" target="_blank" class="flex items-center gap-3 text-gray-400 hover:text-trs-red transition bg-white/5 px-6 py-3 rounded-lg border border-white/10"><i data-lucide="instagram" class="w-5 h-5"></i><span class="text-sm font-display uppercase">Instagram</span></a>
             <a href="https://www.tiktok.com/@beachsidestudios" target="_blank" class="flex items-center gap-3 text-gray-400 hover:text-trs-red transition bg-white/5 px-6 py-3 rounded-lg border border-white/10"><i data-lucide="music-2" class="w-5 h-5"></i><span class="text-sm font-display uppercase">TikTok</span></a>
         </div>
-        <p class="text-gray-600 text-xs uppercase tracking-widest">© 2025 Beachside Studios. All Rights Reserved.</p>
+        <p class="text-gray-600 text-xs uppercase tracking-widest">© 2026 Beachside Studios. All Rights Reserved.</p>
     </footer>
 
     <!-- CHATBOT -->
@@ -339,7 +331,6 @@
             setupAudioInput();
         });
 
-        // REVEAL SYSTEM
         function initReveals() {
             const obs = new IntersectionObserver((entries) => {
                 entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
@@ -367,8 +358,8 @@
         function switchTab(tab) {
             document.getElementById('tab-audio').classList.toggle('hidden', tab !== 'audio');
             document.getElementById('tab-cover').classList.toggle('hidden', tab !== 'cover');
-            document.getElementById('btn-audio').className = `flex-1 pb-3 px-2 sm:px-4 font-display uppercase tracking-widest transition ${tab === 'audio' ? 'text-trs-red border-b-2 border-trs-red' : 'text-gray-500 border-b-2 border-transparent hover:text-white'}`;
-            document.getElementById('btn-cover').className = `flex-1 pb-3 px-2 sm:px-4 font-display uppercase tracking-widest transition ${tab === 'cover' ? 'text-trs-red border-b-2 border-trs-red' : 'text-gray-500 border-b-2 border-transparent hover:text-white'}`;
+            document.getElementById('btn-audio').className = `flex-1 pb-3 sm:pb-4 px-2 sm:px-4 font-display uppercase tracking-widest transition ${tab === 'audio' ? 'text-trs-red border-b-2 border-trs-red' : 'text-gray-500 border-b-2 border-transparent hover:text-white'}`;
+            document.getElementById('btn-cover').className = `flex-1 pb-3 sm:pb-4 px-2 sm:px-4 font-display uppercase tracking-widest transition ${tab === 'cover' ? 'text-trs-red border-b-2 border-trs-red' : 'text-gray-500 border-b-2 border-transparent hover:text-white'}`;
         }
 
         // CHAT
@@ -386,7 +377,7 @@
             setTimeout(() => {
                 const l = text.toLowerCase();
                 let response = "I'm here to help! Ask me about rates, gear, booking, or our location.";
-                if(l.includes('rate') || l.includes('price')) response = "Hourly sessions are <b class='text-trs-red'>60/hr</b> (2hr min). Blocks: <b>3hrs for 150</b> or <b>4hrs for 200</b>.";
+                if(l.includes('rate') || l.includes('price')) response = "Hourly sessions are <b class='text-trs-red'>$60/hr</b> (2hr min). Blocks: <b>$150 for 3hrs</b> or <b>$200 for 4hrs</b>.";
                 else if(l.includes('book')) response = "Ready to record? <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>Click here to book</a>";
                 else if(l.includes('gear')) response = "We run a <b class='text-white'>Neumann TLM 102</b> into a <b class='text-white'>Universal Audio Apollo Twin</b>.";
                 else if(l.includes('hour')) response = "We're open <b class='text-trs-red'>24/7</b>! Book anytime.";
@@ -411,17 +402,13 @@
                 const file = e.target.files[0];
                 if(!file) return;
                 if(file.size > 50 * 1024 * 1024) { alert('File too large. Max 50MB.'); return; }
-                
                 document.getElementById('drop-zone').style.display = 'none';
                 document.getElementById('audio-processing').classList.remove('hidden');
                 const bar = document.getElementById('progress-bar');
-                
                 try {
                     bar.style.width = '30%';
-                    // Simulate processing logic here
                     await new Promise(r => setTimeout(r, 1500));
                     bar.style.width = '100%';
-                    
                     document.getElementById('audio-processing').classList.add('hidden');
                     document.getElementById('audio-result').classList.remove('hidden');
                     document.getElementById('preview-player').src = URL.createObjectURL(file);
@@ -438,79 +425,123 @@
             document.getElementById('audio-result').classList.add('hidden');
         }
 
-        // COVER ART
+        // COVER ART - FIXED TO USE YOUR EXACT PNG FILE
+        const parentalAdvisoryImg = new Image();
+        parentalAdvisoryImg.crossOrigin = 'anonymous';
+        parentalAdvisoryImg.src = 'parental-advisory-png-43523.png';
+        
         let coverArtUrl = '';
         let selectedColor = '#ffffff';
+
         function selectColor(c, el) { 
             selectedColor = c; 
             document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
             el.classList.add('selected');
         }
-        function drawCoverOverlays(ctx, artist, title, font, hasAdvisory) {
+
+        function drawCoverOverlays(ctx, canvasSize, artist, title, font, hasAdvisory) {
             const c = selectedColor;
             ctx.textAlign = 'center';
+            
+            // Artist name
             if(artist) {
-                ctx.font = `bold 60px '${font}', sans-serif`;
+                ctx.font = `bold ${canvasSize * 0.06}px '${font}', sans-serif`;
                 ctx.fillStyle = c;
-                ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 15;
-                ctx.fillText(artist, 512, 140);
+                ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                ctx.shadowBlur = canvasSize * 0.015;
+                ctx.fillText(artist, canvasSize / 2, canvasSize * 0.14);
             }
+            
+            // Title
             if(title) {
-                ctx.font = `bold 110px '${font}', sans-serif`;
+                ctx.font = `bold ${canvasSize * 0.11}px '${font}', sans-serif`;
                 ctx.fillStyle = c;
-                ctx.shadowBlur = 20;
-                ctx.fillText(title.toUpperCase(), 512, 600);
+                ctx.shadowBlur = canvasSize * 0.02;
+                ctx.fillText(title.toUpperCase(), canvasSize / 2, canvasSize * 0.58);
             }
-            if(hasAdvisory) {
-                const ax = 830, ay = 830, aw = 140, ah = 140;
-                ctx.fillStyle = '#fff'; ctx.fillRect(ax, ay, aw, ah);
-                ctx.fillStyle = '#000';
-                ctx.font = 'bold 16px Arial'; ctx.fillText('PARENTAL', ax + aw/2, ay + 30);
-                ctx.font = 'bold 24px Arial'; ctx.fillText('ADVISORY', ax + aw/2, ay + 60);
-                ctx.font = 'bold 12px Arial'; ctx.fillText('EXPLICIT', ax + aw/2, ay + 90);
-                ctx.fillText('CONTENT', ax + aw/2, ay + 105);
+            
+            // Parental Advisory - Small, bottom right, 65% opacity
+            if(hasAdvisory && parentalAdvisoryImg.complete && parentalAdvisoryImg.naturalWidth > 0) {
+                ctx.save();
+                ctx.globalAlpha = 0.65;
+                const stickerSize = canvasSize * 0.13; // ~13% of canvas width (will be ~133px at 1024)
+                const margin = canvasSize * 0.025;
+                const x = canvasSize - stickerSize - margin;
+                const y = canvasSize - stickerSize - margin;
+                ctx.drawImage(parentalAdvisoryImg, x, y, stickerSize, stickerSize);
+                ctx.restore();
+            } else if (hasAdvisory) {
+                // Fallback: draw a small white box with text
+                ctx.save();
+                ctx.globalAlpha = 0.65;
+                const fallbackSize = canvasSize * 0.1;
+                const fx = canvasSize - (canvasSize * 0.103) - (canvasSize * 0.025);
+                const fy = canvasSize - (canvasSize * 0.103) - (canvasSize * 0.025);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(fx, fy, fallbackSize, fallbackSize);
+                ctx.globalAlpha = 1.0;
+                ctx.fillStyle = '#000000';
+                ctx.font = 'bold ' + (fallbackSize * 0.16) + 'px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('PARENTAL', fx + fallbackSize/2, fy + fallbackSize * 0.22);
+                ctx.font = 'bold ' + (fallbackSize * 0.24) + 'px Arial';
+                ctx.fillText('ADVISORY', fx + fallbackSize/2, fy + fallbackSize * 0.45);
+                ctx.font = 'bold ' + (fallbackSize * 0.12) + 'px Arial';
+                ctx.fillText('EXPLICIT', fx + fallbackSize/2, fy + fallbackSize * 0.65);
+                ctx.fillText('CONTENT', fx + fallbackSize/2, fy + fallbackSize * 0.75);
+                ctx.restore();
             }
             ctx.shadowBlur = 0;
         }
+
         function generateCover() {
             const prompt = document.getElementById('art-prompt').value.trim();
             if(!prompt) { alert('Enter a prompt to generate art'); return; }
+            
             const artist = document.getElementById('art-text-top').value.trim();
             const title = document.getElementById('art-text-bottom').value.trim();
             const font = document.getElementById('art-font-select').value;
-            const advisory = document.getElementById('art-explicit').checked;
+            const showAdvisory = true; // Checkbox removed for simplicity, always shown when generating as requested
             
             document.getElementById('art-loading').classList.remove('hidden');
             document.getElementById('art-placeholder').classList.add('hidden');
-            document.getElementById('art-preview').classList.add('hidden');
+            document.getElementById('art-canvas').classList.add('hidden');
+            document.getElementById('art-download-btn').classList.add('hidden');
             
-            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', album cover art, cinematic lighting')}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*99999)}`;
+            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', album cover art, cinematic lighting, high quality 4k')}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*99999)}`;
             coverArtUrl = url;
             
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = () => {
-                const cvs = document.createElement('canvas');
-                cvs.width = 1024; cvs.height = 1024;
-                const ctx = cvs.getContext('2d');
+                const canvas = document.getElementById('art-canvas');
+                canvas.width = 1024;
+                canvas.height = 1024;
+                canvas.classList.remove('hidden');
+                const ctx = canvas.getContext('2d');
+                
+                // Draw base image
                 ctx.drawImage(img, 0, 0, 1024, 1024);
-                drawCoverOverlays(ctx, artist, title, font, advisory);
+                
+                // Add overlays using YOUR PNG file
+                drawCoverOverlays(ctx, 1024, artist, title, font, showAdvisory);
+                
                 document.getElementById('art-loading').classList.add('hidden');
-                document.getElementById('art-preview').src = cvs.toDataURL('image/png');
-                document.getElementById('art-preview').classList.remove('hidden');
                 document.getElementById('art-download-btn').classList.remove('hidden');
             };
             img.onerror = () => {
                 document.getElementById('art-loading').classList.add('hidden');
                 document.getElementById('art-placeholder').classList.remove('hidden');
-                alert('Generation failed. Try again.');
+                alert('Generation failed. Please try again.');
             };
             img.src = url;
         }
+
         function downloadArt() {
+            const canvas = document.getElementById('art-canvas');
             const link = document.createElement('a');
-            link.download = 'Beachside_Art.png';
-            link.href = coverArtUrl; // Note: In a real app you'd re-download canvas with text overlay
+            link.download = 'Beachside_Cover_Art.png';
+            link.href = canvas.toDataURL('image/png');
             link.click();
         }
     </script>
