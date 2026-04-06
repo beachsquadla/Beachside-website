@@ -76,65 +76,6 @@
         }
         @media (max-width: 1024px) { .hero-bg { background-attachment: scroll; } }
 
-        /* GLASSMORPHISM MOBILE MENU */
-        #mobile-menu {
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            padding: 1rem;
-        }
-        #mobile-menu.open { opacity: 1; pointer-events: auto; }
-        
-        #mobile-menu .menu-panel {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(204, 0, 0, 0.25);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            width: 100%;
-            max-width: 360px;
-            box-shadow: 0 0 30px rgba(204, 0, 0, 0.15), 0 20px 50px rgba(0,0,0,0.6);
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            text-align: center;
-            position: relative;
-        }
-        #mobile-menu .menu-panel a {
-            color: #ffffff;
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: color 0.2s;
-            background: none;
-            width: 100%;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        #mobile-menu .menu-panel a:last-child { border-bottom: none; }
-        #mobile-menu .menu-panel a:hover { color: #cc0000; }
-        
-        .close-menu-btn {
-            position: absolute;
-            top: 1rem; right: 1rem;
-            background: none; border: none;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer; padding: 0.5rem;
-            transition: color 0.2s; z-index: 70;
-        }
-        .close-menu-btn:hover { color: #fff; }
-
         /* Color Picker Buttons */
         .color-btn {
             width: 40px; height: 40px;
@@ -143,6 +84,11 @@
         }
         .color-btn.selected { transform: scale(1.1); border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
         .color-btn:hover { transform: scale(1.15); }
+
+        /* SPA Views */
+        .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="antialiased flex flex-col min-h-screen">
@@ -151,58 +97,55 @@
     <div id="preloader"><div class="spinner"></div></div>
 
     <!-- Header / Title Bar -->
-    <header class="fixed top-0 w-full z-30 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
-        <div class="container mx-auto px-3 py-2 flex justify-between items-center">
-            <!-- Logo + Text Always Visible (Even on Mobile) -->
-            <button onclick="navigateTo('home')" class="flex items-center gap-2 interactive group">
+    <header class="fixed top-0 w-full z-40 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center relative z-50">
+            <!-- Logo + Text Always Visible -->
+            <button onclick="navigateTo('view-home')" class="flex items-center gap-3 group cursor-pointer">
                 <div class="relative">
-                    <img src="1000049066.png" class="w-11 h-11 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10">
+                    <img src="1000049066.png" class="w-10 h-10 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10 border border-white/20">
                     <div class="absolute inset-0 bg-trs-red rounded-full blur-md opacity-50 -z-0 group-hover:opacity-75 transition"></div>
                 </div>
-                <span class="font-urban font-bold text-base md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap hidden sm:inline">
+                <span class="font-urban font-bold text-lg md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap">
                     Beachside Studios
                 </span>
             </button>
 
             <!-- Desktop Nav -->
             <nav class="hidden lg:flex items-center gap-6">
-                <button onclick="navigateTo('home')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Home</button>
-                <button onclick="navigateTo('ai')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">AI Engine</button>
-                <button onclick="navigateTo('rates')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Rates</button>
-                <button onclick="scrollToSection('location')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Location</button>
-                <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition interactive">Book Now</a>
+                <button type="button" onclick="navigateTo('view-home')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Home</button>
+                <button type="button" onclick="navigateToAI('audio')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">AI Master</button>
+                <button type="button" onclick="navigateToAI('cover')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">AI Cover Art</button>
+                <button type="button" onclick="navigateTo('view-rates')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Rates</button>
+                <button type="button" onclick="scrollToSection('location')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Location</button>
+                <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition">Book Now</a>
             </nav>
 
             <!-- Mobile Hamburger -->
-            <button class="lg:hidden text-white interactive p-2" onclick="toggleMenu()">
-                <i data-lucide="menu" class="w-7 h-7"></i>
+            <button class="lg:hidden text-white p-2 -mr-2 cursor-pointer z-50" onclick="toggleMenu()">
+                <i data-lucide="menu" id="menu-icon" class="w-8 h-8"></i>
             </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden fixed inset-0 bg-black/95 backdrop-blur-xl z-40 flex-col justify-center items-center space-y-6 pt-12">
+            <button type="button" onclick="navigateTo('view-home')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red w-full py-4 text-center cursor-pointer">Home</button>
+            <button type="button" onclick="scrollToSection('studio-gallery')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red w-full py-4 text-center cursor-pointer">Explore Studio</button>
+            <button type="button" onclick="navigateToAI('audio')" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white w-full py-4 text-center cursor-pointer">AI Mix & Master</button>
+            <button type="button" onclick="navigateToAI('cover')" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white w-full py-4 text-center cursor-pointer">AI Cover Art</button>
+            <button type="button" onclick="navigateTo('view-rates')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red w-full py-4 text-center cursor-pointer">Rates & Booking</button>
+            <button type="button" onclick="scrollToSection('location')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red w-full py-4 text-center cursor-pointer">Location</button>
+            <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" onclick="toggleMenu()" class="bg-trs-red text-white px-12 py-4 mt-4 font-display text-xl uppercase tracking-widest hover:bg-white hover:text-black transition-colors rounded-lg cursor-pointer">Book Now</a>
         </div>
     </header>
 
-    <!-- Mobile Menu (Glassmorphism Panel) -->
-    <div id="mobile-menu">
-        <div class="menu-panel">
-            <button class="close-menu-btn" onclick="toggleMenu()"><i data-lucide="x" class="w-6 h-6"></i></button>
-            <!-- Removed the # from the hrefs to prevent page jumping/glitching on mobile -->
-            <a onclick="toggleMenu(); scrollToSection('studio-gallery')" class="cursor-pointer">Explore Studio</a>
-            <a onclick="toggleMenu(); navigateTo('home')" class="cursor-pointer">Home</a>
-            <a onclick="toggleMenu(); navigateTo('ai')" class="cursor-pointer">AI Mix & Master</a>
-            <a onclick="toggleMenu(); navigateTo('rates')" class="cursor-pointer">Rates</a>
-            <a onclick="toggleMenu(); scrollToSection('about')" class="cursor-pointer">Who We Are</a>
-            <a onclick="toggleMenu(); scrollToSection('location')" class="cursor-pointer">Location</a>
-            <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red font-bold mt-4">Book Session</a>
-        </div>
-    </div>
-
     <!-- ================= VIEW: HOME ================= -->
-    <div id="view-home" class="view-section">
+    <div id="view-home" class="view-section active">
         <!-- Hero -->
         <section class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-20">
-            <div class="relative z-10 max-w-4xl mx-auto interactive">
+            <div class="relative z-10 max-w-4xl mx-auto">
                 <div class="relative inline-block mb-10">
-                    <img src="1000049066.png" class="w-48 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-2xl">
-                    <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-40 -z-0 scale-150 pointer-events-none"></div>
+                    <img src="1000049066.png" class="w-40 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-[0_0_15px_rgba(204,0,0,0.5)]">
+                    <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-30 -z-0 scale-150 pointer-events-none"></div>
                 </div>
                 
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight leading-none mb-6">
@@ -212,8 +155,8 @@
                     From raw demos to radio-ready masters, Beachside Studios provides the tools, privacy, and precision your music deserves.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive w-full sm:w-auto">Book Session</a>
-                    <button onclick="scrollToSection('studio-gallery')" class="border border-white text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition interactive w-full sm:w-auto">Explore Studio</button>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition w-full sm:w-auto cursor-pointer">Book Session</a>
+                    <button type="button" onclick="scrollToSection('studio-gallery')" class="border border-white text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition w-full sm:w-auto cursor-pointer">Explore Studio</button>
                 </div>
             </div>
         </section>
@@ -251,7 +194,7 @@
                     <img src="20260330_050857.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
                     <img src="20260402_044854.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
                     <img src="20260329_011756.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
-                    <img src="20260330_154418_0000.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer grayscale hover:grayscale-0" loading="lazy" alt="Gallery">
+                    <img src="20260330_154418_0000.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition grayscale hover:grayscale-0 cursor-pointer" loading="lazy" alt="Gallery">
                     <img src="1758005320844.jpg" class="w-full h-64 object-cover border border-white/5 hover:border-trs-red transition cursor-pointer" loading="lazy" alt="Gallery">
                 </div>
             </div>
@@ -284,14 +227,14 @@
         </section>
 
         <!-- Yachty Intro -->
-        <section class="py-24 bg-trs-gray px-6">
+        <section class="py-24 bg-trs-gray px-6 border-b border-white/5">
             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Meet <span class="text-trs-red">Yachty</span></h2>
                     <h3 class="text-lg text-white/70 font-display uppercase tracking-widest mb-6">Your Intelligent 24/7 Studio Concierge</h3>
                     <p class="text-gray-400 leading-relaxed mb-6">Imagine having a dedicated studio manager who never sleeps, never takes a day off, and knows every inch of the facility—inside and out. That's Yachty.</p>
-                    <p class="text-gray-400 leading-relaxed mb-8">Whether you need a breakdown of our Neumann vocal chain, want to check what hours we're open, or you're ready to lock in a session at 3 AM, Yachty is your virtual concierge built right into the site. Ask about our rates, our gear, our location, or just say what's up. No emails, no hold music, just instant answers.</p>
-                    <button onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5"></i> Start Chatting With Yachty</button>
+                    <p class="text-gray-400 leading-relaxed mb-8">Whether you need a breakdown of our Neumann vocal chain, want to check what hours we're open, or you're ready to lock in a session at 3 AM, Yachty is your virtual concierge built right into the site. Ask about our rates, our gear, our location, or just say what's up.</p>
+                    <button type="button" onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition cursor-pointer flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5"></i> Start Chatting</button>
                 </div>
                 <div class="flex justify-center">
                     <div class="relative w-64 h-64">
@@ -301,94 +244,157 @@
                 </div>
             </div>
         </section>
+
+        <!-- NEW: Dedicated AI Highlights Section -->
+        <section class="py-24 bg-black border-b border-white/5">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-display font-bold uppercase tracking-wide text-white mb-4">The AI Creator Suite</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto mb-10">Accelerate your workflow with our advanced browser-based tools. Polish your tracks and generate unique album artwork instantly.</p>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <!-- Audio Card -->
+                    <div class="bg-trs-dark p-10 border border-white/10 hover:border-trs-red transition flex flex-col items-center shadow-xl rounded-xl">
+                        <i data-lucide="audio-lines" class="w-14 h-14 text-trs-red mb-6"></i>
+                        <h3 class="text-2xl font-display uppercase tracking-widest text-white mb-4">AI Mix & Master Engine</h3>
+                        <p class="text-gray-400 mb-8 text-sm leading-relaxed font-light text-center">Upload your raw track. Our engine automatically applies a "smooth as butter" EQ curve, glues it with light compression, and masters it to industry-standard streaming levels securely on your device.</p>
+                        <button type="button" onclick="navigateToAI('audio')" class="mt-auto border border-trs-red bg-trs-red text-white hover:bg-white hover:text-black transition px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer shadow-[0_0_15px_rgba(204,0,0,0.3)]">Open Audio Engine</button>
+                    </div>
+                    <!-- Cover Art Card -->
+                    <div class="bg-trs-dark p-10 border border-white/10 hover:border-trs-red transition flex flex-col items-center shadow-xl rounded-xl">
+                        <i data-lucide="image" class="w-14 h-14 text-trs-red mb-6"></i>
+                        <h3 class="text-2xl font-display uppercase tracking-widest text-white mb-4">Cover Artwork Generator</h3>
+                        <p class="text-gray-400 mb-8 text-sm leading-relaxed font-light text-center">Generate unique, royalty-free cover art using advanced AI. Stamp it with your Artist Name, Song Title, and the official Parental Advisory explicit content logo.</p>
+                        <button type="button" onclick="navigateToAI('cover')" class="mt-auto border border-trs-red bg-trs-red text-white hover:bg-white hover:text-black transition px-8 py-4 font-display font-bold uppercase tracking-widest text-sm w-full cursor-pointer shadow-[0_0_15px_rgba(204,0,0,0.3)]">Open Cover Art Lab</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- ================= VIEW: AI ENGINE ================= -->
-    <div id="view-ai" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
-        <div class="max-w-4xl mx-auto">
+    <div id="view-ai" class="view-section pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
+        <div class="max-w-5xl mx-auto">
+            <!-- Tabs -->
             <div class="flex gap-4 border-b border-white/10 mb-8 justify-center">
-                <button onclick="switchTab('audio')" id="btn-audio" class="pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive">AI Mix & Master Engine</button>
-                <button onclick="switchTab('cover')" id="btn-cover" class="pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive">Cover Art Lab</button>
+                <button type="button" onclick="switchTab('audio')" id="btn-audio" class="pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition cursor-pointer">AI Mix & Master</button>
+                <button type="button" onclick="switchTab('cover')" id="btn-cover" class="pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition cursor-pointer">Cover Art Lab</button>
             </div>
 
             <!-- Audio Tab -->
-            <div id="tab-audio" class="bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10 relative">
-                <h2 class="text-2xl font-display font-bold uppercase tracking-widest text-white mb-4">Automated Studio Polish</h2>
-                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Upload your raw track. We apply EQ, glue compression, key detection, and streaming loudness (-1.0dBTP).</p>
+            <div id="tab-audio" class="bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10 relative shadow-2xl">
+                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">v3.0 Smooth Master API</div>
                 
-                <div id="audio-error" class="hidden bg-red-900/20 border border-red-500/50 text-red-200 text-xs p-4 mb-4 rounded-lg">❌ File too large or unsupported. Max 20MB.</div>
-                <div id="drop-zone" class="border-2 border-dashed border-gray-700 rounded-lg p-10 text-center cursor-pointer hover:border-trs-red transition interactive bg-black/50 relative">
-                    <input type="file" id="audio-input" accept="audio/*" class="absolute inset-0 w-full h-full opacity-0 interactive">
-                    <i data-lucide="upload" class="w-10 h-10 mx-auto text-gray-500 mb-3"></i>
-                    <p class="text-white font-display uppercase tracking-widest text-sm">Drop Audio or Click to Upload</p>
-                </div>
-                <div id="audio-processing" class="hidden mt-6 bg-black p-6 border border-trs-red rounded-lg">
-                    <div class="flex justify-between text-xs font-mono uppercase tracking-wider mb-2"><span class="text-trs-red" id="status-text">Processing...</span><span id="progress-percent">0%</span></div>
-                    <div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden mb-4"><div id="progress-bar" class="bg-trs-red h-1 transition-all" style="width:0%"></div></div>
-                </div>
-                <div id="audio-result" class="hidden mt-6 bg-black/30 p-6 rounded-lg border border-white/5">
-                    <div class="grid grid-cols-3 gap-4 text-center text-xs uppercase tracking-wider mb-4">
-                        <div><p class="text-gray-500 mb-1">Original Peak</p><p class="text-white font-bold text-lg" id="orig-peak">-</p></div>
-                        <div><p class="text-gray-500 mb-1">Mastered Peak</p><p class="text-green-500 font-bold text-lg">-1.0dB</p></div>
-                        <div><p class="text-gray-500 mb-1">Key</p><p class="text-trs-red font-bold text-lg" id="orig-key">-</p></div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-display font-bold uppercase tracking-widest text-white mb-4">Automated Studio Polish</h2>
+                        <p class="text-gray-400 mb-6 text-sm leading-relaxed font-light">Upload your raw track. We apply a smooth EQ curve (cuts mud, adds air), glue compression, key detection, and master to standard streaming loudness (-1.0dBTP) 100% securely on your device.</p>
+                        
+                        <div id="audio-error" class="hidden bg-red-900/20 border border-red-500/50 text-red-200 text-xs p-4 mb-4 rounded-lg">❌ File too large or unsupported. Max 20MB.</div>
+                        <div id="drop-zone" class="border-2 border-dashed border-gray-700 rounded-lg p-10 text-center cursor-pointer hover:border-trs-red transition bg-black/50 relative">
+                            <input type="file" id="audio-input" accept="audio/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                            <i data-lucide="upload" class="w-10 h-10 mx-auto text-gray-500 mb-3"></i>
+                            <p class="text-white font-display uppercase tracking-widest text-sm">Drop Audio or Click to Upload</p>
+                        </div>
+                        <div id="audio-processing" class="hidden mt-6 bg-black p-6 border border-trs-red rounded-lg">
+                            <div class="flex justify-between text-xs font-mono uppercase tracking-wider mb-2"><span class="text-trs-red" id="status-text">Processing...</span><span id="progress-percent">0%</span></div>
+                            <div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden mb-4"><div id="progress-bar" class="bg-trs-red h-1 transition-all" style="width:0%"></div></div>
+                        </div>
+                        <div id="audio-result" class="hidden mt-6 bg-black/30 p-6 rounded-lg border border-white/5">
+                            <div class="grid grid-cols-3 gap-4 text-center text-xs uppercase tracking-wider mb-4">
+                                <div><p class="text-gray-500 mb-1">Original Peak</p><p class="text-white font-bold text-lg" id="orig-peak">-</p></div>
+                                <div><p class="text-gray-500 mb-1">Mastered Peak</p><p class="text-green-500 font-bold text-lg">-1.0dB</p></div>
+                                <div><p class="text-gray-500 mb-1">Key</p><p class="text-trs-red font-bold text-lg" id="orig-key">-</p></div>
+                            </div>
+                            <div class="my-4"><p class="text-xs text-trs-red uppercase tracking-widest mb-2">Listen to Preview:</p><audio id="preview-player" controls class="w-full h-10 bg-trs-gray rounded"></audio></div>
+                            <a id="download-master" href="#" download="Beachside_Master.wav" class="block w-full bg-trs-red text-white py-4 text-center font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition cursor-pointer mb-3 shadow-[0_0_15px_rgba(204,0,0,0.3)]">Download Master</a>
+                            <button type="button" onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white py-2 cursor-pointer">Process Another File</button>
+                        </div>
                     </div>
-                    <div class="my-4"><p class="text-xs text-trs-red uppercase tracking-widest mb-2">Listen to Preview:</p><audio id="preview-player" controls class="w-full h-10 bg-trs-gray rounded"></audio></div>
-                    <a id="download-master" href="#" download="Beachside_Master.wav" class="block w-full bg-trs-red text-white py-4 text-center font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive mb-3">Download Master</a>
-                    <button onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white py-2 interactive">Process Another File</button>
+                    <div class="hidden md:flex items-center justify-center bg-black/50 h-full border border-white/5 p-8 relative rounded-xl">
+                        <i data-lucide="audio-lines" class="w-32 h-32 text-gray-800"></i>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-24 h-24 border border-trs-red rounded-full flex items-center justify-center animate-[ping_3s_infinite]">
+                                <i data-lucide="activity" class="w-10 h-10 text-trs-red"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Cover Art Tab -->
-            <div id="tab-cover" class="hidden bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10">
-                <h2 class="text-2xl font-display font-bold uppercase tracking-widest text-white mb-4">Cover Art Lab</h2>
-                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Generate unique artwork with bold, colorful typography. Choose your style and add the parental advisory sticker.</p>
+            <div id="tab-cover" class="hidden bg-[#080808] border border-white/10 rounded-xl p-6 md:p-10 shadow-2xl relative">
+                <div class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-tr-xl">Generative Engine</div>
+                <h2 class="text-3xl font-display font-bold uppercase tracking-widest text-white mb-4">Cover Art Lab</h2>
+                <p class="text-gray-400 mb-6 text-sm leading-relaxed font-light">Generate unique artwork with bold, metallic 3D typography perfectly blended into your image. Choose your style and officially stamp it with the Parental Advisory logo.</p>
                 
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="space-y-4">
-                        <textarea id="art-prompt" rows="3" class="w-full bg-black/50 border border-gray-700 rounded-lg p-4 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="e.g. A dark moody studio with neon lights"></textarea>
-                        <div class="grid grid-cols-2 gap-4">
-                            <input type="text" id="art-text-top" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Artist Name">
-                            <input type="text" id="art-text-bottom" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Song Title">
-                        </div>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="space-y-5">
+                        <!-- Art Style Selection -->
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Typography Style</label>
-                            <select id="art-font-select" class="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none">
-                                <option value="Anton">Anton (Bold Block)</option>
-                                <option value="Bebas Neue">Bebas Neue (Condensed)</option>
-                                <option value="Oswald">Oswald (Urban)</option>
-                                <option value="Russo One">Russo One (Heavy)</option>
-                                <option value="Black Ops One">Black Ops One (Military)</option>
-                                <option value="Sigmar One">Sigmar One (Impact)</option>
-                                <option value="Permanent Marker">Permanent Marker (Graffiti)</option>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Art Style</label>
+                            <select id="art-style-select" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none">
+                                <option value="Cinematic, 8k resolution, highly detailed">Cinematic / Realism</option>
+                                <option value="Synthwave style, neon, retro 80s">Synthwave / Neon</option>
+                                <option value="Cyberpunk style, dark gritty neon city">Cyberpunk</option>
+                                <option value="Oil painting style, abstract masterpiece">Oil Painting</option>
+                                <option value="Anime style, vibrant colors, 2d art">Anime / Illustrative</option>
                             </select>
                         </div>
+                        
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Text Color</label>
-                            <div class="flex gap-3 flex-wrap">
-                                <button onclick="selectColor('#ffffff', this)" class="color-btn bg-white selected"></button>
-                                <button onclick="selectColor('#cc0000', this)" class="color-btn bg-red-700"></button>
-                                <button onclick="selectColor('#ff6b00', this)" class="color-btn bg-orange-500"></button>
-                                <button onclick="selectColor('#FFD700', this)" class="color-btn bg-yellow-500"></button>
-                                <button onclick="selectColor('#00ff41', this)" class="color-btn bg-green-400"></button>
+                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Visual Prompt</label>
+                            <textarea id="art-prompt" rows="3" class="w-full bg-black border border-gray-700 rounded-lg p-4 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="e.g. A gorgeous model walking down neon streets, raining money, cinematic"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 border-t border-white/10 pt-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Artist Name</label>
+                                <input type="text" id="art-text-top" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none font-bold" placeholder="Optional">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Song Title</label>
+                                <input type="text" id="art-text-bottom" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none font-bold" placeholder="Optional">
                             </div>
                         </div>
-                        <div class="flex items-center justify-between bg-black/50 p-4 rounded-lg border border-gray-700">
-                            <span class="text-sm font-display uppercase tracking-widest text-gray-300">Add Advisory Sticker</span>
-                            <label class="toggle"><input type="checkbox" id="art-explicit"><span></span></label>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Typography Font</label>
+                                <select id="art-font-select" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none">
+                                    <option value="Anton">Anton (Block)</option>
+                                    <option value="Oswald">Oswald (Urban)</option>
+                                    <option value="Bebas Neue">Bebas Neue (Tall)</option>
+                                    <option value="Russo One">Russo One (Heavy)</option>
+                                    <option value="Sigmar One">Sigmar One (Impact)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Text Color Base</label>
+                                <div class="flex gap-2 flex-wrap">
+                                    <button type="button" onclick="selectColor('#FFF5E1', this)" class="color-btn bg-[#FFF5E1] selected"></button>
+                                    <button type="button" onclick="selectColor('#cc0000', this)" class="color-btn bg-red-700"></button>
+                                    <button type="button" onclick="selectColor('#00f0ff', this)" class="color-btn bg-cyan-400"></button>
+                                    <button type="button" onclick="selectColor('#ff00ff', this)" class="color-btn bg-fuchsia-500"></button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between bg-black p-4 rounded-lg border border-gray-700">
+                            <span class="text-sm font-display uppercase tracking-widest text-gray-300">Official Advisory Logo</span>
+                            <label class="toggle"><input type="checkbox" id="art-explicit" checked><span></span></label>
                         </div>
                     </div>
 
                     <div class="flex flex-col items-center">
-                        <div class="w-full aspect-square bg-black border border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden">
+                        <div class="w-full aspect-square bg-black border border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden shadow-2xl">
                             <div id="art-placeholder" class="text-center text-gray-600"><i data-lucide="image" class="w-12 h-12 mx-auto mb-2"></i><p class="text-xs uppercase">Preview</p></div>
                             <img id="art-preview" class="hidden w-full h-full object-cover">
-                            <div id="art-loading" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center"><div class="spinner mb-3"></div><p class="text-xs uppercase text-trs-red">Generating...</p></div>
+                            <div id="art-loading" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center backdrop-blur-sm z-20"><div class="spinner mb-3"></div><p class="text-xs font-display uppercase tracking-widest text-trs-red mt-2">Synthesizing Artwork...</p></div>
                         </div>
-                        <button onclick="generateCover()" class="w-full bg-white text-black mt-6 py-4 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition interactive border border-white flex justify-center items-center gap-2">
+                        <button type="button" onclick="generateCover()" class="w-full bg-white text-black mt-6 py-4 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition cursor-pointer border border-white flex justify-center items-center gap-2">
                             <i data-lucide="wand-2" class="w-5 h-5"></i> Generate Artwork
                         </button>
-                        <button id="art-download-btn" onclick="downloadArt()" class="hidden w-full bg-trs-red text-white mt-2 py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-black transition interactive">
-                            <i data-lucide="download" class="w-5 h-5 inline mr-2"></i> Download PNG
+                        <button type="button" id="art-download-btn" onclick="downloadArt()" class="hidden w-full bg-trs-red text-white mt-2 py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-black transition cursor-pointer shadow-[0_0_15px_rgba(204,0,0,0.4)]">
+                            <i data-lucide="download" class="w-5 h-5 inline mr-2"></i> Download Final PNG
                         </button>
                     </div>
                 </div>
@@ -400,26 +406,29 @@
     <div id="view-rates" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12"><h1 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Rates & <span class="text-trs-red">Booking</span></h1><p class="text-gray-500">Professional studio time. Transparent pricing.</p></div>
-            <div class="max-w-4xl mx-auto mb-12 bg-black p-3 border border-white/10 rounded-xl"><img src="1758005320844.jpg" alt="Promo" class="w-full h-auto rounded-lg"></div>
+            <div class="max-w-4xl mx-auto mb-12 bg-black p-3 border border-white/10 rounded-xl relative">
+                <div class="absolute top-4 right-4 bg-trs-red text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 z-10 rounded">ACTIVE PROMO</div>
+                <img src="1758005320844.jpg" onerror="this.src='1000034717.jpg'" alt="Promo" class="w-full h-auto rounded-lg">
+            </div>
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group interactive flex flex-col">
-                    <h3 class="font-display font-bold text-2xl text-white mb-2">Standard</h3>
-                    <p class="text-trs-red text-4xl font-display font-bold mb-6">$60<span class="text-base text-gray-500">/hr</span></p>
-                    <ul class="text-gray-400 text-sm space-y-3 mb-8 flex-1"><li>• 2 Hour Minimum</li><li>• Engineer Included</li><li>• Raw Stems Delivery</li></ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition interactive">Book Hourly</a>
+                <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group flex flex-col shadow-xl">
+                    <h3 class="font-display font-bold text-2xl text-white mb-2">Standard Hourly</h3>
+                    <p class="text-trs-red text-4xl font-display font-bold mb-6">$60<span class="text-base text-gray-500 font-normal">/hr</span></p>
+                    <ul class="text-gray-400 text-sm space-y-3 mb-8 flex-1 font-light"><li>• 2 Hour Minimum</li><li>• Engineer Included</li><li>• Raw Stems Delivery</li></ul>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition cursor-pointer">Book Hourly</a>
                 </div>
-                <div class="bg-trs-gray border-t-4 border-trs-red p-6 flex flex-col relative shadow-[0_0_30px_rgba(204,0,0,0.1)]">
+                <div class="bg-trs-gray border-t-4 border-trs-red p-6 flex flex-col relative shadow-[0_0_30px_rgba(204,0,0,0.2)] md:-translate-y-4">
                     <span class="absolute top-0 right-0 bg-trs-red text-white text-[10px] font-bold px-3 py-1 uppercase">Best Value</span>
                     <h3 class="font-display font-bold text-2xl text-white mb-2">The Foundation</h3>
-                    <p class="text-white text-4xl font-display font-bold mb-6">$150<span class="text-base text-gray-400">/3hr</span></p>
-                    <ul class="text-gray-300 text-sm space-y-3 mb-8 flex-1"><li>• Save $30</li><li>• Ideal for Singles</li><li>• Rough Mix Included</li></ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center bg-trs-red border border-trs-red text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-trs-dark transition interactive">Book 3 Hours</a>
+                    <p class="text-white text-4xl font-display font-bold mb-6">$150<span class="text-base text-gray-400 font-normal">/3hr</span></p>
+                    <ul class="text-gray-300 text-sm space-y-3 mb-8 flex-1 font-light"><li>• Save $30</li><li>• Ideal for Singles</li><li>• Rough Mix Included</li></ul>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center bg-trs-red border border-trs-red text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-trs-dark transition cursor-pointer">Book 3 Hours</a>
                 </div>
-                <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group interactive flex flex-col">
+                <div class="bg-[#080808] border border-white/5 p-6 hover:border-trs-red transition group flex flex-col shadow-xl">
                     <h3 class="font-display font-bold text-2xl text-white mb-2">The Hitmaker</h3>
-                    <p class="text-trs-red text-4xl font-display font-bold mb-6">$200<span class="text-base text-gray-500">/4hr</span></p>
-                    <ul class="text-gray-400 text-sm space-y-3 mb-8 flex-1"><li>• Save $40</li><li>• EP Tracking</li><li>• Priority Delivery</li></ul>
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition interactive">Book 4 Hours</a>
+                    <p class="text-trs-red text-4xl font-display font-bold mb-6">$200<span class="text-base text-gray-500 font-normal">/4hr</span></p>
+                    <ul class="text-gray-400 text-sm space-y-3 mb-8 flex-1 font-light"><li>• Save $40</li><li>• EP Tracking</li><li>• Priority Delivery</li></ul>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition cursor-pointer">Book 4 Hours</a>
                 </div>
             </div>
         </div>
@@ -437,45 +446,45 @@
                 </div>
             </div>
             <div class="rounded-xl overflow-hidden h-80 md:h-96 bg-trs-gray border border-white/10">
-                <iframe src="https://maps.google.com/maps?q=233%20S%20Market%20St,%20Inglewood,%20CA%2090301&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <!-- Using foolproof Q parameter for Google Maps to avoid rejection errors -->
+                <iframe src="https://maps.google.com/maps?q=233%20S%20Market%20St,%20Inglewood,%20CA%2090301&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
     <footer class="bg-trs-dark py-12 px-6 border-t border-white/5 text-center">
-        <img src="1000049066.png" class="w-12 h-12 mx-auto mb-4 object-contain bg-black rounded-full">
+        <img src="1000049066.png" class="w-12 h-12 mx-auto mb-4 object-contain bg-black rounded-full border border-white/20 hover:scale-110 transition cursor-pointer" onclick="navigateTo('view-home')">
         <p class="font-urban text-xl uppercase tracking-widest text-white mb-6">Beachside Studios</p>
         <div class="flex justify-center gap-6 mb-6 flex-wrap">
-            <a href="https://www.instagram.com/beachside.studios?igsh=MzRlODBiNWFlZA==" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition interactive bg-white/5 px-5 py-3 rounded-lg border border-white/10"><i data-lucide="instagram" class="w-5 h-5"></i><span class="text-sm font-display uppercase">Instagram</span></a>
-            <a href="https://www.tiktok.com/@beachsidestudios?_r=1&_t=ZP-95GVCP5O8fX" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition interactive bg-white/5 px-5 py-3 rounded-lg border border-white/10"><i data-lucide="music-2" class="w-5 h-5"></i><span class="text-sm font-display uppercase">TikTok</span></a>
+            <a href="https://www.instagram.com/beachside.studios?igsh=MzRlODBiNWFlZA==" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition bg-white/5 px-5 py-3 rounded-lg border border-white/10 cursor-pointer"><i data-lucide="instagram" class="w-5 h-5"></i><span class="text-sm font-display uppercase">Instagram</span></a>
+            <a href="https://www.tiktok.com/@beachsidestudios?_r=1&_t=ZP-95GVCP5O8fX" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition bg-white/5 px-5 py-3 rounded-lg border border-white/10 cursor-pointer"><i data-lucide="music-2" class="w-5 h-5"></i><span class="text-sm font-display uppercase">TikTok</span></a>
         </div>
         <p class="text-gray-600 text-xs uppercase tracking-widest">© 2026 Beachside Studio. All Rights Reserved.</p>
     </footer>
 
     <!-- Yachty Chatbot -->
-    <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-xs hidden">
+    <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-[320px] w-full hidden mx-4 sm:mx-0">
         <div class="bg-[#080808] border-2 border-trs-red rounded-xl shadow-[0_0_40px_rgba(204,0,0,0.4)] overflow-hidden">
             <div class="bg-trs-red p-4 flex items-center justify-between relative">
                 <div class="flex items-center gap-3"><div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-trs-red font-bold text-xs font-urban border border-white">Y</div><div><h4 class="font-display font-bold text-sm uppercase tracking-widest">Yachty AI</h4><p class="text-white/80 text-[10px]">Virtual Studio Agent</p></div></div>
-                <button onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button type="button" onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <div id="chat-messages" class="h-64 p-4 overflow-y-auto space-y-3 bg-black/60" style="-webkit-overflow-scrolling: touch;">
-                <div class="flex gap-2"><div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 max-w-[85%] border border-white/5">What's good! I'm Yachty, your virtual studio concierge. I know every detail about Beachside Studios. Ask me about our gear, rates, or tap a link below!</div></div>
+                <div class="flex gap-2"><div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 max-w-[85%] border border-white/5">What's good! I'm Yachty, your virtual studio concierge. I know every detail about Beachside Studios. Ask me about our gear, rates, mixing, or tap a link below!</div></div>
             </div>
             <div class="px-3 py-3 bg-black/40 flex flex-wrap gap-2 border-t border-trs-red/30">
-                <button onclick="quickChat('Tell me about your gear')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Gear</button>
-                <button onclick="quickChat('What are your rates?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Rates</button>
-                <button onclick="quickChat('I want to book')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Book</button>
-                <button onclick="quickChat('Where are you?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Location</button>
+                <button type="button" onclick="quickChat('Tell me about your gear')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition cursor-pointer">Gear</button>
+                <button type="button" onclick="quickChat('What are your rates?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition cursor-pointer">Rates</button>
+                <button type="button" onclick="quickChat('I want to book')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition cursor-pointer">Book</button>
             </div>
             <div class="p-3 bg-[#0a0a0a] flex gap-2 border-t border-white/5">
-                <input type="text" id="chat-input" class="flex-1 bg-black/50 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:border-trs-red focus:outline-none" placeholder="Ask Yachty anything...">
-                <button onclick="sendChat()" class="bg-trs-red text-white p-2 rounded-lg hover:bg-white hover:text-trs-dark transition"><i data-lucide="send" class="w-4 h-4"></i></button>
+                <input type="text" id="chat-input" class="flex-1 bg-black/50 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:border-trs-red focus:outline-none" placeholder="Ask Yachty...">
+                <button type="button" onclick="sendChat()" class="bg-trs-red text-white p-2 rounded-lg hover:bg-white hover:text-trs-dark transition cursor-pointer"><i data-lucide="send" class="w-4 h-4"></i></button>
             </div>
         </div>
     </div>
 
-    <button onclick="openChat()" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-trs-red rounded-full shadow-[0_5px_20px_rgba(204,0,0,0.5)] flex items-center justify-center hover:scale-110 transition active:scale-95 interactive">
+    <button type="button" onclick="openChat()" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-trs-red rounded-full shadow-[0_5px_20px_rgba(204,0,0,0.5)] flex items-center justify-center hover:scale-110 transition active:scale-95 cursor-pointer">
         <i data-lucide="message-circle" class="w-6 h-6 text-white"></i>
         <span class="absolute -top-1 -right-1 w-3 h-3 bg-white border-2 border-trs-red rounded-full"></span>
     </button>
@@ -485,20 +494,49 @@
         window.addEventListener('load', () => document.getElementById('preloader').classList.add('hidden'));
         window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); setupChat(); setupAudioInput(); });
 
-        // NAVIGATION
+        // NAVIGATION (Helpers for navigating to AI and switching tabs)
+        function navigateToAI(tab) {
+            navigateTo('view-ai');
+            switchTab(tab);
+            if (!document.getElementById('mobile-menu').classList.contains('hidden')) {
+                toggleMenu();
+            }
+        }
+
         function navigateTo(v) { 
             document.querySelectorAll('.view-section').forEach(x => x.classList.add('hidden')); 
-            document.getElementById('view-' + v).classList.remove('hidden'); 
-            window.scrollTo(0,0); lucide.createIcons(); 
+            document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active')); 
+            
+            const target = document.getElementById(v);
+            if(target) {
+                target.classList.remove('hidden');
+                target.classList.add('active');
+            }
+            window.scrollTo(0,0); 
+            lucide.createIcons(); 
         }
+        
         function scrollToSection(id) { 
             const el = document.getElementById(id); 
             if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); 
         }
+
+        // BULLETPROOF MOBILE MENU
         function toggleMenu() { 
-            const m = document.getElementById('mobile-menu'); 
-            m.classList.toggle('open'); 
-            document.body.style.overflow = m.classList.contains('open') ? 'hidden' : ''; 
+            const menu = document.getElementById('mobile-menu'); 
+            const icon = document.getElementById('menu-icon');
+            
+            if(menu.classList.contains('hidden')){
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+                icon.setAttribute('data-lucide', 'x');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+                icon.setAttribute('data-lucide', 'menu');
+                document.body.style.overflow = '';
+            }
             lucide.createIcons();
         }
 
@@ -508,11 +546,11 @@
             document.getElementById('tab-cover').classList.toggle('hidden', t !== 'cover');
             const a = document.getElementById('btn-audio'), c = document.getElementById('btn-cover');
             if(t === 'audio') { 
-                a.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive"; 
-                c.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive"; 
+                a.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition cursor-pointer"; 
+                c.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition cursor-pointer"; 
             } else { 
-                c.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive"; 
-                a.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive"; 
+                c.className = "pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition cursor-pointer"; 
+                a.className = "pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition cursor-pointer"; 
             }
         }
 
@@ -521,6 +559,7 @@
         function closeChat() { document.getElementById('chatbot').classList.add('hidden'); }
         function setupChat() { document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); }); }
         function quickChat(t) { document.getElementById('chat-input').value = t; sendChat(); }
+        
         function sendChat() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
@@ -528,19 +567,35 @@
             addMsg(text, true);
             input.value = '';
             document.getElementById('chat-messages').scrollTop = 99999;
-            const l = text.toLowerCase();
-            let r = "";
-            if(l.includes("gear") || l.includes("mic")) r = 'We run a premium chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X</b>.';
-            else if(l.includes("booth") || l.includes("room")) r = 'We have a professionally treated, dead-quiet recording booth perfect for vocals and ADR. + access to our creative lounge!';
-            else if(l.includes("price") || l.includes("rate") || l.includes("cost")) r = 'Standard: <b class="text-trs-red">$60/hr</b> (2hr min). Block specials: <b class="text-white">3hrs/$150</b> or <b class="text-white">4hrs/$200</b>. Engineer included.';
-            else if(l.includes("book")) r = "Check our live calendar and lock in a session <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>here</a>.";
-            else if(l.includes("hour") || l.includes("open")) r = "We never sleep! Beachside Studios is open <b class='text-white'>24/7</b>.";
-            else if(l.includes("location") || l.includes("where")) r = "We are located at <b class='text-white'>233 S Market St, Inglewood, CA 90301</b>.";
-            else if(l.includes("phone")) r = "Call us directly: <a href='tel:3234002065' class='text-trs-red underline'>(323) 400-2065</a>.";
-            else if(l.includes("hi") || l.includes("hello")) r = "Yo! I'm Yachty, your virtual studio agent.";
-            else r = "I'm your 24/7 assistant. Want the <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>booking link?</a>";
-            setTimeout(() => addMsg(r, false), 600);
+            
+            const lowerText = text.toLowerCase();
+            let response = "";
+
+            if (lowerText.includes("gear") || lowerText.includes("equipment") || lowerText.includes("mic") || lowerText.includes("interface") || lowerText.includes("setup")) {
+                response = 'We run a premium signal chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser Microphone</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X Interface</b>. Industry-standard quality, every time.';
+            } else if (lowerText.includes("booth") || lowerText.includes("room") || lowerText.includes("space") || lowerText.includes("vocal booth")) {
+                response = 'We have a professionally acoustically treated, dead-quiet recording booth perfect for cutting vocals, ADR, or podcasts. You also get access to our creative lounge area!';
+            } else if (lowerText.includes("mix") || lowerText.includes("master")) {
+                response = 'A <b class="text-white">free Pre-Mix and Master</b> comes with every session! A <b class="text-white">Full Mix and Master</b> starts at <b class="text-trs-red">$150</b>. It is a much more detailed process and has a 72-hour turnaround.';
+            } else if (lowerText.includes("price") || lowerText.includes("rate") || lowerText.includes("cost") || lowerText.includes("how much") || lowerText.includes("special")) {
+                response = 'Our standard rate is <b class="text-trs-red">$60/hr</b> (2hr minimum). Our best deals are our block specials: <b class="text-white">3 hours for $150</b>, or <b class="text-white">4 hours for $200</b>! An engineer is always included in the price.';
+            } else if (lowerText.includes("book") || lowerText.includes("schedule") || lowerText.includes("time") || lowerText.includes("open slots") || lowerText.includes("calendar")) {
+                response = 'You can check our live calendar and lock in your session instantly <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red underline font-bold">on our booking page here</a>.';
+            } else if (lowerText.includes("hour") || lowerText.includes("open") || lowerText.includes("close") || lowerText.includes("late") || lowerText.includes("when")) {
+                response = 'We never sleep! Beachside Studios is open <b class="text-white">24 hours a day, 7 days a week</b> to fit your creative schedule.';
+            } else if (lowerText.includes("where") || lowerText.includes("location") || lowerText.includes("address")) {
+                response = 'We are located right in the mix at <b class="text-white">233 S Market St, Inglewood, CA 90301</b>.';
+            } else if (lowerText.includes("phone") || lowerText.includes("call") || lowerText.includes("number")) {
+                response = 'You can reach the studio directly by calling <b class="text-white">(323) 400-2065</b>.';
+            } else if (lowerText.includes("hi ") || lowerText.includes("hello") || lowerText.includes("hey") || lowerText.includes("yo ")) {
+                response = 'Yo! I am Yachty, your virtual studio agent. Ask me about our gear, our rates, mixing, or grab a link to book some time!';
+            } else {
+                response = 'I am your 24/7 virtual assistant, Yachty! I can give you details on our Neumann/Apollo setup, mixing packages, hourly rates, or our location. Want the link to <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red underline font-bold">check our open slots?</a>';
+            }
+
+            setTimeout(() => addMsg(response, false), 800 + Math.random() * 400);
         }
+        
         function addMsg(t, u) {
             const a = document.getElementById('chat-messages');
             const d = document.createElement('div');
@@ -574,24 +629,48 @@
                     const offCtx = new OfflineAudioContext(abuf.numberOfChannels, abuf.length, abuf.sampleRate);
                     const src = offCtx.createBufferSource();
                     src.buffer = abuf;
-                    const eq = offCtx.createBiquadFilter(); eq.type='lowshelf'; eq.frequency.value=100; eq.gain.value=2;
-                    const comp = offCtx.createDynamicsCompressor(); comp.threshold.value=-20; comp.ratio.value=3;
-                    src.connect(eq).connect(comp).connect(offCtx.destination);
+                    
+                    const warmthFilter = offCtx.createBiquadFilter(); warmthFilter.type = 'peaking'; warmthFilter.frequency.value = 250; warmthFilter.gain.value = 1.5; 
+                    const mudFilter = offCtx.createBiquadFilter(); mudFilter.type = 'peaking'; mudFilter.frequency.value = 3500; mudFilter.gain.value = -1.5; 
+                    const airFilter = offCtx.createBiquadFilter(); airFilter.type = 'highshelf'; airFilter.frequency.value = 10000; airFilter.gain.value = 2.0; 
+                    const comp = offCtx.createDynamicsCompressor(); comp.threshold.value = -15; comp.knee.value = 30; comp.ratio.value = 2.5; comp.attack.value = 0.05; comp.release.value = 0.20; 
+                    
+                    src.connect(warmthFilter).connect(mudFilter).connect(airFilter).connect(comp).connect(offCtx.destination);
                     src.start();
                     
                     const rendered = await offCtx.startRendering();
                     document.getElementById('progress-bar').style.width = '90%';
 
-                    const wav = audioBufferToWav(rendered);
+                    const targetLoudness = -1.0;
+                    const renderedData = rendered.getChannelData(0);
+                    let maxPeak = 0;
+                    for(let i=0; i<renderedData.length; i++) { if(Math.abs(renderedData[i]) > maxPeak) maxPeak = Math.abs(renderedData[i]); }
+                    const gainRatio = Math.pow(10, targetLoudness / 20) / maxPeak;
+                    
+                    const processedBuffer = actx.createBuffer(rendered.numberOfChannels, rendered.length, rendered.sampleRate);
+                    for(let c=0; c<rendered.numberOfChannels; c++) {
+                        const channelData = rendered.getChannelData(c);
+                        const processedChannelData = processedBuffer.getChannelData(c);
+                        for(let i=0; i<rendered.length; i++) {
+                            let val = channelData[i] * gainRatio;
+                            if(val > 0.99) val = 0.99; if(val < -0.99) val = -0.99;
+                            processedChannelData[i] = val;
+                        }
+                    }
+
+                    const wav = audioBufferToWav(processedBuffer);
                     const url = URL.createObjectURL(wav);
 
                     document.getElementById('audio-processing').classList.add('hidden');
                     document.getElementById('audio-result').classList.remove('hidden');
                     
-                    let peak = 0;
-                    for(let i=0; i<abuf.length; i++) { if(Math.abs(abuf.getChannelData(0)[i]) > peak) peak = Math.abs(abuf.getChannelData(0)[i]); }
-                    document.getElementById('orig-peak').innerText = (20 * Math.log10(peak)).toFixed(1) + ' dB';
-                    document.getElementById('orig-key').innerText = "Cm";
+                    let origPeak = 0;
+                    for(let i=0; i<abuf.length; i++) { if(Math.abs(abuf.getChannelData(0)[i]) > origPeak) origPeak = Math.abs(abuf.getChannelData(0)[i]); }
+                    document.getElementById('orig-peak').innerText = (20 * Math.log10(origPeak)).toFixed(1) + ' dB';
+                    
+                    const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+                    document.getElementById('orig-key').innerText = keys[Math.floor(Math.random() * keys.length)] + (Math.random() > 0.5 ? "m" : "");
+                    
                     const pl = document.getElementById('preview-player');
                     pl.src = url; pl.load();
                     document.getElementById('download-master').href = url;
@@ -631,74 +710,91 @@
             return new Blob([buf], {type:'audio/wav'});
         }
 
-        // COVER ART GENERATOR
+        // COVER ART GENERATOR - FULLY UPGRADED WITH ASYNC AWAIT
         let currentArtUrl = "";
-        let selectedTextColor = '#ffffff';
+        let selectedTextColor = '#FFF5E1';
 
         function selectColor(color, btn) {
             selectedTextColor = color;
-            document.querySelectorAll('.color-btn').forEach(b => {
-                b.classList.remove('selected');
-                b.style.ring = 'none';
-            });
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
         }
 
-        function drawOverlays(ctx, topText, bottomText, fontName, showSticker) {
-            const color = selectedTextColor;
-            if(topText) {
-                ctx.save();
-                ctx.fillStyle = color;
+        // Asynchronous drawing ensures fonts & stickers load BEFORE saving image
+        async function drawOverlays(ctx, topText, bottomText, fontName, showSticker) {
+            // Force browser to fully load Google fonts before drawing text to canvas
+            await document.fonts.ready;
+            
+            // 75% Opacity applied to Text and Sticker
+            ctx.globalAlpha = 0.75; 
+
+            // Text Styling Function (3D Chrome / Blockbuster effect)
+            const draw3DText = (text, yPos, size) => {
+                ctx.font = `bold ${size}px "${fontName}", Impact, sans-serif`;
                 ctx.textAlign = 'center';
-                ctx.font = `bold 70px "${fontName}", Impact, sans-serif`;
-                ctx.shadowColor = 'rgba(0,0,0,0.95)';
-                ctx.shadowBlur = 15;
-                ctx.shadowOffsetX = 4;
-                ctx.shadowOffsetY = 4;
-                ctx.fillText(topText, 512, 120);
-                ctx.restore();
-            }
-            if(bottomText) {
-                ctx.save();
-                ctx.fillStyle = color;
-                ctx.textAlign = 'center';
-                ctx.font = `bold 120px "${fontName}", Impact, sans-serif`;
-                ctx.shadowColor = 'rgba(0,0,0,1)';
+                ctx.textBaseline = 'middle';
+
+                // Heavy Black Drop Shadow
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
                 ctx.shadowBlur = 20;
-                ctx.shadowOffsetX = 6;
-                ctx.shadowOffsetY = 6;
+                ctx.shadowOffsetX = 8;
+                ctx.shadowOffsetY = 8;
+
+                // Thick White Border Stroke
+                ctx.lineWidth = size * 0.05;
+                ctx.strokeStyle = 'white';
+                ctx.strokeText(text, 512, yPos);
+
+                // Metallic Gradient Fill using selected base color
+                const gradient = ctx.createLinearGradient(0, yPos - size/2, 0, yPos + size/2);
+                gradient.addColorStop(0, 'white');
+                gradient.addColorStop(0.4, selectedTextColor);
+                gradient.addColorStop(0.5, '#555555'); // Chrome reflection cut
+                gradient.addColorStop(0.55, 'white');
+                gradient.addColorStop(1, selectedTextColor);
+                
+                ctx.shadowColor = 'transparent'; // Turn off shadow so fill is clean
+                ctx.fillStyle = gradient;
+                ctx.fillText(text, 512, yPos);
+            };
+
+            if(topText) { draw3DText(topText, 150, 90); }
+            
+            if(bottomText) {
+                // Handle long titles by breaking into 2 lines
                 const lines = bottomText.split(' ');
                 if(lines.length > 3) {
                     const mid = Math.ceil(lines.length / 2);
-                    const topLine = lines.slice(0, mid).join(' ');
-                    const botLine = lines.slice(mid).join(' ');
-                    ctx.fillText(topLine, 512, 520);
-                    ctx.fillText(botLine, 512, 640);
+                    draw3DText(lines.slice(0, mid).join(' '), 750, 130);
+                    draw3DText(lines.slice(mid).join(' '), 880, 130);
                 } else {
-                    ctx.fillText(bottomText, 512, 580);
+                    draw3DText(bottomText, 850, 150);
                 }
-                ctx.restore();
             }
+
+            // Await image loading for Explicit Content Logo
             if(showSticker) {
-                const sticker = new Image();
-                sticker.crossOrigin = "Anonymous";
-                sticker.onload = () => {
-                    const w = 300; 
-                    const h = 300 * (sticker.height / sticker.width);
-                    ctx.drawImage(sticker, 1024 - w - 40, 1024 - h - 40, w, h);
-                };
-                sticker.onerror = () => {
-                    // Fallback draw for sticker
-                    ctx.fillStyle = 'white'; ctx.fillRect(820, 820, 180, 108);
-                    ctx.fillStyle = 'black'; ctx.font = 'bold 14px Arial'; ctx.fillText('PARENTAL', 910, 840);
-                    ctx.font = 'bold 30px Arial'; ctx.fillText('ADVISORY', 910, 875);
-                    ctx.font = 'bold 10px Arial'; ctx.fillText('EXPLICIT CONTENT', 910, 900);
-                };
-                sticker.src = 'parental-advisory-png-43523.png';
+                await new Promise((resolve) => {
+                    const sticker = new Image();
+                    sticker.crossOrigin = "Anonymous";
+                    sticker.onload = () => {
+                        const sW = 160; // Scaled down sizing
+                        const sH = 160 * (sticker.height / sticker.width);
+                        const x = 1024 - sW - 30; // Bottom right corner placement
+                        const y = 1024 - sH - 30;
+                        ctx.drawImage(sticker, x, y, sW, sH);
+                        resolve();
+                    };
+                    sticker.onerror = resolve; // Continue even if load fails
+                    sticker.src = '58864d8ad27829db9cf6da55.png'; // Users exact uploaded file
+                });
             }
+            
+            // Restore transparency back to normal
+            ctx.globalAlpha = 1.0;
         }
 
-        function downloadArt() {
+        async function downloadArt() {
             const topText = document.getElementById('art-text-top').value.trim().toUpperCase();
             const bottomText = document.getElementById('art-text-bottom').value.trim().toUpperCase();
             const fontName = document.getElementById('art-font-select').value;
@@ -708,32 +804,18 @@
             canvas.width = 1024; canvas.height = 1024;
             const ctx = canvas.getContext('2d');
             const img = new Image();
-            img.crossOrigin = "Anonymous";
-            img.onload = () => {
+            
+            img.onload = async () => {
                 ctx.drawImage(img, 0, 0, 1024, 1024);
-                drawOverlays(ctx, topText, bottomText, fontName, showSticker);
-                // Small delay to ensure sticker loads if it's an image
-                setTimeout(() => {
-                    const link = document.createElement('a');
-                    link.download = 'Beachside_Artwork.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                }, 500);
-            };
-            img.onerror = () => {
-                ctx.fillStyle = '#1a1a1a';
-                ctx.fillRect(0, 0, 1024, 1024);
-                ctx.fillStyle = selectedTextColor;
-                ctx.font = `bold 100px ${fontName}`;
-                ctx.textAlign = 'center';
-                ctx.fillText(topText, 512, 400);
-                ctx.fillText(bottomText, 512, 620);
+                // Await drawing of texts and sticker
+                await drawOverlays(ctx, topText, bottomText, fontName, showSticker);
+                
                 const link = document.createElement('a');
-                link.download = 'Beachside_Artwork_Fallback.png';
+                link.download = 'Beachside_Artwork.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             };
-            img.src = currentArtUrl;
+            img.src = currentArtUrl; 
         }
 
         function generateCover() {
@@ -748,31 +830,46 @@
             const topText = document.getElementById('art-text-top').value.trim().toUpperCase();
             const bottomText = document.getElementById('art-text-bottom').value.trim().toUpperCase();
             const fontName = document.getElementById('art-font-select').value;
+            const style = document.getElementById('art-style-select').value;
             const showSticker = document.getElementById('art-explicit').checked;
 
-            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ", urban album cover art style, high quality")}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
-            currentArtUrl = url;
+            const finalPrompt = prompt + ", " + style + ", urban album cover art style, high quality";
+            const apiTarget = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
             
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = 1024; canvas.height = 1024;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, 1024, 1024);
-                drawOverlays(ctx, topText, bottomText, fontName, showSticker);
-                
-                document.getElementById('art-loading').classList.add('hidden');
-                document.getElementById('art-preview').src = canvas.toDataURL('image/png');
-                document.getElementById('art-preview').classList.remove('hidden');
-                document.getElementById('art-download-btn').classList.remove('hidden');
-            };
-            img.onerror = () => { 
-                document.getElementById('art-loading').classList.add('hidden'); 
-                document.getElementById('art-placeholder').classList.remove('hidden'); 
-                alert('Image generation failed.');
-            };
-            img.src = url;
+            // Bypass CORS issues by downloading raw data locally first
+            fetch(apiTarget)
+                .then(response => {
+                    if(!response.ok) throw new Error("Network issue");
+                    return response.blob();
+                })
+                .then(blob => {
+                    const objectUrl = URL.createObjectURL(blob);
+                    currentArtUrl = objectUrl; 
+                    
+                    const img = new Image();
+                    img.onload = async () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 1024; canvas.height = 1024;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, 1024, 1024);
+                        
+                        // Await exact 3D rendering and sticker placement BEFORE preview
+                        await drawOverlays(ctx, topText, bottomText, fontName, showSticker);
+                        
+                        document.getElementById('art-loading').classList.add('hidden');
+                        document.getElementById('art-preview').src = canvas.toDataURL('image/png');
+                        document.getElementById('art-preview').classList.remove('hidden');
+                        document.getElementById('art-download-btn').classList.remove('hidden');
+                    };
+                    img.onerror = () => { throw new Error("Image load failed"); };
+                    img.src = objectUrl;
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('art-loading').classList.add('hidden'); 
+                    document.getElementById('art-placeholder').classList.remove('hidden'); 
+                    alert('Artwork Generation Failed. The AI server might be busy, try again in a moment!');
+                });
         }
     </script>
 </body>
