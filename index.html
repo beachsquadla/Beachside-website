@@ -54,10 +54,6 @@
         .spinner { width: 40px; height: 40px; border: 3px solid #1f1f1f; border-top: 3px solid #cc0000; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Reveal Animations */
-        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
         /* Toggle Switch */
         .toggle { position: relative; width: 50px; height: 26px; display: inline-block; }
         .toggle input { opacity: 0; width: 0; height: 0; }
@@ -111,7 +107,7 @@
             text-align: center;
             position: relative;
         }
-        #mobile-menu .menu-panel button, #mobile-menu .menu-panel a {
+        #mobile-menu .menu-panel a {
             color: #ffffff;
             font-family: 'Oswald', sans-serif;
             font-size: 1.3rem;
@@ -126,8 +122,8 @@
             text-decoration: none;
             cursor: pointer;
         }
-        #mobile-menu .menu-panel button:last-child, #mobile-menu .menu-panel a:last-child { border-bottom: none; }
-        #mobile-menu .menu-panel button:hover, #mobile-menu .menu-panel a:hover { color: #cc0000; }
+        #mobile-menu .menu-panel a:last-child { border-bottom: none; }
+        #mobile-menu .menu-panel a:hover { color: #cc0000; }
         
         .close-menu-btn {
             position: absolute;
@@ -156,31 +152,30 @@
 
     <!-- Header / Title Bar -->
     <header class="fixed top-0 w-full z-30 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
-        <div class="container mx-auto px-4 py-2 flex justify-between items-center relative z-[60]">
-            <!-- Logo + Text Always Visible -->
-            <button onclick="navigateTo('view-home')" class="flex items-center gap-3 interactive group">
+        <div class="container mx-auto px-3 py-2 flex justify-between items-center">
+            <!-- Logo + Text Always Visible (Even on Mobile) -->
+            <button onclick="navigateTo('home')" class="flex items-center gap-2 interactive group">
                 <div class="relative">
-                    <img src="1000049066.png" class="w-10 h-10 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10 border border-white/20">
+                    <img src="1000049066.png" class="w-11 h-11 md:w-12 md:h-12 rounded-full object-contain bg-black relative z-10">
                     <div class="absolute inset-0 bg-trs-red rounded-full blur-md opacity-50 -z-0 group-hover:opacity-75 transition"></div>
                 </div>
-                <!-- Removed hidden class so it shows on mobile -->
-                <span class="font-urban font-bold text-lg md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap">
+                <span class="font-urban font-bold text-base md:text-2xl tracking-widest text-white uppercase leading-none pt-1 whitespace-nowrap hidden sm:inline">
                     Beachside Studios
                 </span>
             </button>
 
             <!-- Desktop Nav -->
             <nav class="hidden lg:flex items-center gap-6">
-                <button type="button" onclick="navigateTo('view-home')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Home</button>
-                <button type="button" onclick="navigateTo('view-ai')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">AI Engine</button>
-                <button type="button" onclick="navigateTo('view-rates')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Rates</button>
-                <button type="button" onclick="scrollToSection('location')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Location</button>
-                <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition interactive">Book Now</a>
+                <button onclick="navigateTo('home')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Home</button>
+                <button onclick="navigateTo('ai')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">AI Engine</button>
+                <button onclick="navigateTo('rates')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Rates</button>
+                <button onclick="scrollToSection('location')" class="text-xs font-bold uppercase tracking-wide text-white hover:text-trs-red transition interactive">Location</button>
+                <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition interactive">Book Now</a>
             </nav>
 
             <!-- Mobile Hamburger -->
             <button class="lg:hidden text-white interactive p-2" onclick="toggleMenu()">
-                <i data-lucide="menu" class="w-8 h-8"></i>
+                <i data-lucide="menu" class="w-7 h-7"></i>
             </button>
         </div>
     </header>
@@ -189,24 +184,25 @@
     <div id="mobile-menu">
         <div class="menu-panel">
             <button class="close-menu-btn" onclick="toggleMenu()"><i data-lucide="x" class="w-6 h-6"></i></button>
-            <button type="button" onclick="toggleMenu(); scrollToSection('studio-gallery')">Explore Studio</button>
-            <button type="button" onclick="toggleMenu(); navigateTo('view-home')">Home</button>
-            <button type="button" onclick="toggleMenu(); navigateTo('view-ai')">AI Mix & Master</button>
-            <button type="button" onclick="toggleMenu(); navigateTo('view-rates')">Rates</button>
-            <button type="button" onclick="toggleMenu(); scrollToSection('about')">Who We Are</button>
-            <button type="button" onclick="toggleMenu(); scrollToSection('location')">Location</button>
-            <a href="https://BeachSideRecording.as.me/" target="_blank" onclick="toggleMenu()" class="text-trs-red font-bold mt-4 border-none">Book Session</a>
+            <!-- Removed the # from the hrefs to prevent page jumping/glitching on mobile -->
+            <a onclick="toggleMenu(); scrollToSection('studio-gallery')" class="cursor-pointer">Explore Studio</a>
+            <a onclick="toggleMenu(); navigateTo('home')" class="cursor-pointer">Home</a>
+            <a onclick="toggleMenu(); navigateTo('ai')" class="cursor-pointer">AI Mix & Master</a>
+            <a onclick="toggleMenu(); navigateTo('rates')" class="cursor-pointer">Rates</a>
+            <a onclick="toggleMenu(); scrollToSection('about')" class="cursor-pointer">Who We Are</a>
+            <a onclick="toggleMenu(); scrollToSection('location')" class="cursor-pointer">Location</a>
+            <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red font-bold mt-4">Book Session</a>
         </div>
     </div>
 
     <!-- ================= VIEW: HOME ================= -->
-    <div id="view-home" class="view-section active">
+    <div id="view-home" class="view-section">
         <!-- Hero -->
         <section class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-20">
             <div class="relative z-10 max-w-4xl mx-auto interactive">
                 <div class="relative inline-block mb-10">
-                    <img src="1000049066.png" class="w-40 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-[0_0_15px_rgba(204,0,0,0.5)]">
-                    <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-30 -z-0 scale-150 pointer-events-none"></div>
+                    <img src="1000049066.png" class="w-48 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-2xl">
+                    <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-40 -z-0 scale-150 pointer-events-none"></div>
                 </div>
                 
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tight leading-none mb-6">
@@ -216,14 +212,14 @@
                     From raw demos to radio-ready masters, Beachside Studios provides the tools, privacy, and precision your music deserves.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive w-full sm:w-auto">Book Session</a>
-                    <button type="button" onclick="scrollToSection('studio-gallery')" class="border border-white text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition interactive w-full sm:w-auto">Explore Studio</button>
+                    <a href="https://BeachSideRecording.as.me/" target="_blank" class="bg-trs-red text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive w-full sm:w-auto">Book Session</a>
+                    <button onclick="scrollToSection('studio-gallery')" class="border border-white text-white px-10 py-4 font-display font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition interactive w-full sm:w-auto">Explore Studio</button>
                 </div>
             </div>
         </section>
 
         <!-- About -->
-        <section id="about" class="py-24 bg-black px-6 reveal">
+        <section id="about" class="py-24 bg-black px-6">
             <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                     <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-6 relative">
@@ -245,7 +241,7 @@
         </section>
 
         <!-- Studio Gallery -->
-        <section id="studio-gallery" class="py-24 bg-trs-dark px-6 reveal">
+        <section id="studio-gallery" class="py-24 bg-trs-dark px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">The Studio<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span></h2>
@@ -262,7 +258,7 @@
         </section>
 
         <!-- Reviews -->
-        <section id="reviews" class="py-24 bg-black border-y border-white/5 reveal">
+        <section id="reviews" class="py-24 bg-black border-y border-white/5">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4 relative inline-block">Accolades<span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-trs-red"></span></h2>
@@ -288,14 +284,14 @@
         </section>
 
         <!-- Yachty Intro -->
-        <section class="py-24 bg-trs-gray px-6 reveal">
+        <section class="py-24 bg-trs-gray px-6">
             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-4">Meet <span class="text-trs-red">Yachty</span></h2>
                     <h3 class="text-lg text-white/70 font-display uppercase tracking-widest mb-6">Your Intelligent 24/7 Studio Concierge</h3>
                     <p class="text-gray-400 leading-relaxed mb-6">Imagine having a dedicated studio manager who never sleeps, never takes a day off, and knows every inch of the facility—inside and out. That's Yachty.</p>
                     <p class="text-gray-400 leading-relaxed mb-8">Whether you need a breakdown of our Neumann vocal chain, want to check what hours we're open, or you're ready to lock in a session at 3 AM, Yachty is your virtual concierge built right into the site. Ask about our rates, our gear, our location, or just say what's up. No emails, no hold music, just instant answers.</p>
-                    <button type="button" onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5"></i> Chat With Yachty</button>
+                    <button onclick="openChat()" class="bg-trs-red text-white px-8 py-4 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5"></i> Start Chatting With Yachty</button>
                 </div>
                 <div class="flex justify-center">
                     <div class="relative w-64 h-64">
@@ -311,8 +307,8 @@
     <div id="view-ai" class="view-section hidden pt-24 pb-12 px-6 min-h-screen bg-trs-dark">
         <div class="max-w-4xl mx-auto">
             <div class="flex gap-4 border-b border-white/10 mb-8 justify-center">
-                <button type="button" onclick="switchTab('audio')" id="btn-audio" class="pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive">AI Mix & Master Engine</button>
-                <button type="button" onclick="switchTab('cover')" id="btn-cover" class="pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive">Cover Art Lab</button>
+                <button onclick="switchTab('audio')" id="btn-audio" class="pb-4 px-4 font-display uppercase tracking-widest text-trs-red border-b-2 border-trs-red transition interactive">AI Mix & Master Engine</button>
+                <button onclick="switchTab('cover')" id="btn-cover" class="pb-4 px-4 font-display uppercase tracking-widest text-gray-500 border-b-2 border-transparent hover:text-white transition interactive">Cover Art Lab</button>
             </div>
 
             <!-- Audio Tab -->
@@ -338,7 +334,7 @@
                     </div>
                     <div class="my-4"><p class="text-xs text-trs-red uppercase tracking-widest mb-2">Listen to Preview:</p><audio id="preview-player" controls class="w-full h-10 bg-trs-gray rounded"></audio></div>
                     <a id="download-master" href="#" download="Beachside_Master.wav" class="block w-full bg-trs-red text-white py-4 text-center font-display font-bold uppercase tracking-widest hover:bg-white hover:text-trs-dark transition interactive mb-3">Download Master</a>
-                    <button type="button" onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white py-2 interactive">Process Another File</button>
+                    <button onclick="resetAudio()" class="w-full text-gray-500 text-xs uppercase tracking-widest hover:text-white py-2 interactive">Process Another File</button>
                 </div>
             </div>
 
@@ -350,19 +346,6 @@
                 <div class="grid md:grid-cols-2 gap-8">
                     <div class="space-y-4">
                         <textarea id="art-prompt" rows="3" class="w-full bg-black/50 border border-gray-700 rounded-lg p-4 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="e.g. A dark moody studio with neon lights"></textarea>
-                        
-                        <!-- Art Style Selection -->
-                        <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Art Style</label>
-                            <select id="art-style-select" class="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none">
-                                <option value="Cinematic, 8k resolution, highly detailed">Cinematic / Realism</option>
-                                <option value="Synthwave style, neon, retro 80s">Synthwave / Neon</option>
-                                <option value="Cyberpunk style, dark gritty neon city">Cyberpunk</option>
-                                <option value="Oil painting style, abstract masterpiece">Oil Painting</option>
-                                <option value="Anime style, vibrant colors, 2d art">Anime / Illustrative</option>
-                            </select>
-                        </div>
-
                         <div class="grid grid-cols-2 gap-4">
                             <input type="text" id="art-text-top" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Artist Name">
                             <input type="text" id="art-text-bottom" class="bg-black/50 border border-gray-700 rounded-lg p-3 text-white text-sm focus:border-trs-red focus:outline-none" placeholder="Song Title">
@@ -382,11 +365,11 @@
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Text Color</label>
                             <div class="flex gap-3 flex-wrap">
-                                <button type="button" onclick="selectColor('#ffffff', this)" class="color-btn bg-white selected"></button>
-                                <button type="button" onclick="selectColor('#cc0000', this)" class="color-btn bg-red-700"></button>
-                                <button type="button" onclick="selectColor('#ff6b00', this)" class="color-btn bg-orange-500"></button>
-                                <button type="button" onclick="selectColor('#FFD700', this)" class="color-btn bg-yellow-500"></button>
-                                <button type="button" onclick="selectColor('#00ff41', this)" class="color-btn bg-green-400"></button>
+                                <button onclick="selectColor('#ffffff', this)" class="color-btn bg-white selected"></button>
+                                <button onclick="selectColor('#cc0000', this)" class="color-btn bg-red-700"></button>
+                                <button onclick="selectColor('#ff6b00', this)" class="color-btn bg-orange-500"></button>
+                                <button onclick="selectColor('#FFD700', this)" class="color-btn bg-yellow-500"></button>
+                                <button onclick="selectColor('#00ff41', this)" class="color-btn bg-green-400"></button>
                             </div>
                         </div>
                         <div class="flex items-center justify-between bg-black/50 p-4 rounded-lg border border-gray-700">
@@ -399,12 +382,12 @@
                         <div class="w-full aspect-square bg-black border border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden">
                             <div id="art-placeholder" class="text-center text-gray-600"><i data-lucide="image" class="w-12 h-12 mx-auto mb-2"></i><p class="text-xs uppercase">Preview</p></div>
                             <img id="art-preview" class="hidden w-full h-full object-cover">
-                            <div id="art-loading" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center"><div class="spinner mb-3"></div><p class="text-xs uppercase text-trs-red mt-2">Generating...</p></div>
+                            <div id="art-loading" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center"><div class="spinner mb-3"></div><p class="text-xs uppercase text-trs-red">Generating...</p></div>
                         </div>
-                        <button type="button" onclick="generateCover()" class="w-full bg-white text-black mt-6 py-4 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition interactive border border-white flex justify-center items-center gap-2">
+                        <button onclick="generateCover()" class="w-full bg-white text-black mt-6 py-4 font-display font-bold uppercase tracking-widest hover:bg-trs-red hover:text-white transition interactive border border-white flex justify-center items-center gap-2">
                             <i data-lucide="wand-2" class="w-5 h-5"></i> Generate Artwork
                         </button>
-                        <button type="button" id="art-download-btn" onclick="downloadArt()" class="hidden w-full bg-trs-red text-white mt-2 py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-black transition interactive">
+                        <button id="art-download-btn" onclick="downloadArt()" class="hidden w-full bg-trs-red text-white mt-2 py-3 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-black transition interactive">
                             <i data-lucide="download" class="w-5 h-5 inline mr-2"></i> Download PNG
                         </button>
                     </div>
@@ -443,7 +426,7 @@
     </div>
 
     <!-- Location & Social Footer -->
-    <section id="location" class="py-16 bg-black px-6 border-t border-white/5 reveal">
+    <section id="location" class="py-16 bg-black px-6 border-t border-white/5">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center mb-16">
             <div>
                 <h2 class="text-3xl md:text-5xl font-display font-bold uppercase tracking-wide text-white mb-8">Location</h2>
@@ -454,13 +437,13 @@
                 </div>
             </div>
             <div class="rounded-xl overflow-hidden h-80 md:h-96 bg-trs-gray border border-white/10">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3308.281822837265!2d-118.35629862341051!3d33.98499992288019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2b65155555555%3A0x1d4a0b80f1d5137a!2s233%20S%20Market%20St%2C%20Inglewood%2C%20CA%2090301!5e0!3m2!1sen!2sus!4v1727315352358!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://maps.google.com/maps?q=233%20S%20Market%20St,%20Inglewood,%20CA%2090301&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
     <footer class="bg-trs-dark py-12 px-6 border-t border-white/5 text-center">
-        <img src="1000049066.png" class="w-12 h-12 mx-auto mb-4 object-contain bg-black rounded-full border border-white/20">
+        <img src="1000049066.png" class="w-12 h-12 mx-auto mb-4 object-contain bg-black rounded-full">
         <p class="font-urban text-xl uppercase tracking-widest text-white mb-6">Beachside Studios</p>
         <div class="flex justify-center gap-6 mb-6 flex-wrap">
             <a href="https://www.instagram.com/beachside.studios?igsh=MzRlODBiNWFlZA==" target="_blank" class="flex items-center gap-2 text-gray-400 hover:text-trs-red transition interactive bg-white/5 px-5 py-3 rounded-lg border border-white/10"><i data-lucide="instagram" class="w-5 h-5"></i><span class="text-sm font-display uppercase">Instagram</span></a>
@@ -470,28 +453,29 @@
     </footer>
 
     <!-- Yachty Chatbot -->
-    <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-[320px] w-full hidden mx-4 sm:mx-0">
+    <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-xs hidden">
         <div class="bg-[#080808] border-2 border-trs-red rounded-xl shadow-[0_0_40px_rgba(204,0,0,0.4)] overflow-hidden">
             <div class="bg-trs-red p-4 flex items-center justify-between relative">
                 <div class="flex items-center gap-3"><div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-trs-red font-bold text-xs font-urban border border-white">Y</div><div><h4 class="font-display font-bold text-sm uppercase tracking-widest">Yachty AI</h4><p class="text-white/80 text-[10px]">Virtual Studio Agent</p></div></div>
-                <button type="button" onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="closeChat()" class="text-white hover:text-black transition p-1 rounded-full hover:bg-black/20 z-[70] relative bg-transparent border-none cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <div id="chat-messages" class="h-64 p-4 overflow-y-auto space-y-3 bg-black/60" style="-webkit-overflow-scrolling: touch;">
-                <div class="flex gap-2"><div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 max-w-[85%] border border-white/5">What's good! I'm Yachty, your virtual studio concierge. I know every detail about Beachside Studios. Ask me about our gear, rates, mixing, or tap a link below!</div></div>
+                <div class="flex gap-2"><div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 max-w-[85%] border border-white/5">What's good! I'm Yachty, your virtual studio concierge. I know every detail about Beachside Studios. Ask me about our gear, rates, or tap a link below!</div></div>
             </div>
             <div class="px-3 py-3 bg-black/40 flex flex-wrap gap-2 border-t border-trs-red/30">
-                <button type="button" onclick="quickChat('Tell me about your gear')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Gear</button>
-                <button type="button" onclick="quickChat('What are your rates?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Rates</button>
-                <button type="button" onclick="quickChat('I want to book')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Book</button>
+                <button onclick="quickChat('Tell me about your gear')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Gear</button>
+                <button onclick="quickChat('What are your rates?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Rates</button>
+                <button onclick="quickChat('I want to book')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Book</button>
+                <button onclick="quickChat('Where are you?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition">Location</button>
             </div>
             <div class="p-3 bg-[#0a0a0a] flex gap-2 border-t border-white/5">
                 <input type="text" id="chat-input" class="flex-1 bg-black/50 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:border-trs-red focus:outline-none" placeholder="Ask Yachty anything...">
-                <button type="button" onclick="sendChat()" class="bg-trs-red text-white p-2 rounded-lg hover:bg-white hover:text-trs-dark transition"><i data-lucide="send" class="w-4 h-4"></i></button>
+                <button onclick="sendChat()" class="bg-trs-red text-white p-2 rounded-lg hover:bg-white hover:text-trs-dark transition"><i data-lucide="send" class="w-4 h-4"></i></button>
             </div>
         </div>
     </div>
 
-    <button type="button" onclick="openChat()" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-trs-red rounded-full shadow-[0_5px_20px_rgba(204,0,0,0.5)] flex items-center justify-center hover:scale-110 transition active:scale-95 interactive">
+    <button onclick="openChat()" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-trs-red rounded-full shadow-[0_5px_20px_rgba(204,0,0,0.5)] flex items-center justify-center hover:scale-110 transition active:scale-95 interactive">
         <i data-lucide="message-circle" class="w-6 h-6 text-white"></i>
         <span class="absolute -top-1 -right-1 w-3 h-3 bg-white border-2 border-trs-red rounded-full"></span>
     </button>
@@ -504,15 +488,8 @@
         // NAVIGATION
         function navigateTo(v) { 
             document.querySelectorAll('.view-section').forEach(x => x.classList.add('hidden')); 
-            document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active')); 
-            
-            const target = document.getElementById(v);
-            if(target) {
-                target.classList.remove('hidden');
-                target.classList.add('active');
-            }
-            window.scrollTo(0,0); 
-            lucide.createIcons(); 
+            document.getElementById('view-' + v).classList.remove('hidden'); 
+            window.scrollTo(0,0); lucide.createIcons(); 
         }
         function scrollToSection(id) { 
             const el = document.getElementById(id); 
@@ -520,13 +497,8 @@
         }
         function toggleMenu() { 
             const m = document.getElementById('mobile-menu'); 
-            if(m.classList.contains('open')){
-                m.classList.remove('open');
-                document.body.style.overflow = '';
-            } else {
-                m.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            }
+            m.classList.toggle('open'); 
+            document.body.style.overflow = m.classList.contains('open') ? 'hidden' : ''; 
             lucide.createIcons();
         }
 
@@ -544,12 +516,11 @@
             }
         }
 
-        // CHATBOT (FULL BRAIN RESTORED)
+        // CHATBOT
         function openChat() { document.getElementById('chatbot').classList.remove('hidden'); document.getElementById('chat-input').focus(); }
         function closeChat() { document.getElementById('chatbot').classList.add('hidden'); }
         function setupChat() { document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); }); }
         function quickChat(t) { document.getElementById('chat-input').value = t; sendChat(); }
-        
         function sendChat() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
@@ -557,35 +528,19 @@
             addMsg(text, true);
             input.value = '';
             document.getElementById('chat-messages').scrollTop = 99999;
-            
-            const lowerText = text.toLowerCase();
-            let response = "";
-
-            if (lowerText.includes("gear") || lowerText.includes("equipment") || lowerText.includes("mic") || lowerText.includes("interface") || lowerText.includes("setup")) {
-                response = 'We run a premium signal chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser Microphone</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X Interface</b>. Industry-standard quality, every time.';
-            } else if (lowerText.includes("booth") || lowerText.includes("room") || lowerText.includes("space") || lowerText.includes("vocal booth")) {
-                response = 'We have a professionally acoustically treated, dead-quiet recording booth perfect for cutting vocals, ADR, or podcasts. You also get access to our creative lounge area!';
-            } else if (lowerText.includes("mix") || lowerText.includes("master")) {
-                response = 'A <b class="text-white">free Pre-Mix and Master</b> comes with every session! A <b class="text-white">Full Mix and Master</b> starts at <b class="text-trs-red">$150</b>. It is a much more detailed process and has a 72-hour turnaround.';
-            } else if (lowerText.includes("price") || lowerText.includes("rate") || lowerText.includes("cost") || lowerText.includes("how much") || lowerText.includes("special")) {
-                response = 'Our standard rate is <b class="text-trs-red">$60/hr</b> (2hr minimum). Our best deals are our block specials: <b class="text-white">3 hours for $150</b>, or <b class="text-white">4 hours for $200</b>! An engineer is always included in the price.';
-            } else if (lowerText.includes("book") || lowerText.includes("schedule") || lowerText.includes("time") || lowerText.includes("open slots") || lowerText.includes("calendar")) {
-                response = 'You can check our live calendar and lock in your session instantly <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red underline font-bold">on our booking page here</a>.';
-            } else if (lowerText.includes("hour") || lowerText.includes("open") || lowerText.includes("close") || lowerText.includes("late") || lowerText.includes("when")) {
-                response = 'We never sleep! Beachside Studios is open <b class="text-white">24 hours a day, 7 days a week</b> to fit your creative schedule.';
-            } else if (lowerText.includes("where") || lowerText.includes("location") || lowerText.includes("address")) {
-                response = 'We are located right in the mix at <b class="text-white">233 S Market St, Inglewood, CA 90301</b>.';
-            } else if (lowerText.includes("phone") || lowerText.includes("call") || lowerText.includes("number")) {
-                response = 'You can reach the studio directly by calling <b class="text-white">(323) 400-2065</b>.';
-            } else if (lowerText.includes("hi ") || lowerText.includes("hello") || lowerText.includes("hey") || lowerText.includes("yo ")) {
-                response = 'Yo! I am Yachty, your virtual studio agent. Ask me about our gear, our rates, mixing, or grab a link to book some time!';
-            } else {
-                response = 'I am your 24/7 virtual assistant, Yachty! I can give you details on our Neumann/Apollo setup, mixing packages, hourly rates, or our location. Want the link to <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red underline font-bold">check our open slots?</a>';
-            }
-
-            setTimeout(() => addMsg(response, false), 800 + Math.random() * 400);
+            const l = text.toLowerCase();
+            let r = "";
+            if(l.includes("gear") || l.includes("mic")) r = 'We run a premium chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X</b>.';
+            else if(l.includes("booth") || l.includes("room")) r = 'We have a professionally treated, dead-quiet recording booth perfect for vocals and ADR. + access to our creative lounge!';
+            else if(l.includes("price") || l.includes("rate") || l.includes("cost")) r = 'Standard: <b class="text-trs-red">$60/hr</b> (2hr min). Block specials: <b class="text-white">3hrs/$150</b> or <b class="text-white">4hrs/$200</b>. Engineer included.';
+            else if(l.includes("book")) r = "Check our live calendar and lock in a session <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>here</a>.";
+            else if(l.includes("hour") || l.includes("open")) r = "We never sleep! Beachside Studios is open <b class='text-white'>24/7</b>.";
+            else if(l.includes("location") || l.includes("where")) r = "We are located at <b class='text-white'>233 S Market St, Inglewood, CA 90301</b>.";
+            else if(l.includes("phone")) r = "Call us directly: <a href='tel:3234002065' class='text-trs-red underline'>(323) 400-2065</a>.";
+            else if(l.includes("hi") || l.includes("hello")) r = "Yo! I'm Yachty, your virtual studio agent.";
+            else r = "I'm your 24/7 assistant. Want the <a href='https://BeachSideRecording.as.me/' target='_blank' class='text-trs-red underline'>booking link?</a>";
+            setTimeout(() => addMsg(r, false), 600);
         }
-        
         function addMsg(t, u) {
             const a = document.getElementById('chat-messages');
             const d = document.createElement('div');
@@ -619,51 +574,24 @@
                     const offCtx = new OfflineAudioContext(abuf.numberOfChannels, abuf.length, abuf.sampleRate);
                     const src = offCtx.createBufferSource();
                     src.buffer = abuf;
-                    
-                    // Smooth Polish Algorithm
-                    const warmthFilter = offCtx.createBiquadFilter(); warmthFilter.type = 'peaking'; warmthFilter.frequency.value = 250; warmthFilter.gain.value = 1.5; 
-                    const mudFilter = offCtx.createBiquadFilter(); mudFilter.type = 'peaking'; mudFilter.frequency.value = 3500; mudFilter.gain.value = -1.5; 
-                    const airFilter = offCtx.createBiquadFilter(); airFilter.type = 'highshelf'; airFilter.frequency.value = 10000; airFilter.gain.value = 2.0; 
-                    const comp = offCtx.createDynamicsCompressor(); comp.threshold.value = -15; comp.knee.value = 30; comp.ratio.value = 2.5; comp.attack.value = 0.05; comp.release.value = 0.20; 
-                    
-                    src.connect(warmthFilter).connect(mudFilter).connect(airFilter).connect(comp).connect(offCtx.destination);
+                    const eq = offCtx.createBiquadFilter(); eq.type='lowshelf'; eq.frequency.value=100; eq.gain.value=2;
+                    const comp = offCtx.createDynamicsCompressor(); comp.threshold.value=-20; comp.ratio.value=3;
+                    src.connect(eq).connect(comp).connect(offCtx.destination);
                     src.start();
                     
                     const rendered = await offCtx.startRendering();
                     document.getElementById('progress-bar').style.width = '90%';
 
-                    // Normalize to -1.0dB
-                    const targetLoudness = -1.0;
-                    const renderedData = rendered.getChannelData(0);
-                    let maxPeak = 0;
-                    for(let i=0; i<renderedData.length; i++) { if(Math.abs(renderedData[i]) > maxPeak) maxPeak = Math.abs(renderedData[i]); }
-                    const gainRatio = Math.pow(10, targetLoudness / 20) / maxPeak;
-                    
-                    const processedBuffer = actx.createBuffer(rendered.numberOfChannels, rendered.length, rendered.sampleRate);
-                    for(let c=0; c<rendered.numberOfChannels; c++) {
-                        const channelData = rendered.getChannelData(c);
-                        const processedChannelData = processedBuffer.getChannelData(c);
-                        for(let i=0; i<rendered.length; i++) {
-                            let val = channelData[i] * gainRatio;
-                            if(val > 0.99) val = 0.99; if(val < -0.99) val = -0.99;
-                            processedChannelData[i] = val;
-                        }
-                    }
-
-                    const wav = audioBufferToWav(processedBuffer);
+                    const wav = audioBufferToWav(rendered);
                     const url = URL.createObjectURL(wav);
 
                     document.getElementById('audio-processing').classList.add('hidden');
                     document.getElementById('audio-result').classList.remove('hidden');
                     
-                    let origPeak = 0;
-                    for(let i=0; i<abuf.length; i++) { if(Math.abs(abuf.getChannelData(0)[i]) > origPeak) origPeak = Math.abs(abuf.getChannelData(0)[i]); }
-                    document.getElementById('orig-peak').innerText = (20 * Math.log10(origPeak)).toFixed(1) + ' dB';
-                    
-                    // Simple key detection fake for UI
-                    const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-                    document.getElementById('orig-key').innerText = keys[Math.floor(Math.random() * keys.length)] + (Math.random() > 0.5 ? "m" : "");
-                    
+                    let peak = 0;
+                    for(let i=0; i<abuf.length; i++) { if(Math.abs(abuf.getChannelData(0)[i]) > peak) peak = Math.abs(abuf.getChannelData(0)[i]); }
+                    document.getElementById('orig-peak').innerText = (20 * Math.log10(peak)).toFixed(1) + ' dB';
+                    document.getElementById('orig-key').innerText = "Cm";
                     const pl = document.getElementById('preview-player');
                     pl.src = url; pl.load();
                     document.getElementById('download-master').href = url;
@@ -703,7 +631,7 @@
             return new Blob([buf], {type:'audio/wav'});
         }
 
-        // COVER ART GENERATOR - CORS FIX
+        // COVER ART GENERATOR
         let currentArtUrl = "";
         let selectedTextColor = '#ffffff';
 
@@ -752,34 +680,21 @@
                 ctx.restore();
             }
             if(showSticker) {
-                // Procedural Explicit Sticker (Bypasses Image File Loading Issues)
-                const sW = 240; const sH = 100;
-                const x = 1024 - sW - 40; const y = 1024 - sH - 40;
-                
-                ctx.fillStyle = 'white';
-                ctx.fillRect(x-4, y-4, sW+8, sH+8); // outer white border
-                
-                ctx.fillStyle = 'black';
-                ctx.fillRect(x, y, sW, sH); // main black bg
-                
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 4;
-                ctx.strokeRect(x+4, y+4, sW-8, sH-8); // inner white border
-                
-                ctx.fillStyle = 'white';
-                ctx.fillRect(x+4, y+35, sW-8, 25); // white band for advisory
-                
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 22px Arial';
-                ctx.textAlign = 'center';
-                ctx.letterSpacing = "2px";
-                ctx.fillText('PARENTAL', x + sW/2, y + 28);
-                
-                ctx.fillStyle = 'black';
-                ctx.fillText('ADVISORY', x + sW/2, y + 54);
-                
-                ctx.fillStyle = 'white';
-                ctx.fillText('EXPLICIT CONTENT', x + sW/2, y + 85);
+                const sticker = new Image();
+                sticker.crossOrigin = "Anonymous";
+                sticker.onload = () => {
+                    const w = 300; 
+                    const h = 300 * (sticker.height / sticker.width);
+                    ctx.drawImage(sticker, 1024 - w - 40, 1024 - h - 40, w, h);
+                };
+                sticker.onerror = () => {
+                    // Fallback draw for sticker
+                    ctx.fillStyle = 'white'; ctx.fillRect(820, 820, 180, 108);
+                    ctx.fillStyle = 'black'; ctx.font = 'bold 14px Arial'; ctx.fillText('PARENTAL', 910, 840);
+                    ctx.font = 'bold 30px Arial'; ctx.fillText('ADVISORY', 910, 875);
+                    ctx.font = 'bold 10px Arial'; ctx.fillText('EXPLICIT CONTENT', 910, 900);
+                };
+                sticker.src = 'parental-advisory-png-43523.png';
             }
         }
 
@@ -793,18 +708,32 @@
             canvas.width = 1024; canvas.height = 1024;
             const ctx = canvas.getContext('2d');
             const img = new Image();
-            
+            img.crossOrigin = "Anonymous";
             img.onload = () => {
                 ctx.drawImage(img, 0, 0, 1024, 1024);
                 drawOverlays(ctx, topText, bottomText, fontName, showSticker);
+                // Small delay to ensure sticker loads if it's an image
                 setTimeout(() => {
                     const link = document.createElement('a');
                     link.download = 'Beachside_Artwork.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
-                }, 100);
+                }, 500);
             };
-            img.src = currentArtUrl; // Already a safe blob URL from the fetch
+            img.onerror = () => {
+                ctx.fillStyle = '#1a1a1a';
+                ctx.fillRect(0, 0, 1024, 1024);
+                ctx.fillStyle = selectedTextColor;
+                ctx.font = `bold 100px ${fontName}`;
+                ctx.textAlign = 'center';
+                ctx.fillText(topText, 512, 400);
+                ctx.fillText(bottomText, 512, 620);
+                const link = document.createElement('a');
+                link.download = 'Beachside_Artwork_Fallback.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+            img.src = currentArtUrl;
         }
 
         function generateCover() {
@@ -819,44 +748,31 @@
             const topText = document.getElementById('art-text-top').value.trim().toUpperCase();
             const bottomText = document.getElementById('art-text-bottom').value.trim().toUpperCase();
             const fontName = document.getElementById('art-font-select').value;
-            const style = document.getElementById('art-style-select').value;
             const showSticker = document.getElementById('art-explicit').checked;
 
-            const finalPrompt = prompt + ", " + style + ", urban album cover art style, high quality";
-            const apiTarget = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
+            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ", urban album cover art style, high quality")}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random()*10000)}`;
+            currentArtUrl = url;
             
-            // FETCH API FIX: This bypasses the mobile Security/CORS issue by downloading the data locally first!
-            fetch(apiTarget)
-                .then(response => {
-                    if(!response.ok) throw new Error("Network issue");
-                    return response.blob();
-                })
-                .then(blob => {
-                    const objectUrl = URL.createObjectURL(blob);
-                    currentArtUrl = objectUrl; // Save for download button
-                    
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = 1024; canvas.height = 1024;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, 1024, 1024);
-                        drawOverlays(ctx, topText, bottomText, fontName, showSticker);
-                        
-                        document.getElementById('art-loading').classList.add('hidden');
-                        document.getElementById('art-preview').src = canvas.toDataURL('image/png');
-                        document.getElementById('art-preview').classList.remove('hidden');
-                        document.getElementById('art-download-btn').classList.remove('hidden');
-                    };
-                    img.onerror = () => { throw new Error("Image load failed"); };
-                    img.src = objectUrl;
-                })
-                .catch(err => {
-                    console.error(err);
-                    document.getElementById('art-loading').classList.add('hidden'); 
-                    document.getElementById('art-placeholder').classList.remove('hidden'); 
-                    alert('Artwork Generation Failed. The AI server might be busy, try again in a moment!');
-                });
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 1024; canvas.height = 1024;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 1024, 1024);
+                drawOverlays(ctx, topText, bottomText, fontName, showSticker);
+                
+                document.getElementById('art-loading').classList.add('hidden');
+                document.getElementById('art-preview').src = canvas.toDataURL('image/png');
+                document.getElementById('art-preview').classList.remove('hidden');
+                document.getElementById('art-download-btn').classList.remove('hidden');
+            };
+            img.onerror = () => { 
+                document.getElementById('art-loading').classList.add('hidden'); 
+                document.getElementById('art-placeholder').classList.remove('hidden'); 
+                alert('Image generation failed.');
+            };
+            img.src = url;
         }
     </script>
 </body>
