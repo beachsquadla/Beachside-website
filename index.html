@@ -207,6 +207,7 @@
 
     <!-- Loading Screen -->
     <div id="preloader"><div class="spinner"></div></div>
+    <script>document.getElementById('preloader').style.display='none';</script>
 
     <!-- Header / Title Bar -->
     <header class="fixed top-0 w-full z-40 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
@@ -748,8 +749,7 @@
     </button>
 
     <script>
-        // INIT - force hide preloader immediately
-        document.getElementById('preloader')?.classList.add('hidden');
+        // INIT
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons(); 
             setupChat(); 
