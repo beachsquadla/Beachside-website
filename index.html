@@ -89,6 +89,115 @@
         .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+        /* Premium Portal Styles */
+        .premium-input {
+            width: 100%;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .premium-input:focus { border-color: #cc0000; }
+        .premium-input::placeholder { color: #555; }
+        .premium-btn {
+            width: 100%;
+            background: #cc0000;
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .premium-btn:hover { background: #fff; color: #000; }
+        .premium-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .premium-btn-outline {
+            background: transparent;
+            border: 1px solid #cc0000;
+            color: #cc0000;
+        }
+        .premium-btn-outline:hover { background: #cc0000; color: #fff; }
+        .premium-card {
+            background: #0a0a0a;
+            border: 1px solid #1f1f1f;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+        .premium-card:hover { border-color: #cc0000; }
+        .premium-badge {
+            display: inline-block;
+            background: #cc0000;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .usage-bar {
+            width: 100%;
+            height: 6px;
+            background: #1f1f1f;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .usage-bar-fill {
+            height: 100%;
+            background: #cc0000;
+            border-radius: 3px;
+            transition: width 0.5s;
+        }
+        .premium-tab-btn {
+            padding: 12px 24px;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+        }
+        .premium-tab-btn.active {
+            color: #cc0000;
+            border-bottom: 2px solid #cc0000;
+        }
+        .premium-tab-btn.inactive {
+            color: #666;
+            border-bottom: 2px solid transparent;
+        }
+        .premium-tab-btn.inactive:hover { color: #fff; }
+        .tool-card {
+            background: #0a0a0a;
+            border: 1px solid #1f1f1f;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tool-card:hover { border-color: #cc0000; }
+        .tool-card .coming-soon {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
     </style>
 </head>
 <body class="antialiased flex flex-col min-h-screen">
@@ -117,6 +226,7 @@
                 <button type="button" onclick="navigateToAI('cover')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">AI Cover Art</button>
                 <button type="button" onclick="navigateTo('view-rates')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Rates</button>
                 <button type="button" onclick="scrollToSection('location')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Location</button>
+                <button type="button" onclick="navigateToPremium()" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-trs-red border border-trs-red px-3 py-1.5 rounded hover:bg-trs-red hover:text-white transition cursor-pointer">Premium Studio</button>
                 <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition">Book Now</a>
             </nav>
 
@@ -134,6 +244,7 @@
             <button type="button" onclick="navigateToAI('cover')" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white w-full py-4 text-center cursor-pointer">AI Cover Art</button>
             <button type="button" onclick="navigateTo('view-rates')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red w-full py-4 text-center cursor-pointer">Rates & Booking</button>
             <button type="button" onclick="scrollToSection('location')" class="text-2xl font-display uppercase tracking-widest text-white hover:text-trs-red w-full py-4 text-center cursor-pointer">Location</button>
+            <button type="button" onclick="navigateToPremium()" class="text-2xl font-display uppercase tracking-widest text-trs-red hover:text-white w-full py-4 text-center cursor-pointer">Premium Studio</button>
             <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" onclick="toggleMenu()" class="bg-trs-red text-white px-12 py-4 mt-4 font-display text-xl uppercase tracking-widest hover:bg-white hover:text-black transition-colors rounded-lg cursor-pointer">Book Now</a>
         </div>
     </header>
@@ -480,6 +591,132 @@
         <p class="text-gray-600 text-xs uppercase tracking-widest">© 2026 Beachside Studio. All Rights Reserved.</p>
     </footer>
 
+    <!-- ================= VIEW: PREMIUM STUDIO PORTAL ================= -->
+    <div id="view-premium-login" class="view-section hidden min-h-screen bg-black flex items-center justify-center px-6 pt-24">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-10">
+                <img src="1000049066.png" class="w-20 h-20 mx-auto mb-4 rounded-full bg-black border border-white/10">
+                <h2 class="text-3xl font-display font-bold uppercase tracking-widest text-white">Premium Studio</h2>
+                <p class="text-gray-500 text-sm mt-2">Sign in with your Beachside account</p>
+            </div>
+
+            <!-- Auth Tabs -->
+            <div class="flex justify-center gap-0 mb-8 border-b border-white/10">
+                <button type="button" id="premium-login-tab" onclick="premiumSwitchTab('login')" class="premium-tab-btn active">Sign In</button>
+                <button type="button" id="premium-register-tab" onclick="premiumSwitchTab('register')" class="premium-tab-btn inactive">Register</button>
+            </div>
+
+            <!-- Error -->
+            <div id="premium-error" class="hidden bg-red-900/20 border border-red-500/50 text-red-200 text-xs p-4 mb-4 rounded-lg"></div>
+
+            <!-- Login Form -->
+            <div id="premium-form-login" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Email</label>
+                    <input type="email" id="premium-login-email" class="premium-input" placeholder="your@email.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Password</label>
+                    <input type="password" id="premium-login-password" class="premium-input" placeholder="••••••••">
+                </div>
+                <button type="button" id="premium-login-btn" onclick="handlePremiumLogin()" class="premium-btn">Sign In</button>
+            </div>
+
+            <!-- Register Form -->
+            <div id="premium-form-register" class="hidden space-y-5">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Name</label>
+                    <input type="text" id="premium-reg-name" class="premium-input" placeholder="Your name">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Email</label>
+                    <input type="email" id="premium-reg-email" class="premium-input" placeholder="your@email.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Password</label>
+                    <input type="password" id="premium-reg-password" class="premium-input" placeholder="Min 6 characters">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Invite Code</label>
+                    <input type="text" id="premium-reg-invite" class="premium-input uppercase" placeholder="BEACH-XXX-XXXX">
+                </div>
+                <button type="button" id="premium-register-btn" onclick="handlePremiumRegister()" class="premium-btn">Create Account</button>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div id="premium-auth-loading" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+                <div class="text-center"><div class="spinner mb-4"></div><p class="text-trs-red text-xs font-display uppercase tracking-widest">Please wait...</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW: PREMIUM DASHBOARD ================= -->
+    <div id="view-premium-dashboard" class="view-section hidden min-h-screen bg-black pt-24 pb-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Dashboard Header -->
+            <div class="flex justify-between items-center mb-10">
+                <div>
+                    <h2 class="text-3xl font-display font-bold uppercase tracking-widest text-white"><span id="premium-welcome-name">Welcome</span> <span class="text-trs-red">✦</span></h2>
+                    <p class="text-gray-500 text-sm mt-1" id="premium-plan-badge">Premium Plan</p>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="navigateTo('view-home')" class="text-xs uppercase tracking-widest text-gray-400 hover:text-white transition">Home</button>
+                    <button type="button" onclick="handlePremiumLogout()" class="text-xs uppercase tracking-widest text-trs-red hover:text-white transition border border-trs-red px-3 py-1.5 rounded">Logout</button>
+                </div>
+            </div>
+
+            <!-- Usage Card -->
+            <div class="premium-card mb-10">
+                <div class="flex justify-between items-center mb-4">
+                    <div><h3 class="font-display uppercase tracking-widest text-white text-sm">Generation Credits</h3></div>
+                    <span class="premium-badge" id="premium-usage-text">0 / 50</span>
+                </div>
+                <div class="usage-bar"><div class="usage-bar-fill" id="premium-usage-bar" style="width:0%"></div></div>
+                <p class="text-gray-600 text-xs mt-3">Each generation (master, stem, or AI track) uses 1 credit. Contact Beachside to top up.</p>
+            </div>
+
+            <!-- Tool Cards Grid -->
+            <h3 class="text-xl font-display font-bold uppercase tracking-widest text-white mb-6">Studio Tools</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Stem Separation -->
+                <div class="tool-card">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-12 h-12 bg-trs-red/20 rounded-lg flex items-center justify-center shrink-0"><i data-lucide="mic-2" class="w-6 h-6 text-trs-red"></i></div>
+                        <div><h4 class="font-display uppercase tracking-widest text-white text-sm mb-1">Stem Separation</h4><p class="text-gray-500 text-xs">Extract vocals, drums, bass, and other instruments from any track.</p></div>
+                    </div>
+                    <div class="coming-soon rounded-xl"><div class="text-center"><i data-lucide="lock" class="w-8 h-8 text-trs-red mx-auto mb-2"></i><p class="text-xs font-display uppercase tracking-widest text-white">Coming Soon</p></div></div>
+                </div>
+
+                <!-- Text to Music -->
+                <div class="tool-card">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-12 h-12 bg-trs-red/20 rounded-lg flex items-center justify-center shrink-0"><i data-lucide="wand-2" class="w-6 h-6 text-trs-red"></i></div>
+                        <div><h4 class="font-display uppercase tracking-widest text-white text-sm mb-1">Text to Music</h4><p class="text-gray-500 text-xs">Describe any vibe and generate original music with AI.</p></div>
+                    </div>
+                    <div class="coming-soon rounded-xl"><div class="text-center"><i data-lucide="lock" class="w-8 h-8 text-trs-red mx-auto mb-2"></i><p class="text-xs font-display uppercase tracking-widest text-white">Coming Soon</p></div></div>
+                </div>
+
+                <!-- AI Revamp -->
+                <div class="tool-card">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-12 h-12 bg-trs-red/20 rounded-lg flex items-center justify-center shrink-0"><i data-lucide="audio-lines" class="w-6 h-6 text-trs-red"></i></div>
+                        <div><h4 class="font-display uppercase tracking-widest text-white text-sm mb-1">AI Revamp</h4><p class="text-gray-500 text-xs">Upload a track and apply style presets — warm vinyl, modern radio, lo-fi, and more.</p></div>
+                    </div>
+                    <div class="coming-soon rounded-xl"><div class="text-center"><i data-lucide="lock" class="w-8 h-8 text-trs-red mx-auto mb-2"></i><p class="text-xs font-display uppercase tracking-widest text-white">Coming Soon</p></div></div>
+                </div>
+
+                <!-- Beat Generator -->
+                <div class="tool-card">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-12 h-12 bg-trs-red/20 rounded-lg flex items-center justify-center shrink-0"><i data-lucide="music" class="w-6 h-6 text-trs-red"></i></div>
+                        <div><h4 class="font-display uppercase tracking-widest text-white text-sm mb-1">Beat Variations</h4><p class="text-gray-500 text-xs">Upload a beat and generate AI-powered variations in different styles.</p></div>
+                    </div>
+                    <div class="coming-soon rounded-xl"><div class="text-center"><i data-lucide="lock" class="w-8 h-8 text-trs-red mx-auto mb-2"></i><p class="text-xs font-display uppercase tracking-widest text-white">Coming Soon</p></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Yachty Chatbot -->
     <div id="chatbot" class="fixed bottom-24 right-6 z-[60] max-w-[320px] w-full hidden mx-4 sm:mx-0">
         <div class="bg-[#080808] border-2 border-trs-red rounded-xl shadow-[0_0_40px_rgba(204,0,0,0.4)] overflow-hidden">
@@ -510,7 +747,7 @@
     <script>
         // INIT
         window.addEventListener('load', () => document.getElementById('preloader').classList.add('hidden'));
-        window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); setupChat(); setupAudioInput(); });
+        window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); setupChat(); setupAudioInput(); initPremiumPortal(); });
 
         // NAVIGATION (Helpers for navigating to AI and switching tabs)
         function navigateToAI(tab) {
@@ -898,6 +1135,148 @@
                     document.getElementById('art-placeholder').classList.remove('hidden'); 
                     alert('Artwork Generation Failed. The AI server might be busy, try again in a moment!');
                 });
+        }
+
+        // ==========================================
+        // PREMIUM PORTAL
+        // ==========================================
+        const PREMIUM_API = window.location.origin + '/api/premium';
+        let window._premiumUser = null;
+
+        function premiumSwitchTab(tab) {
+            const login = document.getElementById('premium-form-login');
+            const register = document.getElementById('premium-form-register');
+            const loginTab = document.getElementById('premium-login-tab');
+            const registerTab = document.getElementById('premium-register-tab');
+            
+            if (tab === 'login') {
+                login.classList.remove('hidden');
+                register.classList.add('hidden');
+                loginTab.className = 'premium-tab-btn active';
+                registerTab.className = 'premium-tab-btn inactive';
+            } else {
+                login.classList.add('hidden');
+                register.classList.remove('hidden');
+                loginTab.className = 'premium-tab-btn inactive';
+                registerTab.className = 'premium-tab-btn active';
+            }
+        }
+
+        function showPremiumError(msg) {
+            const err = document.getElementById('premium-error');
+            err.textContent = msg;
+            err.classList.remove('hidden');
+            setTimeout(() => err.classList.add('hidden'), 5000);
+        }
+
+        function showPremiumLoading(show) {
+            document.getElementById('premium-auth-loading').classList.toggle('hidden', !show);
+        }
+
+        async function handlePremiumLogin() {
+            const email = document.getElementById('premium-login-email').value.trim();
+            const password = document.getElementById('premium-login-password').value;
+            
+            if (!email || !password) { showPremiumError('Please fill in all fields'); return; }
+            
+            showPremiumLoading(true);
+            try {
+                const res = await fetch(PREMIUM_API + '/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                showPremiumLoading(false);
+                
+                if (!res.ok) { showPremiumError(data.error || 'Login failed'); return; }
+                
+                window._premiumUser = data.user;
+                updatePremiumDashboard();
+                navigateTo('view-premium-dashboard');
+            } catch(e) {
+                showPremiumLoading(false);
+                showPremiumError('Connection error. Please try again.');
+            }
+        }
+
+        async function handlePremiumRegister() {
+            const name = document.getElementById('premium-reg-name').value.trim();
+            const email = document.getElementById('premium-reg-email').value.trim();
+            const password = document.getElementById('premium-reg-password').value;
+            const inviteCode = document.getElementById('premium-reg-invite').value.trim().toUpperCase();
+            
+            if (!name || !email || !password || !inviteCode) { showPremiumError('Please fill in all fields'); return; }
+            if (password.length < 6) { showPremiumError('Password must be at least 6 characters'); return; }
+            
+            showPremiumLoading(true);
+            try {
+                const res = await fetch(PREMIUM_API + '/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ name, email, password, inviteCode })
+                });
+                const data = await res.json();
+                showPremiumLoading(false);
+                
+                if (!res.ok) { showPremiumError(data.error || 'Registration failed'); return; }
+                
+                window._premiumUser = data.user;
+                updatePremiumDashboard();
+                navigateTo('view-premium-dashboard');
+            } catch(e) {
+                showPremiumLoading(false);
+                showPremiumError('Connection error. Please try again.');
+            }
+        }
+
+        async function handlePremiumLogout() {
+            try {
+                await fetch(PREMIUM_API + '/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+            } catch(e) {}
+            window._premiumUser = null;
+            navigateTo('view-home');
+        }
+
+        async function checkPremiumSession() {
+            try {
+                const res = await fetch(PREMIUM_API + '/me', { credentials: 'include' });
+                const data = await res.json();
+                if (data.authenticated && data.user) {
+                    window._premiumUser = data.user;
+                    updatePremiumDashboard();
+                }
+            } catch(e) {
+                // API not reachable
+            }
+        }
+
+        function updatePremiumDashboard() {
+            if (!window._premiumUser) return;
+            const u = window._premiumUser;
+            document.getElementById('premium-welcome-name').textContent = u.name || u.email;
+            document.getElementById('premium-plan-badge').textContent = (u.plan || 'Premium').toUpperCase() + ' Plan';
+            document.getElementById('premium-usage-text').textContent = (u.generationsUsed || 0) + ' / ' + (u.maxGenerations || 50);
+            const pct = Math.min(100, ((u.generationsUsed || 0) / (u.maxGenerations || 50)) * 100);
+            document.getElementById('premium-usage-bar').style.width = pct + '%';
+        }
+
+        function navigateToPremium() {
+            if (window._premiumUser) {
+                updatePremiumDashboard();
+                navigateTo('view-premium-dashboard');
+            } else {
+                navigateTo('view-premium-login');
+            }
+        }
+
+        function initPremiumPortal() {
+            checkPremiumSession();
         }
     </script>
 </body>
