@@ -224,9 +224,9 @@
                 <button type="button" onclick="navigateTo('view-home')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Home</button>
                 <button type="button" onclick="navigateToAI('audio')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">AI Master</button>
                 <button type="button" onclick="navigateToAI('cover')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">AI Cover Art</button>
+                <button type="button" onclick="navigateToPremium()" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-trs-red hover:text-white transition cursor-pointer border border-trs-red px-3 py-1 rounded">✦ Premium</button>
                 <button type="button" onclick="navigateTo('view-rates')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Rates</button>
                 <button type="button" onclick="scrollToSection('location')" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-white hover:text-trs-red transition cursor-pointer">Location</button>
-                <button type="button" onclick="navigateToPremium()" class="text-[10px] xl:text-xs font-bold uppercase tracking-widest text-trs-red border border-trs-red px-3 py-1.5 rounded hover:bg-trs-red hover:text-white transition cursor-pointer">Premium Studio</button>
                 <a href="https://BeachSideRecording.as.me/" target="_blank" rel="noopener noreferrer" class="bg-trs-red text-white px-5 py-2 text-xs font-bold uppercase tracking-wide hover:bg-white hover:text-trs-dark transition">Book Now</a>
             </nav>
 
@@ -1140,7 +1140,8 @@
         // ==========================================
         // PREMIUM PORTAL
         // ==========================================
-        const PREMIUM_API = window.location.origin + '/api/premium';
+        // Use Cloudflare tunnel URL for VPS backend
+        const PREMIUM_API = 'https://lightning-maintenance-showcase-statement.trycloudflare.com/api/premium';
         let window._premiumUser = null;
 
         function premiumSwitchTab(tab) {
