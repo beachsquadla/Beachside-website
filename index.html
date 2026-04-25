@@ -90,6 +90,9 @@
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
+        /* Hide Vercel toolbar/banner overlays */
+        [class*="vercel"], [id*="vercel-toolbar"], [data-vercel-toolbar] { display: none !important; }
+    
         /* Premium Portal Styles */
         .premium-input {
             width: 100%;
@@ -746,8 +749,20 @@
 
     <script>
         // INIT
-        window.addEventListener('load', () => document.getElementById('preloader').classList.add('hidden'));
-        window.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); setupChat(); setupAudioInput(); initPremiumPortal(); });
+        function hidePreloader() {
+            const el = document.getElementById('preloader');
+            if (el) el.classList.add('hidden');
+        }
+        window.addEventListener('load', hidePreloader);
+        // Also hide on DOMContentLoaded as fallback for mobile
+        document.addEventListener('DOMContentLoaded', () => {
+            // Force hide after 3 seconds max regardless
+            setTimeout(hidePreloader, 3000);
+            lucide.createIcons(); 
+            setupChat(); 
+            setupAudioInput(); 
+            initPremiumPortal();
+        });
 
         // NAVIGATION (Helpers for navigating to AI and switching tabs)
         function navigateToAI(tab) {
