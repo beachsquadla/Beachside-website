@@ -50,7 +50,7 @@
             justify-content: center; 
             transition: opacity 0.5s ease; 
         }
-        #preloader.hidden { display: none !important; }
+        #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .spinner { width: 40px; height: 40px; border: 3px solid #1f1f1f; border-top: 3px solid #cc0000; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -89,9 +89,6 @@
         .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    
-        /* Hide Vercel toolbar/banner overlays */
-        [class*="vercel"], [id*="vercel-toolbar"], [data-vercel-toolbar] { display: none !important; }
     
         /* Premium Portal Styles */
         .premium-input {
@@ -207,7 +204,6 @@
 
     <!-- Loading Screen -->
     <div id="preloader"><div class="spinner"></div></div>
-    <script>document.getElementById('preloader').style.display='none';</script>
 
     <!-- Header / Title Bar -->
     <header class="fixed top-0 w-full z-40 bg-trs-dark/95 shadow-sm border-b border-white/5" id="navbar">
@@ -750,12 +746,10 @@
 
     <script>
         // INIT
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons(); 
-            setupChat(); 
-            setupAudioInput(); 
-            initPremiumPortal();
-        });
+        // Hide preloader on load, or after 5s max
+        window.addEventListener('load', () => document.getElementById('preloader').classList.add('hidden'));
+        setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 5000);
+        document.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); setupChat(); setupAudioInput(); initPremiumPortal(); });
 
         // NAVIGATION (Helpers for navigating to AI and switching tabs)
         function navigateToAI(tab) {
