@@ -89,6 +89,8 @@
         .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .animate-bounce { animation: bounce 0.6s ease-in-out infinite; }
     </style>
 </head>
 <body class="antialiased flex flex-col min-h-screen">
@@ -574,12 +576,53 @@
             }
         }
 
-        // CHATBOT
-        function openChat() { document.getElementById('chatbot').classList.remove('hidden'); document.getElementById('chat-input').focus(); }
+        // CHATBOT — Gemini 2.5 Flash Powered
+        const conversationHistory = [];
+        let chatAutoOpened = false;
+
+        function openChat() {
+            document.getElementById('chatbot').classList.remove('hidden');
+            document.getElementById('chat-input').focus();
+            if (!chatAutoOpened) {
+                chatAutoOpened = true;
+                const activeSection = document.querySelector('.view-section.active');
+                let greeting = "Welcome to Beachside! Looking for something specific?";
+                if (activeSection) {
+                    if (activeSection.id === 'view-ai') greeting = "Need help with AI mastering or cover art?";
+                    else if (activeSection.id === 'view-rates') greeting = "Want me to break down our pricing packages?";
+                }
+                addMsg(greeting, false);
+            }
+        }
         function closeChat() { document.getElementById('chatbot').classList.add('hidden'); }
-        function setupChat() { document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); }); }
+        function setupChat() {
+            document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); });
+            // Auto-open chat after 15 seconds if user hasn't opened it manually
+            setTimeout(() => {
+                const chat = document.getElementById('chatbot');
+                if (chat.classList.contains('hidden') && !chatAutoOpened) {
+                    chatAutoOpened = true;
+                    openChat();
+                }
+            }, 15000);
+        }
         function quickChat(t) { document.getElementById('chat-input').value = t; sendChat(); }
-        
+
+        function showTyping() {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.id = 'typing-indicator';
+            div.className = 'flex gap-2';
+            div.innerHTML = '<div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 border border-white/5"><span class="inline-flex gap-1"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0ms"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:150ms"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:300ms"></span></span> <span class="text-[10px] text-gray-500 ml-1">Yachty is typing...</span></div>';
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function hideTyping() {
+            const el = document.getElementById('typing-indicator');
+            if (el) el.remove();
+        }
+
         function sendChat() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
@@ -587,33 +630,118 @@
             addMsg(text, true);
             input.value = '';
             document.getElementById('chat-messages').scrollTop = 99999;
-            
-            const lowerText = text.toLowerCase();
-            let response = "";
 
-            if (lowerText.includes("gear") || lowerText.includes("equipment") || lowerText.includes("mic") || lowerText.includes("interface") || lowerText.includes("setup")) {
-                response = 'We run a premium signal chain featuring a pristine <b class="text-white">Neumann TLM102 Condenser Microphone</b> paired with a <b class="text-white">Universal Audio Apollo Twin Duo X Interface</b>. Industry-standard quality, every time.';
-            } else if (lowerText.includes("booth") || lowerText.includes("room") || lowerText.includes("space") || lowerText.includes("vocal booth")) {
-                response = 'We have a professionally acoustically treated, dead-quiet recording booth perfect for cutting vocals, ADR, or podcasts. You also get access to our creative lounge area!';
-            } else if (lowerText.includes("mix") || lowerText.includes("master")) {
-                response = 'A <b class="text-white">free Pre-Mix and Master</b> comes with every session! A <b class="text-white">Full Mix and Master</b> starts at <b class="text-trs-red">$150</b>. It is a much more detailed process and has a 72-hour turnaround.';
-            } else if (lowerText.includes("price") || lowerText.includes("rate") || lowerText.includes("cost") || lowerText.includes("how much") || lowerText.includes("special")) {
-                response = 'Our standard rate is <b class="text-trs-red">$60/hr</b> (2hr minimum). Our best deals are our block specials: <b class="text-white">3 hours for $150</b>, or <b class="text-white">4 hours for $200</b>! An engineer is always included in the price.';
-            } else if (lowerText.includes("book") || lowerText.includes("schedule") || lowerText.includes("time") || lowerText.includes("open slots") || lowerText.includes("calendar")) {
-                response = 'You can check our live calendar and lock in your session instantly <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red underline font-bold">on our booking page here</a>.';
-            } else if (lowerText.includes("hour") || lowerText.includes("open") || lowerText.includes("close") || lowerText.includes("late") || lowerText.includes("when")) {
-                response = 'We never sleep! Beachside Studios is open <b class="text-white">24 hours a day, 7 days a week</b> to fit your creative schedule.';
-            } else if (lowerText.includes("where") || lowerText.includes("location") || lowerText.includes("address")) {
-                response = 'We are located right in the mix at <b class="text-white">233 S Market St, Inglewood, CA 90301</b>.';
-            } else if (lowerText.includes("phone") || lowerText.includes("call") || lowerText.includes("number")) {
-                response = 'You can reach the studio directly by calling <b class="text-white">(323) 400-2065</b>.';
-            } else if (lowerText.includes("hi ") || lowerText.includes("hello") || lowerText.includes("hey") || lowerText.includes("yo ")) {
-                response = 'Yo! I am Yachty, your virtual studio agent. Ask me about our gear, our rates, mixing, or grab a link to book some time!';
-            } else {
-                response = 'I am your 24/7 virtual assistant, Yachty! I can give you details on our Neumann/Apollo setup, mixing packages, hourly rates, or our location. Want the link to <a href="https://BeachSideRecording.as.me/" target="_blank" class="text-trs-red underline font-bold">check our open slots?</a>';
-            }
+            // Show typing indicator
+            showTyping();
 
-            setTimeout(() => addMsg(response, false), 800 + Math.random() * 400);
+            // Add user message to history
+            conversationHistory.push({ role: "user", parts: [{ text: text }] });
+
+            const SYSTEM_PROMPT = `You are Yachty — a cool, knowledgeable AI concierge for Beachside Studios in Inglewood, CA. You know everything about the studio. Be conversational, chill, and helpful. Keep responses concise (2-3 sentences). Use HTML for formatting (bold prices, links inline). If you don't know something, be honest.
+
+## Business Info
+- Address: 233 S Market St, Inglewood, CA 90301
+- Phone: (323) 400-2065 — same-day appointments available by call or text
+- Hours: Open 24/7, every day
+- Tagline: "Stop Just Recording. Start Making History."
+- Mission: To design lasting moments and pristine audio by inspiring creatives.
+
+## Booking & Scheduling
+- Book here: https://BeachSideRecording.as.me/
+- Same-day appointments: Call (323) 400-2065
+
+## Session Pricing (With Engineer)
+- 2hr Session: $125
+- 3hr Session: $160 (15min padding after)
+- 4hr Session: $215
+- 6hr Session: $300
+
+## Session Pricing (Self-Service, No Engineer)
+- 3hr: $130
+- 4hr: $160
+- 6hr: $250
+
+## Website Packages (Promotional)
+- Standard Hourly: $60/hr (2hr minimum, engineer included)
+- The Foundation: $150/3hr — save $30, ideal for singles, rough mix included ⭐ Best Value
+- The Hitmaker: $200/4hr — save $40, EP tracking, priority delivery
+
+## Add-on Services
+- Mix & Master: $200 flat fee
+
+## AI Tools (Free, browser-based, no server upload needed)
+- AI Mix & Master: Client-side Web Audio API — EQ (warmth, mud cut, air boost), compression, key detection, masters to -1.0dBTP. Max 20MB file, downloads as WAV.
+- AI Cover Art: Pollinations.ai image generation. 5 styles (Cinematic, Synthwave, Cyberpunk, Oil Painting, Anime). Custom text, fonts (Anton/Oswald/Bebas/Russo/Sigmar), colors, Parental Advisory logo. Downloads as PNG.
+
+## Gear & Equipment
+- Mic: Neumann TLM102 condenser microphone
+- Interface: UA Apollo Twin Duo X
+- Full Neumann vocal chain
+
+## Studio Policies
+- Deposit: 100% required to confirm booking
+- Payments: Cash, Cash App, Zelle, or card via Stripe
+- Cancellation: Free if >72hrs notice. 100% charge if <72hrs.
+- Minimum booking: 2 hours
+- Overtime: Sessions over 10hrs trigger overtime charges
+- Max guests: 4 per artist
+- 420 friendly ✓
+- No smoking in booth, no weapons
+- Engineer breaks: 15min every 2hrs, 30min meal every 6hrs (on the clock)
+- Unsatisfied? Must notify manager DURING the session. After session ends, services deemed rendered.
+- Studio not liable for client files after session — bring your own backup
+
+## Testimonials (5-star)
+- Carlos Perez: "Amazing studio, the quality and professionalism here is top tier. This is definitely a hidden gem in LA."
+- K TF: "The best engineering experience I've had! They get the job done and are very professional."
+- Javier T: "Great experience, the final mix is amazing. They helped us get the exact sound we were looking for."
+
+## Social
+- Instagram: @beachside.studios
+- TikTok: @beachsidestudios
+
+## Premium Studio
+- Advanced online mastering: https://beachside-premium.vercel.app`;
+
+            const API_KEY = 'AIzaSyBmes9GgvOgwrvxpZx7wR4NjRsQg9ExQ2o';
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+
+            // Build contents array — system_instruction plus recent history
+            const contents = conversationHistory.slice(-10);
+
+            const body = {
+                system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+                contents: contents,
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 300
+                }
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            })
+            .then(res => {
+                if (!res.ok) return res.json().then(e => { throw new Error(e.error?.message || `HTTP ${res.status}`); });
+                return res.json();
+            })
+            .then(data => {
+                hideTyping();
+                const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Hmm, I couldn't think of a response right now. Try asking me again!";
+                addMsg(reply, false);
+                conversationHistory.push({ role: "model", parts: [{ text: reply }] });
+                // Keep only last 10 pairs (20 messages)
+                if (conversationHistory.length > 20) {
+                    conversationHistory.splice(0, conversationHistory.length - 20);
+                }
+            })
+            .catch(err => {
+                hideTyping();
+                console.error('Gemini API error:', err);
+                addMsg('Sorry, I hit a snag connecting to the brain. Try again in a moment!', false);
+            });
         }
         
         function addMsg(t, u) {
