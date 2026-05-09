@@ -91,6 +91,20 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
         .animate-bounce { animation: bounce 0.6s ease-in-out infinite; }
+        @keyframes yachty-pulse {
+          0%, 100% { box-shadow: 0 5px 20px rgba(204,0,0,0.5); transform: scale(1); }
+          50% { box-shadow: 0 5px 40px rgba(204,0,0,0.9); transform: scale(1.1); }
+        }
+        .yachty-thinking {
+          animation: yachty-pulse 0.8s ease-in-out infinite !important;
+        }
+        @keyframes y-typing {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(0.85); }
+        }
+        .y-typing {
+          animation: y-typing 0.6s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="antialiased flex flex-col min-h-screen">
@@ -453,6 +467,71 @@
                     <a href="https://BeachSideRecording.as.me/" target="_blank" class="block text-center border border-white text-white py-3 font-display uppercase tracking-widest text-sm hover:bg-white hover:text-black transition cursor-pointer">Book 4 Hours</a>
                 </div>
             </div>
+            <!-- Pricing Comparison Table -->
+            <div class="mt-16">
+              <h2 class="text-2xl md:text-3xl font-display font-bold uppercase tracking-wide text-white mb-2 text-center">Full Pricing Breakdown</h2>
+              <p class="text-gray-500 text-center mb-8 text-sm">All the options at a glance</p>
+              
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="border-b border-trs-red/50">
+                      <th class="py-3 px-4 text-trs-red font-display uppercase tracking-widest text-sm">Service</th>
+                      <th class="py-3 px-4 text-gray-400 font-display uppercase tracking-widest text-sm">Price</th>
+                      <th class="py-3 px-4 text-gray-400 font-display uppercase tracking-widest text-sm hidden md:table-cell">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-white/5 hover:bg-trs-gray/50 transition">
+                      <td class="py-3 px-4 text-white font-bold">Standard Rate (With Engineer)</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">$60/hr</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">2hr minimum, engineer included</td>
+                    </tr>
+                    <tr class="border-b border-white/5 hover:bg-trs-gray/50 transition">
+                      <td class="py-3 px-4 text-white font-bold">Recording (No Engineer)</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">$40/hr</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">3hr minimum, self-service</td>
+                    </tr>
+                    <tr class="border-b border-trs-red/30 bg-trs-red/5">
+                      <td class="py-3 px-4 text-white font-bold">🔥 Promo — 2 Hours</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">$100</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">New location rate — valid until June 1st</td>
+                    </tr>
+                    <tr class="border-b border-trs-red/30 bg-trs-red/5">
+                      <td class="py-3 px-4 text-white font-bold">🔥 Promo — 3 Hours</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">$125</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">New location rate — valid until June 1st</td>
+                    </tr>
+                    <tr class="border-b border-white/5 hover:bg-trs-gray/50 transition">
+                      <td class="py-3 px-4 text-white font-bold">Block Special — 3 Hours ⭐</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">$150</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">With engineer, includes free pre-mix &amp; master</td>
+                    </tr>
+                    <tr class="border-b border-white/5 hover:bg-trs-gray/50 transition">
+                      <td class="py-3 px-4 text-white font-bold">Block Special — 4 Hours</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">$200</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">With engineer, includes free pre-mix &amp; master</td>
+                    </tr>
+                    <tr class="border-b border-white/5 hover:bg-trs-gray/50 transition">
+                      <td class="py-3 px-4 text-white font-bold">Extended Block (No Engineer)</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">$30/hr</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">For sessions over 5 hours</td>
+                    </tr>
+                    <tr class="border-b border-white/5 hover:bg-trs-gray/50 transition">
+                      <td class="py-3 px-4 text-white font-bold">Radio-Ready Mix &amp; Master</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">From $150</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">72-hour turnaround</td>
+                    </tr>
+                    <tr class="border-b border-white/5 hover:bg-trs-gray/50 transition">
+                      <td class="py-3 px-4 text-white font-bold">Bounced Stems</td>
+                      <td class="py-3 px-4 text-trs-red font-bold">$20/track</td>
+                      <td class="py-3 px-4 text-gray-400 text-sm hidden md:table-cell">Per track</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="text-gray-600 text-xs text-center mt-4 uppercase tracking-widest">⭐ Block specials include free pre-mix &amp; master with engineer</p>
+            </div>
         </div>
     </div>
 
@@ -494,14 +573,11 @@
             <div id="chat-messages" class="h-64 p-4 overflow-y-auto space-y-3 bg-black/60" style="-webkit-overflow-scrolling: touch;">
                 <div class="flex gap-2"><div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 max-w-[85%] border border-white/5">What's good! I'm Yachty, your virtual studio concierge. I know every detail about Beachside Studios. Ask me about our gear, rates, mixing, or tap a link below!</div></div>
             </div>
-            <div class="px-3 py-3 bg-black/40 flex flex-wrap gap-2 border-t border-trs-red/30">
-                <button type="button" onclick="quickChat('Tell me about your gear')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition cursor-pointer">Gear</button>
-                <button type="button" onclick="quickChat('What are your rates?')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition cursor-pointer">Rates</button>
-                <button type="button" onclick="quickChat('I want to book')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition cursor-pointer">Book</button>
-            </div>
+            <div id="quick-buttons" class="px-3 py-3 bg-black/40 flex flex-wrap gap-2 border-t border-trs-red/30"></div>
             <div class="p-3 bg-[#0a0a0a] flex gap-2 border-t border-white/5">
                 <input type="text" id="chat-input" class="flex-1 bg-black/50 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:border-trs-red focus:outline-none" placeholder="Ask Yachty...">
                 <button type="button" onclick="sendChat()" class="bg-trs-red text-white p-2 rounded-lg hover:bg-white hover:text-trs-dark transition cursor-pointer"><i data-lucide="send" class="w-4 h-4"></i></button>
+                <button type="button" onclick="toggleVoice()" id="voice-btn" class="bg-gray-800 text-white p-2 rounded-lg hover:bg-gray-600 transition cursor-pointer"><i data-lucide="mic" class="w-4 h-4"></i></button>
             </div>
         </div>
     </div>
@@ -579,10 +655,44 @@
         // CHATBOT — Gemini 2.5 Flash Powered
         const conversationHistory = [];
         let chatAutoOpened = false;
+        let hasInteractedWithChat = false;
+
+        function updateQuickButtons() {
+            const container = document.getElementById('quick-buttons');
+            if (!container) return;
+            const activeSection = document.querySelector('.view-section.active');
+            let buttons = [];
+            if (activeSection) {
+                if (activeSection.id === 'view-home') {
+                    buttons = [
+                        { label: 'Studio Gear', msg: 'Tell me about your gear' },
+                        { label: 'Our Rates', msg: 'What are your rates?' },
+                        { label: 'Book Now', msg: 'I want to book' }
+                    ];
+                } else if (activeSection.id === 'view-ai') {
+                    buttons = [
+                        { label: 'How mastering works', msg: 'How does AI mastering work?' },
+                        { label: 'Cover art tips', msg: 'Tips for creating cover art' },
+                        { label: 'Book studio time', msg: 'I want to book studio time' }
+                    ];
+                } else if (activeSection.id === 'view-rates') {
+                    buttons = [
+                        { label: 'Best package for me?', msg: 'Which package is best for me?' },
+                        { label: 'Book now', msg: 'I want to book' },
+                        { label: 'Mix & Master pricing', msg: 'Tell me about mix and master pricing' }
+                    ];
+                }
+            }
+            container.innerHTML = buttons.map(b =>
+                `<button type="button" onclick="quickChat('${b.msg.replace(/'/g, "\\'")}')" class="text-[10px] uppercase tracking-widest bg-trs-red/20 text-trs-red px-3 py-1.5 rounded-full hover:bg-trs-red hover:text-white transition cursor-pointer">${b.label}</button>`
+            ).join('');
+        }
 
         function openChat() {
             document.getElementById('chatbot').classList.remove('hidden');
             document.getElementById('chat-input').focus();
+            hasInteractedWithChat = true;
+            updateQuickButtons();
             if (!chatAutoOpened) {
                 chatAutoOpened = true;
                 const activeSection = document.querySelector('.view-section.active');
@@ -594,7 +704,7 @@
                 addMsg(greeting, false);
             }
         }
-        function closeChat() { document.getElementById('chatbot').classList.add('hidden'); }
+        function closeChat() { hasInteractedWithChat = true; document.getElementById('chatbot').classList.add('hidden'); }
         function setupChat() {
             document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); });
             // Auto-open chat after 15 seconds if user hasn't opened it manually
@@ -606,7 +716,7 @@
                 }
             }, 15000);
         }
-        function quickChat(t) { document.getElementById('chat-input').value = t; sendChat(); }
+        function quickChat(t) { hasInteractedWithChat = true; document.getElementById('chat-input').value = t; sendChat(); }
 
         function showTyping() {
             const container = document.getElementById('chat-messages');
@@ -616,17 +726,28 @@
             div.innerHTML = '<div class="bg-[#1f1f1f] p-3 rounded-lg rounded-tl-none text-sm text-gray-200 border border-white/5"><span class="inline-flex gap-1"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0ms"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:150ms"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:300ms"></span></span> <span class="text-[10px] text-gray-500 ml-1">Yachty is typing...</span></div>';
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
+            // Animate Yachty floating button and chat header icon
+            const floatBtn = document.querySelector('.fixed.bottom-6.right-6.z-50');
+            if (floatBtn) floatBtn.classList.add('yachty-thinking');
+            const yIcon = document.querySelector('#chatbot .w-8.h-8.bg-black.rounded-full');
+            if (yIcon) yIcon.classList.add('y-typing');
         }
 
         function hideTyping() {
             const el = document.getElementById('typing-indicator');
             if (el) el.remove();
+            // Remove Yachty animations
+            const floatBtn = document.querySelector('.fixed.bottom-6.right-6.z-50');
+            if (floatBtn) floatBtn.classList.remove('yachty-thinking');
+            const yIcon = document.querySelector('#chatbot .w-8.h-8.bg-black.rounded-full');
+            if (yIcon) yIcon.classList.remove('y-typing');
         }
 
         function sendChat() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
             if(!text) return;
+            hasInteractedWithChat = true;
             addMsg(text, true);
             input.value = '';
             document.getElementById('chat-messages').scrollTop = 99999;
@@ -742,6 +863,77 @@
             });
         }
         
+        // VOICE INPUT
+        let isListening = false;
+        let recognition = null;
+
+        function toggleVoice() {
+          if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            addMsg('Voice input is not supported in your browser. Try Chrome!', false);
+            return;
+          }
+          
+          if (isListening) {
+            if (recognition) recognition.stop();
+            return;
+          }
+          
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          recognition = new SpeechRecognition();
+          recognition.lang = 'en-US';
+          recognition.interimResults = false;
+          recognition.continuous = false;
+          
+          const btn = document.getElementById('voice-btn');
+          btn.innerHTML = '<i data-lucide="circle" class="w-4 h-4 text-red-500 fill-red-500"></i>';
+          lucide.createIcons();
+          isListening = true;
+          
+          recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('chat-input').value = transcript;
+            sendChat();
+            stopVoice();
+          };
+          
+          recognition.onerror = () => stopVoice();
+          recognition.onend = () => stopVoice();
+          
+          recognition.start();
+        }
+
+        function stopVoice() {
+          isListening = false;
+          const btn = document.getElementById('voice-btn');
+          btn.innerHTML = '<i data-lucide="mic" class="w-4 h-4"></i>';
+          lucide.createIcons();
+        }
+
+        // SCROLL-TRIGGERED PROACTIVE POPUP
+        window.addEventListener('scroll', function scrollTrigger() {
+          if (hasInteractedWithChat) return;
+          const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+          if (scrollPercent > 0.7) {
+            hasInteractedWithChat = true;
+            window.removeEventListener('scroll', scrollTrigger);
+            const chat = document.getElementById('chatbot');
+            if (chat.classList.contains('hidden')) {
+              setTimeout(() => {
+                document.getElementById('chatbot').classList.remove('hidden');
+                document.getElementById('chat-input').focus();
+                addMsg('Headed out? Before you go — want help picking the right session package? 🎤', false);
+              }, 500);
+            }
+          }
+        });
+
+        // Update quick buttons when navigating
+        const origNavigateTo = navigateTo;
+        navigateTo = function(v) {
+          origNavigateTo(v);
+          updateQuickButtons();
+        };
+
         function addMsg(t, u) {
             const a = document.getElementById('chat-messages');
             const d = document.createElement('div');
