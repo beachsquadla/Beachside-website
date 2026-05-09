@@ -612,11 +612,17 @@
             }
             window.scrollTo(0,0); 
             lucide.createIcons(); 
+            if (!document.getElementById('mobile-menu').classList.contains('hidden')) {
+                toggleMenu();
+            }
         }
         
         function scrollToSection(id) { 
             const el = document.getElementById(id); 
             if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); 
+            if (!document.getElementById('mobile-menu').classList.contains('hidden')) {
+                toggleMenu();
+            }
         }
 
         // BULLETPROOF MOBILE MENU
