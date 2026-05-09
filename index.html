@@ -707,25 +707,19 @@
 ## Premium Studio
 - Advanced online mastering: https://beachside-premium.vercel.app`;
 
-            const API_KEY = 'AIzaSyBmes9GgvOgwrvxpZx7wR4NjRsQg9ExQ2o';
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
-
-            // Build contents array — system_instruction plus recent history
             const contents = conversationHistory.slice(-10);
 
-            const body = {
-                system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-                contents: contents,
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 300
-                }
-            };
-
-            fetch(url, {
+            fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+                body: JSON.stringify({
+                    systemPrompt: SYSTEM_PROMPT,
+                    contents: contents,
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 300
+                    }
+                })
             })
             .then(res => {
                 if (!res.ok) return res.json().then(e => { throw new Error(e.error?.message || `HTTP ${res.status}`); });
