@@ -69,23 +69,10 @@
         
         /* Hero Background */
         .hero-bg {
-            position: relative;
-            overflow: hidden;
             background-color: #0a0a0a;
-        }
-        .hero-video {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-        }
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('20260330_050857.jpg');
+            background-size: cover;
+            background-position: center;
         }
         @media (max-width: 1024px) { .hero-bg { background-attachment: scroll; } }
 
@@ -173,9 +160,6 @@
     <div id="view-home" class="view-section active">
         <!-- Hero -->
         <section class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden py-20">
-            <!-- Background Video -->
-            <video class="hero-video" src="beachside_dope.mp4" autoplay muted loop playsinline></video>
-            <div class="hero-overlay"></div>
             <div class="relative z-10 max-w-4xl mx-auto">
                 <div class="relative inline-block mb-10">
                     <img src="1000049066.png" class="w-40 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-[0_0_15px_rgba(204,0,0,0.5)]">
