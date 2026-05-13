@@ -178,7 +178,7 @@
             <div class="hero-overlay"></div>
             <div class="relative z-10 max-w-4xl mx-auto">
                 <div class="relative inline-block mb-10">
-                    <img src="1000049066.png" class="w-40 md:w-64 lg:w-72 h-auto mx-auto relative z-10 object-contain drop-shadow-[0_0_15px_rgba(204,0,0,0.5)]">
+                    <img src="1000049066.png" class="w-48 md:w-72 lg:w-80 h-auto mx-auto relative z-10 object-contain drop-shadow-[0_0_15px_rgba(204,0,0,0.5)]">
                     <div class="absolute inset-0 bg-trs-red rounded-full blur-3xl opacity-30 -z-0 scale-150 pointer-events-none"></div>
                 </div>
                 
@@ -806,14 +806,6 @@
         function closeChat() { hasInteractedWithChat = true; document.getElementById('chatbot').classList.add('hidden'); }
         function setupChat() {
             document.getElementById('chat-input').addEventListener('keypress', e => { if(e.key === 'Enter') sendChat(); });
-            // Auto-open chat after 15 seconds if user hasn't opened it manually
-            setTimeout(() => {
-                const chat = document.getElementById('chatbot');
-                if (chat.classList.contains('hidden') && !chatAutoOpened) {
-                    chatAutoOpened = true;
-                    openChat();
-                }
-            }, 15000);
         }
         function quickChat(t) { hasInteractedWithChat = true; document.getElementById('chat-input').value = t; sendChat(); }
 
